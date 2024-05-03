@@ -254,7 +254,6 @@
 
 \ifbool{cnltx@add@index}{
   \AtEndPreamble{%
-  
     \RequirePackage{imakeidx}
     \indexsetup{noclearpage,firstpagestyle=scrheadings, }     
     \expandafter\indexsetup\expandafter{\cnltx@index@setup}
@@ -273,7 +272,6 @@
     }%
   }
 }{}
-\def\avva{Team}
 \AtBeginDocument{%
   \immediate\write\@auxout{%
     \unexpanded{%
