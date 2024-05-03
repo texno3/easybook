@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<*class>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
-\ProvidesExplClass{easybook}{2024/05/01}{2024be}
+\ProvidesExplClass{easybook}{2024/05/03}{2024bf}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/05/01}{2024be}
+\ProvidesExplPackage{easybase}{2024/05/03}{2024bf}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1154,19 +1154,17 @@
 \bool_set_true:N \l__eb_normal_footnote_bool
 \bool_new:N \l__eb_fnmarktext_format_match_bool
 \bool_new:N \l__eb_fncustom_format_match_bool
+\cs_new:Npn \eb_fnmarktext_format_clear:n #1
+  {
+    \bool_if:cTF { l__eb_fn#1_format_match_bool }
+      { \tl_clear:N \l__eb_fnmarktext_format_tl }
+      { \spbset{spcmd = { }} }
+  }
 \cs_new_protected:Npn \eb_fnmarktext_format_initial:
   {
     \bool_if:NTF \l__eb_normal_footnote_bool
-      {
-        \bool_if:NTF \l__eb_fnmarktext_format_match_bool
-          { \tl_clear:N \l__eb_fnmarktext_format_tl }
-          { \spbset{spcmd = { }} }
-      }
-      {
-        \bool_if:NTF \l__eb_fncustom_format_match_bool
-          { \tl_clear:N \l__eb_fnmarktext_format_tl }
-          { \spbset{spcmd = { }} }
-      }
+      { \eb_fnmarktext_format_clear:n { marktext } }
+      { \eb_fnmarktext_format_clear:n { custom } }
     \eb@font@footnote
   }
 \cs_new_protected:Npn \defupfntmark #1
@@ -1302,7 +1300,6 @@
             \use:c {#1}*{\phantomsection ##3}
             \CTEX@addtocline{#1}{##2}
             \tl_if_empty:oF {##4} { \CTEX@addbitocline{#1}{##4} }
-            \tl_set:Nn \l__eb__bitoc_mark_title_level_tl {#1}
             \use:c { #1mark }{##2}
           }{
             \stepcounter{bi#1}
@@ -2243,7 +2240,7 @@
     bibstyle .initial:n       = numerical,
     citestyle .tl_set:N       = \l__eb_bib_cite_style_tl,
     datafile .clist_set:N     = \l__eb_bib_datafile_clist,
-    bititle .tl_set:N         = \eb@bib@bitoc@title,
+    bititle .tl_set:N         = \bibibname,
     bititle .initial:n        = Bibliography,
     unknown .code:n           = \eb_msg_deprecated_option:n { bib }
   }
@@ -2288,8 +2285,8 @@
 \cs_new_protected:Npn \eb_biber_toc_title:n #1
   {
     \bool_if:NTF \l__eb_class_mode_book_bool
-      { \bichapter*{#1}{\eb@bib@bitoc@title} }
-      { \bisection*{#1}{\eb@bib@bitoc@title} }
+      { \bichapter*{#1}{\bibibname} }
+      { \bisection*{#1}{\bibibname} }
   }
 \cs_new_protected:Npn \eb_biber_biblatex_set:
   {
@@ -2537,7 +2534,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/01}{2024be}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/03}{2024bf}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
