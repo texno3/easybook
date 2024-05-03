@@ -9,6 +9,7 @@
 % E-Mail: contact@mychemistry.eu
 % --------------------------------------------------------------------------
 % Copyright 2013--2019 Clemens Niederberger
+% Adaptation for easybook manuals by QuYi
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -110,19 +111,8 @@
     caption-label-font/.code = \def\cnltx@captionlabel@font{\cnltx@caption@font#1}
 }
 
-% \ifbool{cnltx@load@preamble}{
-%   \RequirePackage{ifxetex,ifluatex}
-%   \ifbool{cnltx@load@fonts}
-%     {
-%       \ifboolexpr{not bool{xetex} and not bool{luatex}}
-%         {\RequirePackage[T1]{fontenc}}
-        \RequirePackage{fontspec}
-  %       \setmainfont{texgyrepagella}[
-  % Extension      = .otf,
-  % UprightFont    = *-regular,
-  % BoldFont       = *-bold,
-  % ItalicFont     = *-italic,
-  % BoldItalicFont = *-bolditalic]
+
+\RequirePackage{fontspec}
   \setmainfont{TeXGyreTermesX}[
   Extension      = .otf,
   UprightFont    = *-Regular,
@@ -138,83 +128,6 @@
   ItalicFont     = *-italic,
   BoldItalicFont = *-bolditalic]
 \setmonofont{LMMono10-Regular}
-% \setmathfont{texgyrepagella-math.otf}
-%       \RequirePackage[oldstyle]{libertine}
-%       % \RequirePackage{libertinehologopatch}
-%       % \RequirePackage{superiors}
-%       % \setkeys{superiors}{supstfm=libertinesups}
-%       % libertine does not have superior letters:
-%       \def\@makefnmark{%
-%         \hbox{%
-%           \cnltx@ifisnum{\@thefnmark}
-%             {\textsu{\hspace*{.04em}\@thefnmark}}
-%             {\@textsuperscript{\normalfont\@thefnmark}}%
-%         }%
-%       }
-%     % }
-%     % {}
-%   % \ifbool{cnltx@microtype}
-%   %   {\RequirePackage{microtype}}
-%   %   {}
-%   \ifboolexpr
-%     {
-%       bool {cnltx@microtype} and
-%       not test {\ifcsdef{MT@pr@set@@romansans}} and
-%       not test {\ifcsdef{MT@ex@set@@romansans}} and
-%       bool {cnltx@load@fonts}
-%     }
-%     {
-%       % \DeclareMicrotypeSet{romansans}{
-%       %   encoding = {*},
-%       %   family   = {rm*,sf*}
-%       % }
-%     }
-%     {}
-%   \ifboolexpr
-%     {
-%       bool {cnltx@microtype} and
-%       not test {\ifcsdef{MT@tr@set@@scshape}} and
-%       bool {cnltx@load@fonts}
-%     }
-%     {
-%       % \DeclareMicrotypeSet[tracking]{scshape}{
-%       %   encoding = {*} ,
-%       %   shape    = {sc,scit,si}
-%       % }
-%     }
-%     {}
-%   \ifboolexpr
-%     {
-%       not bool {xetex} and
-%       bool {cnltx@load@fonts} and
-%       bool {cnltx@microtype}
-%     }
-%     {
-%       % \microtypesetup{
-%       %   tracking   = scshape ,
-%       %   protrusion = romansans ,
-%       %   expansion  = romansans
-%       % }
-%       % \DisableLigatures{ family = tt* }
-%     }
-%     {}
-%   \ifbool{cnltx@load@fonts}
-%     {
-%       % \ifboolexpr{not bool{xetex} and not bool{luatex}}
-%       %   {\RequirePackage[scaled=.81]{beramono}}
-%       %   {
-%           \setmonofont[
-%             Scale = MatchLowercase ,
-%             % Ligatures = {NoCommon,NoRequired,NoContextual}
-%           ]{DejaVu Sans Mono}
-%         % }
-%       \KOMAoptions{DIV=last}
-%       \recalctypearea
-%     }
-%     {}
-%   % \RequirePackage{fnpct}
-%   % \expandafter\RequirePackage\expandafter[\cnltx@babel@options]{babel}
-% % }{}
 \lstset{basicstyle=\small\ttfamily}
 \ifbool{cnltx@layout}{
   \renewcommand*\sectionformat{%
@@ -255,7 +168,7 @@
 \ifbool{cnltx@add@index}{
   \AtEndPreamble{%
     \RequirePackage{imakeidx}
-    \indexsetup{noclearpage,firstpagestyle=scrheadings, }     
+    \indexsetup{noclearpage,firstpagestyle=scrheadings}
     \expandafter\indexsetup\expandafter{\cnltx@index@setup}
     \expandafter\makeindex\expandafter
       [\cnltx@makeindex@setup,options={-s \cnltx@index@style}]
