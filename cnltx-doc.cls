@@ -112,8 +112,8 @@
 }
 
 
-\RequirePackage{fontspec}
-  \setmainfont{TeXGyreTermesX}[
+\RequirePackage{unicode-math,fontspec}
+\setmainfont{TeXGyreTermesX}[
   Extension      = .otf,
   UprightFont    = *-Regular,
   BoldFont       = *-Bold,
@@ -127,7 +127,11 @@
   BoldFont       = *-bold,
   ItalicFont     = *-italic,
   BoldItalicFont = *-bolditalic]
-\setmonofont{LMMono10-Regular}
+\setmonofont{lmmono10}[
+  Extension      = .otf,
+  UprightFont    = *-regular]
+\setmathfont{LibertinusMath-Regular.otf}
+
 \lstset{basicstyle=\small\ttfamily}
 \ifbool{cnltx@layout}{
   \renewcommand*\sectionformat{%
