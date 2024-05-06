@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024bi,
-    date            = 2024/05/05,
+    version         = v2024bj,
+    date            = 2024/05/06,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -699,11 +699,11 @@
   \kvsplit-{subsec-label}{\oarg{编号输出命令}\marg{距离命令}}\Default{\cs*{hspace}\Marg{0.5em}}
   \code{subsection} 级别标题标记的标签，用法与 \option{chap-label} 类似。
   \keyval{headrule}{横线命令}
-  绘制页眉横线的选项，可以使用 \cs*{hrule} 或下述 \cs{markrule} 等画线命令来绘制横线。
+  绘制页眉横线的选项，可以使用 \cs*{hrule} 或\ref{exam:markrule} 所述 \cs{markrule} 等画线命令来绘制横线。
   \keyval{footrule}{横线命令}
-  绘制页脚横线的选项，可以使用 \cs*{hrule} 或下述 \cs{markrule} 等画线命令来绘制横线。
+  绘制页脚横线的选项，可以使用 \cs*{hrule} 或\ref{exam:markrule} 所述 \cs{markrule} 等画线命令来绘制横线。
   \keyval{footnoterule}{横线命令}
-  绘制脚注横线的选项，可以使用 \cs*{hrule} 或下述 \cs{markrule} 等画线命令来绘制横线。
+  绘制脚注横线的选项，可以使用 \cs*{hrule} 或\ref{exam:markrule} 所述 \cs{markrule} 等画线命令来绘制横线。
   \keyval{headrulewd}{刚性长度}\Default{0.5pt}
   页眉横线默认的粗细，使用 \option{headrule} 选项绘制横线后失效。
   \keyval{footnoterulewd}{刚性长度}\Default{0.5pt}
@@ -711,7 +711,7 @@
 \end{options}
 
 \begin{commands}\noitemsep
-  \command{fancyhead}[\marg{风格名}\oarg{基础风格}\marg{风格定义}]
+  \command{fancypagestyle}[\marg{风格名}\oarg{基础风格}\marg{风格定义}]
   定义名为 \meta{风格名} 的页面风格。\meta{风格定义} 中可包含设置页眉页脚不同位置格式的命令，如果为空则等于 \code{fancy} 风格。如果存在 \meta{基础风格}，则在它的基础上进行定义。
   \begin{ctexexam}
   \fancypagestyle{plain}
@@ -736,7 +736,7 @@
 \begin{commands}
   \command{markrule}[\oarg{长度}\darg{颜色名}\marg{线宽}\baroarg{上间距,下间距}]
   实线命令 \cs{markrule} 既可在 \meta{横线命令} 中用于绘制页眉页脚横线，也可以在正文中使用。\meta{长度} 默认为版心的宽度，上下间距为横线与上下方部件的间距，带有长度单位，上下间距之间用符号 \code{|} 分开，若只有一部分则表示 \meta{上间距}。下面举一个设置页眉内容的例子：
-  \begin{ctexexam}
+  \begin{ctexexam}[labelref = exam:markrule]
   \ebhdrset{headrule = \markrule(DarkOrchid){0.5pt}[2pt|2pt]}
   \fancyhead[ER]{\leftmark}
   \fancyhead[OL]{\rightmark}
