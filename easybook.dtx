@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<*class>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
-\ProvidesExplClass{easybook}{2024/05/06}{2024bj}
+\ProvidesExplClass{easybook}{2024/05/07}{2024bk}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/05/06}{2024bj}
+\ProvidesExplPackage{easybase}{2024/05/07}{2024bk}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1663,7 +1663,7 @@
 \c__ctex_headings_seq \RegisterTocName
 \eb_seq_map_inline:nn
   {
-    tocformat,tocformat+,tocformat~+,
+    tocformat,tocformat+,tocformat~+,tocformat*,toclabel,
     tocindent,tocrule,tocline,tocafter,between
   }
   {
@@ -1752,6 +1752,13 @@
     \IfHookEmptyTF{starttoc/after}{}
       {\iow_now:Nn \@mainaux { \RemoveFromHook{starttoc/after}[aux] }}
   }
+\cs_set_protected:Npn \AllotPartialExt #1#2
+  {
+    \tl_set:cn { ttl@partial#1 } {#2}
+    \AddToHookWithArguments{cmd/ttl@writepartial/before}
+      {\ttl@topartial{#1}{##1}{##2}}
+  }
+\AllotPartialExt{lol}{pll}
 
 \cs_set_eq:NN \eb@ctexsetii \ctex_set:nn
 \cs_new_protected:Npn \SetTocStyle #1#2#3
@@ -2152,6 +2159,7 @@
     \theoremstyle{default}
     \cs_undefine:N \proof
     \DeclareFloatList{theorem}{loe}
+    \AllotPartialExt{loe}{ple}
     \eb_preto_cmd:nn { listoftheorems }
       {
         \group_begin:
@@ -2534,7 +2542,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/06}{2024bj}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/07}{2024bk}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

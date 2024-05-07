@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024bj,
-    date            = 2024/05/06,
+    version         = v2024bk,
+    date            = 2024/05/07,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -928,6 +928,15 @@
   \AllotCaptionExt{table}{lof}
   \newcommand{\listoffiguretables}{\listoffigures} % 同时输出图表目录的命令
   \end{ctexexam}
+  \command{AllotPartialExt}[\marg{扩展名1}\marg{扩展名2}]\newtagv{2024bk}
+  给目录文件扩展名为 \meta{扩展名1} 的目录分配扩展名为 \meta{扩展名2} 的局部目录，预注册的条目均无需再分配。用于搭配题注标题 \cs{caption} 命令和 \pkg*{titletoc} 宏包的局部题注目录命令。
+  \begin{ctexexam}
+  \AllotPartialExt{loa}{pla}
+  \startlist[fancy]{loa}
+  \captionof{algorithm}{算法标题}
+  \stoplist[fancy]{loa}
+  \printlist[fancy]{loa}{}{}
+  \end{ctexexam}
   \command{SetTocStyle}[\marg{条目名}\marg{风格名}\marg{键值列表}]
   定义条目类型名称为 \meta{风格名} 的目录风格。使用 \cs*{ctexset} 命令设置目录样式时，除了条目标题定义选项 \option{tocline}，其它选项只有在目录输出命令前设置才有效，定义完目录风格后用 \cs{UseTocStyle} 命令可以在正文中任意位置生效。如果是没有 \ding{73} 符号的选项，\meta{条目名} 设置为 \module*{toc}。
   \command{UseTocStyle}[\marg{条目名}\marg{风格名}\marg{扩展名}]
@@ -959,9 +968,9 @@
   \keyval{bibetween}{代码钩子}
   与选项 \option{between} 类似，是英文章节标题目录（如果启用）标题代码钩子。
   \keychoice{dotalign}{\fbox{true},false}
-  引导线选项 \option{dotalign} 可以使目录引导线右端对齐并与页码保持一定间距，否则会与页码相连。
+  将目录页码装进一个右对齐的水平盒子里。这样可以使目录引导线右端对齐并与页码保持一定间距，否则会与页码相连。
   \keyval{pagenumwd}{刚性长度}\Default{1.55em}
-  目录条目页码的宽度。开启 \option{dotalign} 选项时宽度越大引导线与页码的距离就越大。
+  设置开启 \option{dotalign} 选项时页码水平盒子的宽度。
   \keyval{tocafter-every}{距离命令}\Default{\cs*{hspace}\Marg{1em}}
   统一设置所有类型条目编号与标题间的代码（仅支持上述预注册的条目）。
   \keyval{tocindent-every}{刚性长度}
@@ -1507,6 +1516,7 @@
   \end{version}
   \shortversion{v = 2024aw,date = 2022/04/22,changes = 新增新建章节标题命令 \cs{NewTitleCommand} 和 \cs{NewTitleEntryCommand}。}
   \shortversion{v = 2024bb,date = 2022/04/26,changes = 增加对 \pkg*{thmtools} 宏包定理环境目录 \cs{listoftheorems} 的支持。}
+  \shortversion{v = 2024bk,date = 2022/05/07,changes = 新增局部题注目录分配命令 \cs{AllotPartialExt}。}
 \end{changelog}
 \nocite{*}
 
