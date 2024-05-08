@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<*class>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
-\ProvidesExplClass{easybook}{2024/05/07}{2024bk}
+\ProvidesExplClass{easybook}{2024/05/08}{2024bl}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -28,7 +28,7 @@
 \keys_define:nn { easybook }
   {
     newline .code:n         = \bool_set_true:N \l__eb_title_newline_bool,
-    scheme .code:n          = \eb_put_ctexbook:n { scheme = #1 },
+    scheme .code:n          = \eb_put_ctexbook:n { scheme = {#1} },
     enmode .meta:n          = { newline,scheme = plain },
     font .choices:nn        =
       { noto,times,times*,ebgaramond,libertine,palatino,auto }
@@ -301,7 +301,7 @@
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/05/07}{2024bk}
+\ProvidesExplPackage{easybase}{2024/05/08}{2024bl}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -898,7 +898,7 @@
     fntext-code .initial:n = { ,\tl_if_eq:NnF \l__eb_fntext_position_tl { super } { ~ } },
     fnmarktext-format .code:n = \eb_fnboth_format_set:nn {#1} { marktext },
     fncustom-format .code:n = \eb_fnboth_format_set:nn {#1} { custom },
-    fnboth-format .meta:n = { fnmarktext-format = #1,fncustom-format = #1 },
+    fnboth-format .meta:n = { fnmarktext-format = {#1},fncustom-format = {#1} },
     footnotetype .multichoices:nn   =
       { plain,hang,bottom,para,flush }
       { \eb_footnote_value_handle:n {#1} },
@@ -921,7 +921,7 @@
       { \eb_fnmarktext_normal_label_set:Nn \thefootnote {#1} },
     fntext-num .value_required:n    = true,
     fntext-num/unknown .code:n = \eb_fnmarktext_short_label_set:Nn \thefootnote {#1},
-    fnmarktext-num .meta:n = { fntext-num = #1,fnmark-num = #1 },
+    fnmarktext-num .meta:n = { fntext-num = {#1},fnmark-num = {#1} },
     fnmarktext-num .initial:n       = plain,
     unknown .code:n                 = \eb_msg_deprecated_option:n { hdr }
   }
@@ -1369,18 +1369,18 @@
   {
     hyphen-figure .tl_set:N   = \l__eb_hyphen_figure_tl,
     hyphen-table .tl_set:N    = \l__eb_hyphen_table_tl,
-    hyphen-listing .tl_set:N  = \l__eb_hyphen_lstlisting_tl,
+    hyphen-listing .tl_set:N  = \l__eb_hyphen_listing_tl,
     hyphen-equation .tl_set:N = \l__eb_hyphen_equation_tl,
     hyphen-every .meta:n      =
       {
-        hyphen-figure  = #1,hyphen-table    = #1,
-        hyphen-listing = #1,hyphen-equation = #1
+        hyphen-figure  = {#1},hyphen-table    = {#1},
+        hyphen-listing = {#1},hyphen-equation = {#1}
       },
     hyphen-every .initial:n   = .,
     unknown .code:n           = \eb_msg_deprecated_option:n { tools }
   }
 \eb_seq_map_inline:nn
-  { figure,table,lstlisting,equation }
+  { figure,table,listing,equation }
   {
     \cs_set:cpn { the#1 }
       {
@@ -1437,7 +1437,7 @@
         \bool_set_true:N \l__eb_toc_plan_bi_bool
       },
     plan .initial:n   = cn,
-    columns .meta:n   = { multoc = #1 },
+    columns .meta:n   = { multoc = {#1} },
     title .code:n     = \eb_assign_toc_title:n {#1},
     bilist .code:n    =
       {
@@ -1663,16 +1663,17 @@
 \c__ctex_headings_seq \RegisterTocName
 \eb_seq_map_inline:nn
   {
-    tocformat,tocformat+,tocformat~+,tocformat*,toclabel,
-    tocindent,tocrule,tocline,tocafter,between
+    tocformat,tocformat+,tocformat~+,tocformat*,
+    toclabel,tocindent,tocrule,tocline,tocafter,between,
+    tocbelow,tocbegin,tocsep,tocend
   }
   {
     \ctex_define:n
       {
         float/#1 .meta:n  =
           {
-            figure/#1     = ##1,table/#1  = ##1,
-            lstlisting/#1 = ##1
+            figure/#1     = {##1},table/#1 = {##1},
+            lstlisting/#1 = {##1}
           }
       }
   }
@@ -1695,7 +1696,7 @@
 \NewDocumentCommand{\tocrule}{st-O{0.7pc}d()mO{}}
   {
     \normalsize\normalfont
-    \titlerule*[#3]{\IfValueTF{#4}{\scalebox{#4}{#5}}{#5}}#6
+    \ttl@row@i[#3]{\IfValueTF{#4}{\scalebox{#4}{#5}}{#5}}#6
       {
         \IfBooleanF{#2}
           {
@@ -1871,8 +1872,8 @@
     caption-listing .tl_set:N = \l__eb_font_caption_listing_tl,
     caption-every .meta:n     =
       {
-        caption-table   = #1,caption-figure = #1,
-        caption-listing = #1
+        caption-table   = {#1},caption-figure = {#1},
+        caption-listing = {#1}
       },
     caption-every .initial:n  = \sffamily\small,
     footnote .tl_set:N        = \eb@font@footnote,
@@ -1902,6 +1903,7 @@
         { \tl_put_right:Nn \marginfont {#2} }
       }
   }
+\cs_set_eq:NN \addtosubfont \ebaddtofont
 \ctex_define:nn { spread }
   {
     line .code:n              = \setspread{#1},
@@ -1930,14 +1932,14 @@
     caption-listing .fp_set:N = \l__eb_spread_caption_listing_fp,
     caption-every .meta:n     =
       {
-        caption-table   = #1,caption-figure = #1,
-        caption-listing = #1
+        caption-table   = {#1},caption-figure = {#1},
+        caption-listing = {#1}
       },
     caption-every .initial:n  = 1.2,
     every .meta:n             =
       {
-        line = #1,table = #1,math = #1,
-        caption-every = #1,footnote = #1
+        line = {#1},table = {#1},math = {#1},
+        caption-every = {#1},footnote = {#1}
       },
     abovedisplayskip .code:n    =
       {\AfterPreamble{\skip_set:Nn \abovedisplayskip {#1}}},
@@ -2137,9 +2139,12 @@
 \bool_if:NT \l__eb_theorem_support_bool
   {
     \RequirePackage{amsthm,thmtools}
-    \cs_set_eq:NN \eb@declaretheoremsyle@save \declaretheoremstyle
+    \cs_set_eq:NN \eb@declaretheoremstyle@save \declaretheoremstyle
+    \cs_set_eq:NN \eb@declaretheorem@save \declaretheorem
     \RenewDocumentCommand{\declaretheoremstyle}{O{}mO{}}
-      {\eb@declaretheoremsyle@save[#1,#3]{#2}}
+      {\eb@declaretheoremstyle@save[#1,#3]{#2}}
+    \RenewDocumentCommand{\declaretheorem}{O{}mO{}}
+      {\eb@declaretheorem@save[style = default,#1,#3]{#2}}
     \ctex_define:nn { thmt }
       {
         loeskip .skip_set:N = \eb@thmt@loe@skip,
@@ -2542,7 +2547,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/07}{2024bk}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/08}{2024bl}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

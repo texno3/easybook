@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024bk,
-    date            = 2024/05/07,
+    version         = v2024bl,
+    date            = 2024/05/08,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -118,6 +118,11 @@
   }
 \newnote{\newtag}[1][New]{\fbox{#1}}
 \newnote{\newtagv}[2][New]{#1\\#2}
+\NewDocumentCommand{\optpath}{sm}
+  {
+    \IfBooleanF{#1}{\item}
+    \code{\textcolor{SlateGray}{#2}}
+  }
 % Multi-row values alignment when there are many choices
 \newcommand{\leftfillchoice}[2]
   {
@@ -173,7 +178,6 @@
         \refstepcounter{ctexexam}\ctexexamlabelref
       }
   }
-\newcommand{\optpath}[1]{\item\code{\textcolor{SlateGray}{#1}}}
 \makeatother\ExplSyntaxOff
 \labelformat{section}{节#1}
 \labelformat{subsection}{小节#1}
@@ -271,7 +275,7 @@
   文档主题方案选项 \option{scheme} 扩展了 \CTeX 文档类中同名选项原有的作用范围，选项值 \code{plain} 可使各类标题变为英文形式。包括章节标题、图表标题和定理名等。
   \opt{enmode}\dtag
   同时开启 \option{newline} 和 \keyis{scheme}{plain} 选项以符合英文原生风格。
-  \keychoice{paper}{\fbox{a4paper},b5paper,c5paper,letterpaper,\textcolor{SlateGray}{other paper}}
+  \keychoice{paper}{\fbox{a4paper},b5paper,c5paper,letterpaper,\optpath*{other paper}}
   文档页面尺寸选项将参数交给 \pkg*{geometry} 宏包处理，可使用它支持的所有标准纸张规格。
   \keyval{configs}{配置文件列表}\dtag\newtag[Chg]%
   载入用户配置的文件名列表，文件列表以花括号包裹并以英文逗号分隔。文件名应包含如 \code{tex}、\code{def} 或 \code{cfg} 等扩展名。若配置文件不在当前文件夹则文件名需要包含路径，即 \code{path/file.cfg}。
@@ -522,7 +526,7 @@
 \begin{options}
   \keychoice{backend}{\fbox{bibtex},biblatex}
   参考文献处理后端。默认用传统的 \hologo{BibTeX} 处理参考文献\footnote{使用 \hologo{BibTeX} 引擎时加载 \pkg*{natbib} 宏包，使用 \hologo{biber} 时将加载 \pkg*{biblatex} 宏包。}。
-  \keychoice{bibstyle}{\fbox{numerical},authoryear,\textcolor{SlateGray}{other sty}}
+  \keychoice{bibstyle}{\fbox{numerical},authoryear,\optpath*{other sty}}
   参考文献格式使用中国参考文献推荐标准GB/T 7714-2015，对应顺序编码制和著者—出版年制两种风格。若使用其它格式，使用 \hologo{BibTeX} 处理时需确保正确的 \code{bst} 文件，使用 \hologo{biber} 处理可使用 \pkg*{biblatex} 宏包支持的参考文献风格名称。
   \keyval{citestyle}{标注风格}
   标注参考文献的风格。后端为 \hologo{BibTeX} 时可使用 \option{super}（数字上标标注，默认）或 \option{numbers}（数字标注）等 \pkg*{natbib} 宏包带有的标注风格，后端为 \hologo{biber} 时可使用 \pkg*{biblatex} 宏包支持的标注风格。
@@ -562,7 +566,7 @@
 
 \subsection[定理]{定理\smodule{thmt}}
 \label{subsec:theorem}
-定理模块 \module*{thmt} 由 \pkg*{thmtools} 宏包提供支持，主要提供了定理环境和样式声明两个命令。定理环境声明命令 \cs{declaretheorem} 使用的定理样式由样式声明命令 \cs{declaretheoremstyle} 提供，文档类预置了一个定理样式 \code{default}，但未定义任何定理环境。
+定理模块 \module*{thmt} 由 \pkg*{thmtools} 宏包提供支持，主要提供了定理环境和样式声明两个命令。定理环境声明命令 \cs{declaretheorem} 使用的定理样式由样式声明命令 \cs{declaretheoremstyle} 提供。文档类未预声明任何定理环境，如果声明定理环境时不指定样式，则使用默认定理样式 \code{default}，可以对它重新定义。
 \begin{commands}
   \command{declaretheorem}[\oarg{键值列表1}\marg{环境名}\oarg{键值列表2}]
   定理环境声明命令。可选参数的 \meta{键值列表1} 与 \meta{键值列表2} 等效，其中常用的选项如下：
@@ -571,7 +575,7 @@
   定理环境的标题名称，默认为英文首字母大写的环境名。
   \keychoice{numbered}{no,yes,unless unique}
   定理可以被编号、不被编号或者只有在文档中多次出现时才被编号。
-  \keychoice{within}{chapter,section,empty,\textcolor{SlateGray}{counter}}
+  \keychoice{within}{chapter,section,\optpath*{empty},\optpath*{counter}}
   定理编号跟随的计数器。当计数器值递增时定理编号会从零开始，通常这是一个章节计数器。
   \keyval{numberlike}{计数器}
   定理将使用此 \meta{计数器} 进行编号，通常这是另一个定理环境的名称。
@@ -738,7 +742,7 @@
   实线命令 \cs{markrule} 既可在 \meta{横线命令} 中用于绘制页眉页脚横线，也可以在正文中使用。\meta{长度} 默认为版心的宽度，上下间距为横线与上下方部件的间距，带有长度单位，上下间距之间用符号 \code{|} 分开，若只有一部分则表示 \meta{上间距}。下面举一个设置页眉内容的例子：
   \begin{ctexexam}[labelref = exam:markrule]
   \ebhdrset{headrule = \markrule(DarkOrchid){0.5pt}[2pt|2pt]}
-  \fancyhead[ER]{\leftmark}
+  \fancyhead[ER]{\FirstMark{2e-left}} % 来自ltmarks的标记机制
   \fancyhead[OL]{\rightmark}
   \fancyhead[EL,OR]{\textbf{\thepage}}
   \end{ctexexam}
@@ -763,7 +767,7 @@
   不同脚注之间的距离，默认情况下它自适应 \module*{spread} 模块脚注行距选项 \option{footnote} 的值。
   \keychoice{fntext-pos}{normal,\fbox{super}}
   设置脚注内容标记的位置，正常文本或是上标形式。
-  \keychoice{fnmark-num}{\fbox{plain},pifont,pifont*,pisans,pisans*,\textcolor{SlateGray}{short num}}
+  \keychoice{fnmark-num}{\fbox{plain},pifont,pifont*,pisans,pisans*,\optpath*{short num}}
   脚注正文标记编号的类型。默认为原生样式 \code{plain}，还可以改为 \code{pifont} 的各个版本，从左往右依次为普通版、阴文衬线版、阳文无衬线版和阴文无衬线版，缺点是它们的编号仅包括1-10。
 
   短编号的参数与列表环境类似，有 \code{1}、\code{A}、\code{a}、\code{I} 和 \code{i}，除此之外还增加了中文数字 \code{c} 和符号 \code{s} 格式。原生样式 \code{plain} 等同于单独使用数字 \code{1} 参数。这个选项可以用在正文中改变其后脚注编号类型。
@@ -785,17 +789,17 @@
   \ebhdrset{fnmark-num = s}
   \end{ctexexam}
   \end{commands}
-  \keychoice{fntext-num}{\fbox{plain},pifont,pifont*,pisans,pisans*,\textcolor{SlateGray}{short num}}
+  \keychoice{fntext-num}{\fbox{plain},pifont,pifont*,pisans,pisans*,\optpath*{short num}}
   脚注内容标记编号的类型。用法与 \option{fnmark-num} 一样，所以脚注内容与正文标记编号类型\textbf{可以不同}。
-  \keychoice{fnmarktext-num}{\fbox{plain},pifont,pifont*,pisans,pisans*,\textcolor{SlateGray}{short num}}
+  \keychoice{fnmarktext-num}{\fbox{plain},pifont,pifont*,pisans,pisans*,\optpath*{short num}}
   同时设定脚注正文标记编号 \option{fnmark-num} 与脚注内容标记编号 \option{fntext-num} 的类型。目前脚注编号类型选项对于迷你页环境 \env*{minipage} 无效，其中的脚注保持默认英文字母的编号类型。
-  \keychoice{fnmark-vmove}{\textcolor{SlateGray}{fixed length},match}\Default{0pt}
+  \keychoice{fnmark-vmove}{\optpath*{fixed length},match}\Default{0pt}
   脚注正文标记的垂直偏移。可以设为刚性长度，或用 \code{match} 匹配 \option{spvmove} 全局的值。
-  \keychoice{fnmark-hmove}{\textcolor{SlateGray}{fixed length},match}\Default{0pt}
+  \keychoice{fnmark-hmove}{\optpath*{fixed length},match}\Default{0pt}
   脚注正文标记的水平偏移。可以设为刚性长度，或用 \code{match} 匹配 \option{sphmove} 全局的值。
-  \keychoice{fntext-vmove}{\textcolor{SlateGray}{fixed length},match}\Default{0pt}
+  \keychoice{fntext-vmove}{\optpath*{fixed length},match}\Default{0pt}
   脚注内容标记的垂直偏移。可以设为刚性长度，或用 \code{match} 匹配 \option{spvmove} 全局的值。
-  \keychoice{fnmarktext-format}{\textcolor{SlateGray}{format code},match}
+  \keychoice{fnmarktext-format}{\optpath*{format code},match}
   默认脚注标记的格式，选项 \code{match} 可以匹配 \option{spcmd} 全局的值。一般配合 \keyis{fnmarktext-num}{plain} 原生编号形式使用，例如用 \pkg*{circledtext} 宏包的带圈字符命令 \cs{circledtext} 给脚注标记添加圆圈：
   \begin{ctexexam}
   \usepackage{circledtext}
@@ -825,7 +829,7 @@
   \defdownfntmark{\notminipage{\textcolor{blue}{\thedownfootnote}}{}}
   \deffntpara{\makebox[2em][r]{\thefootnote}#1}
   \end{ctexexam}
-  \keychoice{fncustom-format}{\textcolor{SlateGray}{format code},match}
+  \keychoice{fncustom-format}{\optpath*{format code},match}
   单独设定自定义脚注标记的格式，选项 \code{match} 可以匹配 \option{spcmd} 全局的值。自定义脚注内容和正文标记的命令与用法可以见下方和\ref{exam:custom footnote markers} 的介绍。
   \begin{commands}\noitemsep
   \command{Footnote}[\oarg{内容标记}\marg{正文标记}\marg{脚注文本}]\default{}
@@ -836,7 +840,7 @@
   \Footnote{*}{这是可以自定义标记的脚注。}
   \end{ctexexam}
   \end{commands}
-  \keychoice{fnboth-format}{\textcolor{SlateGray}{format code},match}
+  \keychoice{fnboth-format}{\optpath*{format code},match}
   同时设定默认脚注标记 \option{fnmarktext-format} 和自定义脚注标记 \option{fncustom-format} 的格式。两种脚注标记匹配上标格式 \option{spcmd} 的值是独立的，使用 \code{match} 则可以同时匹配。会覆盖 \module*{font} 模块脚注字体选项 \option{footnote} 相同类型的命令，最后一个格式命令可以带有一个参数接受脚注标记。
   \keyval{fnpara-format}{格式代码}
   脚注内容文本的格式。会覆盖 \module*{font} 模块脚注字体选项 \option{footnote} 相同类型的命令，最后一个格式命令可以带有一个参数接受脚注内容文本。
@@ -892,7 +896,8 @@
           tocline       = \CTEXnumberline{#1}#2
         },
       section/toclabel  = \contentspush{#1\hspace{0.5em}},
-      section/tocrule   = \tocrule-{}\makebox[1cm]{\rlap{\thecontentspage}}
+      section/tocrule   = \tocrule-{}\makebox[1cm]{\rlap{\thecontentspage}},
+      toc/pagenumwd     = 0pt
     }
   \end{ctexexam}
 \end{options}
