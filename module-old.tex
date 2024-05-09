@@ -1,0 +1,22 @@
+\ExplSyntaxOn
+\keys_define:nn { } { ctex/style .inherit:n = ctex/tools }
+\keys_define:nn { } { ctex/subfont .inherit:n = ctex/font }
+\keys_define:nn { } { ctex/refset .inherit:n = ctex/ref }
+\keys_define:nn { } { ctex/bibset .inherit:n = ctex/bib }
+\keys_define:nn { } { ctex/thmset .inherit:n = ctex/thmt }
+\keys_define:nn { } { ctex/geoset .inherit:n = ctex/geo }
+\keys_define:nn { } { ctex/hdrset .inherit:n = ctex/hdr }
+\keys_define:nn { } { ctex/tocset .inherit:n = ctex/toc }
+\ctex_define:n{
+  style .meta:nn = { ctex/tools } {#1},
+  refset .meta:nn = { ctex/ref } {#1},
+  bibset .meta:nn = { ctex/bib } {#1},
+  thmset .meta:nn = { ctex/thmt } {#1},
+  geoset .meta:nn = { ctex/geo } {#1},
+  hdrset .meta:nn = { ctex/hdr } {#1},
+  tocset .meta:nn = { ctex/toc } {#1}
+  }
+\let\ebstyle\ebtoolsset
+\let\ebsubfont\ebfontset
+\let\ebthmset\ebthmtset
+\ExplSyntaxOff
