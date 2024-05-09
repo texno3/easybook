@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<*class>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
-\ProvidesExplClass{easybook}{2024/05/08}{2024bl}
+\ProvidesExplClass{easybook}{2024/05/09}{2024bm}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/05/08}{2024bl}
+\ProvidesExplPackage{easybase}{2024/05/09}{2024bm}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1607,11 +1607,8 @@
 \tl_new:N \l__eb_toc_tmpb_tl
 \cs_new_protected:Npn \eb_toc_format_initial:nn #1#2
   {
-    \exp_last_unbraced:Nx
-    \use:n
+    \exp_last_unbraced:Nx \titlecontents
       {
-        \exp_not:N
-        \titlecontents
         \tl_use:N \l__eb_toc_tmpa_tl
         \exp_not:n
           {
@@ -1682,14 +1679,10 @@
   {
     \ctex_define:nn { toc }
       {
-        #1-every .code:n    =
+        #1-every .code:n =
           {
-            \ctex_set:n
-              {
-                part/#1     = ##1,chapter/#1    = ##1,
-                section/#1  = ##1,subsection/#1 = ##1,
-                float/#1    = ##1
-              }
+            \seq_map_inline:Nn \c__ctex_headings_seq
+              { \ctex_set:n { ####1/#1 = {##1} } }
           }
       }
   }
@@ -2547,7 +2540,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/08}{2024bl}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/09}{2024bm}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
