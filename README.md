@@ -4,20 +4,14 @@
 
 使用方法举例：
 
-`\documentclass{ctexart}`
+```latex
+\documentclass{ctexart}
 
+\usepackage{easybase,zhlipsum}
+\input{module-old.tex}%在easybase宏包后加载文件
+%\ctexset{模块名/选项=值}
 
-
-`\usepackage{easybase,zhlipsum}`
-
-`\input{module-old.tex}%在easybase宏包后加载文件`
-
-`%\ctexset{模块名/选项=值}`
-
-
-
-`\begin{document}`
-
-`\zhlipsum`
-
-`\end{document}`
+\begin{document}
+\zhlipsum
+\end{document}
+```
