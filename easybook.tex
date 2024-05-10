@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024bm,
-    date            = 2024/05/09,
+    version         = v2024bn,
+    date            = 2024/05/10,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -857,7 +857,7 @@
 
 \subsection[目录]{目录\smodule{toc}}
 \label{subsec:catalog}
-模块 \module*{toc} 将使用 \pkg*{titletoc} 宏包处理目录样式。默认包括 \module*{part}$\longrightarrow$\module*{subparagraph}、\module*{figure}、\module*{table} 和 \module*{lstlisting} 条目名的键路径，而使用 \module*{float} 路径可以统一设置图片、表格和代码目录的样式。选项前带有 \ding{73} 符号表示支持所有相应\textbf{条目名}的路径，其它选项则处于 \module*{toc} 键路径下。目前支持多数学术论文目录样式，更复杂的样式可以查看 \pkg*{titletoc} 的相关用法。
+模块 \module*{toc} 将使用 \pkg*{titletoc} 宏包处理目录样式。默认包括 \module*{part}$\longrightarrow$\module*{subparagraph}、\module*{figure}、\module*{table} 和 \module*{lstlisting} 条目名的键路径。选项前带有 \ding{73} 符号表示支持所有相应\textbf{条目名}的路径，其它选项则处于 \module*{toc} 键路径下。目前支持多数学术论文目录样式，更复杂的样式可以查看 \pkg*{titletoc} 的相关用法。
 \begin{options}
   \keyval{tocformat}{条目格式}\dtag
   目录中各类型条目的格式。可以设置条目字体和加入垂直间距等，垂直间距最好使用防止垂直间距重合的 \cs*{addvspace} 命令。如果是段落型目录，格式代码仅在段落中当前级别条目前执行一次。
@@ -977,11 +977,15 @@
   \keyval{pagenumwd}{刚性长度}\Default{1.55em}
   设置开启 \option{dotalign} 选项时页码水平盒子的宽度。
   \keyval{tocafter-every}{距离命令}\Default{\cs*{hspace}\Marg{1em}}
-  统一设置所有类型条目编号与标题间的代码（仅支持上述预注册的条目）。
+  统一设置所有类型条目编号与标题间的代码。
   \keyval{tocindent-every}{刚性长度}
-  统一设置所有类型条目的左边缩进（仅支持上述预注册的条目）。
+  统一设置所有类型条目的左边缩进。
   \keyval{tocrule-every}{引导线命令}
-  统一设置所有类型的目录引导线样式（仅支持上述预注册的条目）。
+  统一设置所有类型的目录引导线样式。
+  \begin{commands}
+  \command{ExcludeEveryTocName}[\marg{条目名}]\newtagv{2024bn}
+  用于指定带有 \option*{every} 后缀选项排除的条目类型。
+  \end{commands}
 \end{options}
 
 \section{环境和命令}
@@ -1522,7 +1526,12 @@
   \shortversion{v = 2024aw,date = 2022/04/22,changes = 新增新建章节标题命令 \cs{NewTitleCommand} 和 \cs{NewTitleEntryCommand}。}
   \shortversion{v = 2024bb,date = 2022/04/26,changes = 增加对 \pkg*{thmtools} 宏包定理环境目录 \cs{listoftheorems} 的支持。}
   \shortversion{v = 2024bk,date = 2022/05/07,changes = 新增局部题注目录分配命令 \cs{AllotPartialExt}。}
-  \shortversion{v = 2024bm,date = 2022/05/09,changes = 修复 \module*{toc} 模块中带有 \option*{every} 后缀的选项不对所有预注册条目有效的问题。}
+  \begin{version}[v = 2024bn,date = 2022/05/10]
+  \fixed
+  \item 修复 \module*{toc} 模块中带有 \option*{every} 后缀的选项不对所有已注册条目有效的问题。
+  \added
+  \item 新增统一设置所有目录格式时的条目类型排除命令 \cs{ExcludeEveryTocName}。
+  \end{version}
 \end{changelog}
 \nocite{*}
 
