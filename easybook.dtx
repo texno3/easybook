@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<*class>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
-\ProvidesExplClass{easybook}{2024/05/09}{2024bm}
+\ProvidesExplClass{easybook}{2024/05/10}{2024bn}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/05/09}{2024bm}
+\ProvidesExplPackage{easybase}{2024/05/10}{2024bn}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -445,7 +445,7 @@
   {
     tools,font,spread,
     bib,thmt,toc,
-    hdr,ref,geo,float
+    hdr,float,ref,geo
   }
 \seq_map_inline:Nn \l__eb_module_paths_seq
   {
@@ -459,7 +459,7 @@
       {\ctex_set:n {#2}}
   }
 \bool_until_do:nn
-  { \int_compare_p:nNn { \seq_count:N \l__eb_module_paths_seq } < { 8 } }
+  { \int_compare_p:nNn { \seq_count:N \l__eb_module_paths_seq } < { 9 } }
   { \seq_pop_right:NN \l__eb_module_paths_seq \l_tmpa_tl }
 \seq_map_inline:Nn \l__eb_module_paths_seq
   {
@@ -1639,6 +1639,13 @@
         tocend    = .
       }
   }
+\seq_new:N \l__eb_toc_every_include_name_seq
+\cs_new_protected:Npn \ExcludeEveryTocName #1
+  {
+    \AddToHookWithArguments{toc/register}[toc/#1]
+      {\bool_set_false:c { l__eb_toc_every_include_#1_bool }}
+  }
+\NewHookWithArguments{toc/every/exclude}{1}
 \NewDocumentCommand{\RegisterTocName}{sm}
   {
     \IfBooleanT{#1}
@@ -1651,6 +1658,10 @@
             [\tl_use:c { l__eb_toc_#2_end_tl }]
           }
       }
+    \bool_set_true:c { l__eb_toc_every_include_#2_bool }
+    \UseHookWithArguments{toc/register}{1}{#2}
+    \bool_if:cT { l__eb_toc_every_include_#2_bool }
+      { \seq_put_right:Nn \l__eb_toc_every_include_name_seq {#2} }
     \eb_toc_format_define:n {#2}
     \eb_toc_format_initial:nn {#1} {#2}
     \tl_clear:N \l__eb_toc_tmpa_tl
@@ -1658,34 +1669,21 @@
   }
 \seq_map_function:NN
 \c__ctex_headings_seq \RegisterTocName
-\eb_seq_map_inline:nn
-  {
-    tocformat,tocformat+,tocformat~+,tocformat*,
-    toclabel,tocindent,tocrule,tocline,tocafter,between,
-    tocbelow,tocbegin,tocsep,tocend
-  }
-  {
-    \ctex_define:n
-      {
-        float/#1 .meta:n  =
-          {
-            figure/#1     = {##1},table/#1 = {##1},
-            lstlisting/#1 = {##1}
-          }
-      }
-  }
-\eb_seq_map_inline:nn
-  { tocafter,tocindent,tocrule }
+\ctex_define:n { float/unknown .code:n = \eb_msg_deprecated_option:n { float } }
+\cs_new_protected:Npn \RegisterEveryTocOption #1
   {
     \ctex_define:nn { toc }
       {
         #1-every .code:n =
           {
-            \seq_map_inline:Nn \c__ctex_headings_seq
+            \seq_map_inline:Nn \l__eb_toc_every_include_name_seq
               { \ctex_set:n { ####1/#1 = {##1} } }
           }
       }
   }
+\clist_map_function:nN
+  { tocafter,tocindent,tocrule }
+  \RegisterEveryTocOption
 \NewDocumentCommand{\tocrule}{st-O{0.7pc}d()mO{}}
   {
     \normalsize\normalfont
@@ -1935,7 +1933,7 @@
         caption-every = {#1},footnote = {#1}
       },
     abovedisplayskip .code:n    =
-      {\AfterPreamble{\skip_set:Nn \abovedisplayskip {#1}}},
+      { \AfterPreamble{\skip_set:Nn \abovedisplayskip {#1}} },
     abovedisplayskip .initial:n = 0.5ex plus .1ex minus .1ex,
     belowdisplayskip .code:n    =
       {
@@ -2540,7 +2538,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/09}{2024bm}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/10}{2024bn}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
