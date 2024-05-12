@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024bn,
-    date            = 2024/05/10,
+    version         = v2024bo,
+    date            = 2024/05/12,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -136,10 +136,10 @@
 \renewcommand{\cnltx@write@lastname}{}
 \renewcommand{\cmltx@list@setup}
   {
-    \setlength{\leftmargin}{0em}
+    \setlength{\leftmargin}{0pt}
     \setlength{\labelwidth}{2em}
     \setlength{\itemindent}{-1em}
-    \setlength{\labelsep}{0em}
+    \setlength{\labelsep}{0pt}
     \setlength{\listparindent}{2em}
     \setlength{\topsep}{\smallskipamount}
     \setlength{\itemsep}{\smallskipamount}
@@ -190,8 +190,8 @@
 您在使用 \easybook{} 文档类编写文档前可能需要具备以下的条件：
 \begin{itemize}
   \item 使用 \hologo{XeLaTeX}（推荐）或 \hologo{LuaLaTeX} 两种编译方式之一。
-  \item 由于文档类用到了一些 \LaTeX 和依赖宏包较新的功能，需要版本至少在\textbf{2021/11/15}以后的 \LaTeX 内核支持。建议您安装最新的 \TeX 发行版。
-  \item 虽然手册对基本用法做了介绍，但这并不是入门教程，所涉及到宏包的用法与命令并未进行详细介绍，需要对它们有所了解。您应当具有一定的 \LaTeX 使用基础，可以在 \TeX 综合网站 \href{https://www.ctan.org/}{CTAN} 查看相关资源。
+  \item 由于文档类用到了一些 \hologo{LaTeX} 和依赖宏包较新的功能，需要版本至少在\textbf{2021/11/15}以后的 \hologo{LaTeX} 内核支持。建议您安装最新的 \hologo{TeX} 发行版。
+  \item 虽然手册对基本用法做了介绍，但这并不是入门教程，所涉及到宏包的用法与命令并未进行详细介绍，需要对它们有所了解。您应当具有一定的 \hologo{LaTeX} 使用基础，可以在 \hologo{TeX} 综合网站 \href{https://www.ctan.org/}{CTAN} 查看相关资源。
 \end{itemize}
 
 \subsection{前言}
@@ -199,7 +199,7 @@
 
 \subsection{基本用法}
 \label{subsec:basic usage}
-以下一份简单的 \TeX 文档演示了 \easybook{} 的最基本用法，在导言区进行宏包载入与文档设置，一些详细的使用样例会不定期上传在 \href{https://www.latexstudio.net/}{\LaTeX 工作室} 的网站。
+以下一份简单的 \TeX 文档演示了 \easybook{} 的最基本用法，在导言区进行宏包载入与文档设置，一些详细的使用样例会不定期上传在 \href{https://www.latexstudio.net/}{\hologo{LaTeX} 工作室} 的网站。
 \begin{frameverb}
   \documentclass[文档类选项]{easybook}
 
@@ -467,8 +467,8 @@
 \label{subsec:spread}
 行距因子用于设置各种行距倍数，\meta{数值} 是不带有长度单位的浮点数。各类行距既可以在导言区全局设置，也可以在正文中设置对后面生效。
 \begin{options}
-  \keyval{line}{数值}
-  正文行距因子。行距因子初始值为 \code{1.354}（相当于 \textsf{Word} 的1.25倍行距），如果设置了文类或 \pkg*{ctex} 宏包的全局行距选项 \option*{linespread} 则初始值设为它的值。
+  \keyval{line}{数值}\Default{1.354}
+  正文行距因子。中文主题下行距因子初始值为 \code{1.354}（相当于 \textsf{Word} 的1.25倍行距），如果设置了文类或 \pkg*{ctex} 宏包的全局行距选项 \option*{linespread} 则初始值设为它的值。
   \keyval{table}{数值}\Default{1.354}
   表格内容行距因子，对传统表格 \env{tabular} 和 \env{tabularx} 等环境生效。\pkg*{tabularray} 宏包的 \env{tblr} 环境自带 \option*{stretch} 和 \option*{rowsep} 等行间距选项，这里不做调整。
   \keyval{math}{数值}\Default{1.2}
@@ -573,15 +573,15 @@
   \begin{options}
   \keyval{name}{定理名}
   定理环境的标题名称，默认为英文首字母大写的环境名。
-  \keychoice{numbered}{no,yes,unless unique}
+  \keychoice{numbered}{no,\fbox{yes},unless unique}
   定理可以被编号、不被编号或者只有在文档中多次出现时才被编号。
-  \keychoice{within}{chapter,section,\optpath*{empty},\optpath*{counter}}
+  \keychoice{within}{\fbox{chapter},section,\optpath*{empty},\optpath*{counter}}
   定理编号跟随的计数器。当计数器值递增时定理编号会从零开始，通常这是一个章节计数器。
   \keyval{numberlike}{计数器}
   定理将使用此 \meta{计数器} 进行编号，通常这是另一个定理环境的名称。
   \keyval{qed}{证毕符号}
   证毕符号。位于定理段落末尾行的版心右边，可以设置成 \cs{qedsymbol} 默认是空心方块。
-  \keyval{style}{定理样式}
+  \keyval{style}{定理样式}\Default{default}
   选项的值为使用 \cs{declaretheoremstyle} 命令新定义的定理样式。
 
   使用 \cs{declaretheorem} 命令以\ref{exam:new theorem sty} 中的定理样式 \code{fancy} 新建一个定理环境猜想，然后用一个基于 \pkg*{tcolorbox} 宏包的预置彩色盒子 \env{easyboxi} 增加背景：
@@ -594,23 +594,23 @@
   \command{declaretheoremstyle}[\oarg{键值列表1}\marg{定理样式}\oarg{键值列表2}]
   定理样式声明命令，键值列表支持自身以及定理声明命令 \cs{declaretheorem} 的所有选项。可选参数的 \meta{键值列表1} 与 \meta{键值列表2} 等效，其中支持的选项如下：
   \begin{options}
-  \keyval{headfont}{字体命令}
-  定理标题部分的字体，包括字体族、字体系列、字体尺寸和字体形状命令。
-  \keyval{notefont}{字体命令}
+  \keyval{headfont}{字体命令}\Default{\cs*{sffamily}}
+  定理标题部分（包括题注）的字体，包括字体族、字体系列、字体尺寸和字体形状命令。
+  \keyval{notefont}{字体命令}\Default{\cs*{sffamily}}
   定理题注部分的字体，包括字体族、字体系列、字体尺寸和字体形状命令。
-  \keyval{bodyfont}{字体命令}
+  \keyval{bodyfont}{字体命令}\Default{\cs*{normalfont}}
   定理内容部分的字体，包括字体族、字体系列、字体尺寸和字体形状命令。
   \keyval{headpunct}{代码}
   紧随定理标题末尾的标记代码，位于定理第一段内容的间距 \option{postheadspace} 之前，可以是字符或插入换行符 \cs*{newline} 等命令。
-  \keyval{headindent}{刚性长度}
+  \keyval{headindent}{刚性长度}\Default{0pt}
   定理标题的缩进。默认无缩进，可用 \cs*{parindent} 命令设置为段落缩进。
-  \keyval{postheadspace}{刚性长度}
+  \keyval{postheadspace}{刚性长度}\Default{1em}
   定理标题后与定理第一段内容的间距。
-  \keyval{spaceabove}{弹性长度}
+  \keyval{spaceabove}{弹性长度}\Default{0ex plus .1ex}
   定理环境前的间距，使用 \pkg*{tcolorbox} 的盒子环境包装后被覆盖。
-  \keyval{spacebelow}{弹性长度}
+  \keyval{spacebelow}{弹性长度}\Default{0ex plus .1ex}
   定理环境后的间距，使用 \pkg*{tcolorbox} 的盒子环境包装后被覆盖。
-  \kvsplit-{notebraces}{\marg{左括号}\marg{右括号}}
+  \kvsplit-{notebraces}{\marg{左括号}\marg{右括号}}\Default{\Marg{(}\Marg{)}}
   设置定理题注两边的括号，两个必选参数分别代表左括号和右括号。
   \keyval{headformat}{标题排列}
   定理标题各组成元素的位置排列和格式。定理标题由定理名、编号和题注组成，\meta{标题排列} 中命令 \cs*{NAME}、\cs*{NUMBER} 和 \cs*{NOTE} 分别代表定理名、编号和题注。
@@ -903,8 +903,8 @@
 \end{options}
 
 \begin{commands}
-  \command{RegisterTocName}[\sarg\marg{条目名}]\newtagv[Changed]{2024as}%
-  给条目类型名称为 \meta{条目名} 的标题注册用于设置目录样式的选项，即选项前有符号 \ding{73} 表示需要注册后使用。前面提到的条目类型均已注册，新类型的条目注册后默认格式与图表条目相同。这个命令可以重复使用，会重置目录条目为默认格式。带有星号参数的命令使注册目录的条目形成一个段落，此时多出下面三个选项可用：
+  \command{RegisterTocName}[\sarg\marg{条目名列表}]\newtagv[Changed]{2024bo}%
+  给 \meta{条目名列表} 中的每个 \meta{条目名} 标题注册用于设置目录样式的选项，即选项前有符号 \ding{73} 表示需要注册后使用。前面提到的条目类型均已注册，新类型的条目注册后默认格式与图表条目相同。这个命令可以重复使用，会重置目录条目为默认格式。带有星号参数的命令使注册目录的条目形成一个段落，此时多出下面三个选项可用：
   \begin{options}
   \keyval{tocbegin}{开始代码}\dtag\newtagv{2024as}%
   当前级别目录条目第一个标题前的代码，仅在存在更高级别的条目时有效。
@@ -983,7 +983,7 @@
   \keyval{tocrule-every}{引导线命令}
   统一设置所有类型的目录引导线样式。
   \begin{commands}
-  \command{ExcludeEveryTocName}[\marg{条目名}]\newtagv{2024bn}
+  \command{ExcludeEveryTocName}[\marg{条目名列表}]\newtagv{2024bn}
   用于指定带有 \option*{every} 后缀选项排除的条目类型。
   \end{commands}
 \end{options}
@@ -1212,7 +1212,7 @@
   \environment{description}[\oarg{键值列表}]
   已为三种列表各自预置了三个级别。同种列表或不同种列表间的不同级别可相互嵌套，可以使用短编号的形式，带有星号的环境为行内列表。默认列表标签与标准文档类一致，下面举几个更改列表标签以及其它格式的例子：
   \begin{ctexexam}
-  \setlist*{wide = 0em} % 取消所有列表的左边距
+  \setlist*{wide = 0pt} % 取消所有列表的左边距
   \begin{enumerate}[label = (\arabic*),leftmargin = 1cm,resume]
   \begin{enumerate*}[(1)] % 短编号形式
   \begin{itemize}[label = \textbullet,labelsep = *]
@@ -1319,7 +1319,7 @@
 \section{扩展功能}
 
 \subsection{物理量}
-使用 \pkg*{siunitx} 宏包提供国际单位制的物理量支持。\pkg*{siunitx} 宏包旨在为 \LaTeX 用户提供一种统一的方法，以便正确、轻松地排版数字和单位。\pkg*{siunitx} 的设计理念是默认遵循约定的规则，但允许通过选项设置进行更改。
+使用 \pkg*{siunitx} 宏包提供国际单位制的物理量支持。\pkg*{siunitx} 宏包旨在为 \hologo{LaTeX} 用户提供一种统一的方法，以便正确、轻松地排版数字和单位。\pkg*{siunitx} 的设计理念是默认遵循约定的规则，但允许通过选项设置进行更改。
 \begin{commands}
   \command{num}[\oarg{键值列表}\marg{数字}]
   \cs{num} 命令可以输出以科学计数法表示的数值。
