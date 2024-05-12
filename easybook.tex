@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024bn,
-    date            = 2024/05/10,
+    version         = v2024bo,
+    date            = 2024/05/12,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -190,8 +190,8 @@
 您在使用 \easybook{} 文档类编写文档前可能需要具备以下的条件：
 \begin{itemize}
   \item 使用 \hologo{XeLaTeX}（推荐）或 \hologo{LuaLaTeX} 两种编译方式之一。
-  \item 由于文档类用到了一些 \LaTeX 和依赖宏包较新的功能，需要版本至少在\textbf{2021/11/15}以后的 \LaTeX 内核支持。建议您安装最新的 \TeX 发行版。
-  \item 虽然手册对基本用法做了介绍，但这并不是入门教程，所涉及到宏包的用法与命令并未进行详细介绍，需要对它们有所了解。您应当具有一定的 \LaTeX 使用基础，可以在 \TeX 综合网站 \href{https://www.ctan.org/}{CTAN} 查看相关资源。
+  \item 由于文档类用到了一些 \hologo{LaTeX} 和依赖宏包较新的功能，需要版本至少在\textbf{2021/11/15}以后的 \hologo{LaTeX} 内核支持。建议您安装最新的 \hologo{TeX} 发行版。
+  \item 虽然手册对基本用法做了介绍，但这并不是入门教程，所涉及到宏包的用法与命令并未进行详细介绍，需要对它们有所了解。您应当具有一定的 \hologo{LaTeX} 使用基础，可以在 \hologo{TeX} 综合网站 \href{https://www.ctan.org/}{CTAN} 查看相关资源。
 \end{itemize}
 
 \subsection{前言}
@@ -199,7 +199,7 @@
 
 \subsection{基本用法}
 \label{subsec:basic usage}
-以下一份简单的 \TeX 文档演示了 \easybook{} 的最基本用法，在导言区进行宏包载入与文档设置，一些详细的使用样例会不定期上传在 \href{https://www.latexstudio.net/}{\LaTeX 工作室} 的网站。
+以下一份简单的 \TeX 文档演示了 \easybook{} 的最基本用法，在导言区进行宏包载入与文档设置，一些详细的使用样例会不定期上传在 \href{https://www.latexstudio.net/}{\hologo{LaTeX} 工作室} 的网站。
 \begin{frameverb}
   \documentclass[文档类选项]{easybook}
 
@@ -903,8 +903,8 @@
 \end{options}
 
 \begin{commands}
-  \command{RegisterTocName}[\sarg\marg{条目名}]\newtagv[Changed]{2024as}%
-  给条目类型名称为 \meta{条目名} 的标题注册用于设置目录样式的选项，即选项前有符号 \ding{73} 表示需要注册后使用。前面提到的条目类型均已注册，新类型的条目注册后默认格式与图表条目相同。这个命令可以重复使用，会重置目录条目为默认格式。带有星号参数的命令使注册目录的条目形成一个段落，此时多出下面三个选项可用：
+  \command{RegisterTocName}[\sarg\marg{条目名列表}]\newtagv[Changed]{2024ao}%
+  给 \meta{条目名列表} 中的每个 \meta{条目名} 标题注册用于设置目录样式的选项，即选项前有符号 \ding{73} 表示需要注册后使用。前面提到的条目类型均已注册，新类型的条目注册后默认格式与图表条目相同。这个命令可以重复使用，会重置目录条目为默认格式。带有星号参数的命令使注册目录的条目形成一个段落，此时多出下面三个选项可用：
   \begin{options}
   \keyval{tocbegin}{开始代码}\dtag\newtagv{2024as}%
   当前级别目录条目第一个标题前的代码，仅在存在更高级别的条目时有效。
@@ -983,7 +983,7 @@
   \keyval{tocrule-every}{引导线命令}
   统一设置所有类型的目录引导线样式。
   \begin{commands}
-  \command{ExcludeEveryTocName}[\marg{条目名}]\newtagv{2024bn}
+  \command{ExcludeEveryTocName}[\marg{条目名列表}]\newtagv{2024bn}
   用于指定带有 \option*{every} 后缀选项排除的条目类型。
   \end{commands}
 \end{options}
@@ -1319,7 +1319,7 @@
 \section{扩展功能}
 
 \subsection{物理量}
-使用 \pkg*{siunitx} 宏包提供国际单位制的物理量支持。\pkg*{siunitx} 宏包旨在为 \LaTeX 用户提供一种统一的方法，以便正确、轻松地排版数字和单位。\pkg*{siunitx} 的设计理念是默认遵循约定的规则，但允许通过选项设置进行更改。
+使用 \pkg*{siunitx} 宏包提供国际单位制的物理量支持。\pkg*{siunitx} 宏包旨在为 \hologo{LaTeX} 用户提供一种统一的方法，以便正确、轻松地排版数字和单位。\pkg*{siunitx} 的设计理念是默认遵循约定的规则，但允许通过选项设置进行更改。
 \begin{commands}
   \command{num}[\oarg{键值列表}\marg{数字}]
   \cs{num} 命令可以输出以科学计数法表示的数值。
