@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<*class>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
-\ProvidesExplClass{easybook}{2024/05/12}{2024bo}
+\ProvidesExplClass{easybook}{2024/05/13}{2024bp}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/05/12}{2024bo}
+\ProvidesExplPackage{easybase}{2024/05/13}{2024bp}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -436,7 +436,6 @@
       }
   }
 \ctex_disable_package:n { nccfoots }
-\ctex_disable_package:n { setspace }
 \ctex_disable_package:n { tocloft }
 \ctex_disable_package:n { titlesec }
 
@@ -1053,6 +1052,7 @@
   }
 \cs_set_eq:NN \eb@@makefntext \@makefntext
 \cs_set_eq:NN \eb@@footnotetext \@footnotetext
+\cs_set_eq:NN \eb@@mpfootnotetext \@mpfootnotetext
 \ctex_at_end_package:nn { footmisc }
   {
     \eb_package_date_check:nn { footmisc } { 2022/02/10 }
@@ -1076,7 +1076,11 @@
     hang,~symbol,~perpage,~marginal~or~flushmargin \\
     options~of~'footmisc'~package.
   }
-
+\ctex_at_end_package:nn { setspace }
+  {
+    \cs_set_eq:NN \@footnotetext \eb@@footnotetext
+    \cs_set_eq:NN \@mpfootnotetext \eb@@mpfootnotetext
+  }
 \cs_set_protected:Npn \footref #1
   {
     \group_begin:
@@ -2553,7 +2557,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/12}{2024bo}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/13}{2024bp}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
