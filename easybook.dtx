@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<*class>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
-\ProvidesExplClass{easybook}{2024/05/15}{2024bq}
+\ProvidesExplClass{easybook}{2024/05/16}{2024br}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/05/15}{2024bq}
+\ProvidesExplPackage{easybase}{2024/05/16}{2024br}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1456,8 +1456,11 @@
               {\addtocontents{toc}{\booltrue{bitoc}}}
           }
           {
-            \RemoveFromHook{cmd/CTEX@addtocline/before}[bitoc]
-            \RemoveFromHook{cmd/CTEX@addbitocline/before}[bitoc]
+            \IfHookEmptyTF{cmd/CTEX@addtocline/before}{}
+              {
+                \RemoveFromHook{cmd/CTEX@addtocline/before}[bitoc]
+                \RemoveFromHook{cmd/CTEX@addbitocline/before}[bitoc]
+              }
           }
       },
     name .tl_set:N    = \l__eb_print_index_name_tl,
@@ -1770,6 +1773,28 @@
       {\ttl@topartial{#1}{##1}{##2}}
   }
 \AllotPartialExt{lol}{pll}
+
+\cs_new_protected:Npn \RegisterTitleIfname #1
+  {
+    \clist_map_function:nN {#1}
+    \eb@register@title@ifname
+  }
+\cs_new_protected:Npn \eb@register@title@ifname #1
+  {
+    \AddToHookWithArguments{cmd/addcontentsline/before}[title/ifname/#1]
+      {
+        \str_if_eq:nnT {##1} {#1}
+          {
+            \addtocontents{##1}
+              {\CTEXifname{\CTEX@ifnametrue}{\CTEX@ifnamefalse}}
+          }
+      }
+    \AddToHook{file/\jobname.#1/before}
+      {\cs_set_eq:NN \eb@title@ifname@resume \CTEXifname}
+    \AddToHook{file/\jobname.#1/after}
+      {\cs_set_eq:NN \CTEXifname \eb@title@ifname@resume}
+  }
+\RegisterTitleIfname{toc}
 
 \cs_set_eq:NN \eb@ctexsetii \ctex_set:nn
 \cs_new_protected:Npn \SetTocStyle #1#2#3
@@ -2557,7 +2582,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/15}{2024bq}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/05/16}{2024br}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
