@@ -1,12 +1,12 @@
-# easybook document class
+# easybook 文档类
 
-`easybook` is a `pure` academic template created based on the `ctexbook` book document class. It also has the functions of `book` and `article` document class. Combined with the general framework design of the dissertation of many universities in China, providing multiple commands and interfaces allows users to easily customize the thesis template. Its basic macro package `easybase` can also be used with `ctex` and standard document classes.
+`easybook` 是基于 `ctexbook` 书籍文档类创建的纯净学术模板，同时兼具 `book` 与 `article` 文档类的功能。结合中国许多高校学位论文的通用框架设计，提供多个命令和接口可以使用户简便地定制论文模板。它的基础宏包 `easybase` 还可以搭配 `ctex` 和标准文档类使用。
 
-## License
+## 协议
 
 This work may be distributed and/or modified under the conditions of the LPPL-1.3c License. The latest version of this license is in http://www.latex-project.org/lppl.txt
 
-## Website
+## 网址
 
 | [Gitee](https://gitee.com/texno3/easybook) | [Github](https://github.com/texno3/easybook) | [CTAN](https://ctan.org/pkg/easybook) |
 
