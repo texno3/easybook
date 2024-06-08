@@ -1754,14 +1754,19 @@
       }
       {}
   }
+\cs_set_eq:NN \eb@starttoc \@starttoc
 \cs_set:Npn \@starttoc #1
   {
-    \group_begin:
-    \makeatletter
-    \file_if_exist_input:n { \jobname.#1 }
-    \UseHookWithArguments{starttoc/after}{1}{#1}
-    \boolfalse{@nobreak}
-    \group_end:
+    \cs_if_exist:NTF \UseHookWithArguments
+      {
+        \group_begin:
+        \makeatletter
+        \file_if_exist_input:n { \jobname.#1 }
+        \UseHookWithArguments{starttoc/after}{1}{#1}
+        \boolfalse{@nobreak}
+        \group_end:
+      }
+      { \eb@starttoc{#1} }
   }
 \AddToHook{enddocument/afterlastpage}
   {
