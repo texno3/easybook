@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024bu,
-    date            = 2024/05/24,
+    version         = v2024bx,
+    date            = 2024/06/08,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -902,7 +902,7 @@
   \newcommand{\listoffiguretables}{\listoffigures} % 同时输出图表目录的命令
   \end{ctexexam}
   \command{AllotPartialExt}[\marg{扩展名1}\marg{扩展名2}]\newtagv{2024bk}
-  给目录文件扩展名为 \meta{扩展名1} 的目录分配扩展名为 \meta{扩展名2} 的局部目录，预注册的条目均无需再分配。用于搭配题注标题 \cs{caption} 命令和 \pkg*{titletoc} 宏包的局部题注目录命令。
+  给目录文件扩展名为 \meta{扩展名1} 的目录分配扩展名为 \meta{扩展名2} 的局部目录\footnote{此功能需要\textbf{2023/06/01}以后的 \hologo{LaTeX} 内核支持。}，预注册的条目均无需再分配。用于搭配题注标题 \cs{caption} 命令和 \pkg*{titletoc} 宏包的局部题注目录命令。
   \begin{ctexexam}
   \AllotPartialExt{loa}{pla}
   \startlist[fancy]{loa}
@@ -969,7 +969,7 @@
 
 \subsection{目录命令}
 \label{subsec:directory command}
-\easybook{} 改进了标准文档类中定制性较低的章节标题和图表标题目录命令。现在目录命令带有可选参数用于设置标题格式和栏数等，并且与标准文档类不同的是目录命令可在正文中\textbf{重复}使用。更多目录命令的创建和样式设置可参考\ref{subsec:catalog}。
+\easybook{} 改进了标准文档类中定制性较低的章节标题和图表标题目录命令。现在目录命令带有可选参数用于设置标题格式和栏数等，并且与标准文档类不同的是目录命令可在正文中\textbf{重复}使用\footnote{此功能需要\textbf{2023/06/01}以后的 \hologo{LaTeX} 内核支持。}。更多目录命令的创建和样式设置可参考\ref{subsec:catalog}。
 \begin{cnltxlist}
   \command{tableofcontents}[\sarg\oarg{键值列表}\darg{代码钩子}]
   章节标题目录命令，支持中英文双语标题目录输出。带有星号参数不输出目录条目上方的标题。\meta{代码钩子} 是当输出方案 \keyis{plan}{both} 时中文与英文目录之间执行的代码，可以插入设置目录样式和换页等命令。
