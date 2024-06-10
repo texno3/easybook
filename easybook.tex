@@ -121,7 +121,9 @@
     \@firstofone
   }
 % A tag that distinguishes the options for different paths
-\NewDocumentCommand{\dtag}{sO{\ding{73}}}
+\newcommand{\hface}{$\symbol{"263A}$}
+\newcommand{\sface}{$\symbol{"263B}$}
+\NewDocumentCommand{\dtag}{sO{\hface}}
   {
     \begingroup
     \reversemarginpar
@@ -271,7 +273,7 @@
 
 \section{文档类选项}
 \label{sec:document class options}
-文档类选项应当在使用 \easybook{} 文档类或 \pkg*{easybase} 宏包（部分支持）时指定，可见\ref{subsec:basic usage} 的例子。选项前带有 \ding{73} 符号表示只可用于文档类，否则文档类与宏包都适用。除了下面列举的选项以外，还支持标准和 \CTeX 文档类的选项。
+文档类选项应当在使用 \easybook{} 文档类或 \pkg*{easybase} 宏包（部分支持）时指定，可见\ref{subsec:basic usage} 的例子。选项前带有\hface 符号表示只可用于文档类，否则文档类与宏包都适用。除了下面列举的选项以外，还支持标准和 \CTeX 文档类的选项。
 
 \subsection{基本选项}
 \begin{cnltxlist}
@@ -833,7 +835,7 @@
 
 \subsection[目录]{目录\smodule{toc}}
 \label{subsec:catalog}
-模块 \module*{toc} 将使用 \pkg*{titletoc} 宏包处理目录样式。默认包括 \module*{part}$\longrightarrow$\module*{subparagraph}、\module*{figure}、\module*{table} 和 \module*{lstlisting} 条目名的键路径。选项前带有 \ding{73} 符号表示支持所有相应\textbf{条目名}的路径，其它选项则处于 \module*{toc} 键路径下。目录选项均支持标题编号判定命令 \cs{CTEXifname}\footnote{此功能需要\textbf{2023/06/01}以后的 \hologo{LaTeX} 内核支持。}。目前支持多数学术论文目录样式，更复杂的样式可以查看 \pkg*{titletoc} 的相关用法。
+模块 \module*{toc} 将使用 \pkg*{titletoc} 宏包处理目录样式。默认包括 \module*{part}$\longrightarrow$\module*{subparagraph}、\module*{figure}、\module*{table} 和 \module*{lstlisting} 条目名的键路径。选项前带有\hface 符号表示支持所有相应\textbf{条目名}的路径，其它选项则处于 \module*{toc} 键路径下。目录选项均支持标题编号判定命令 \cs{CTEXifname}\footnote{此功能需要\textbf{2023/06/01}以后的 \hologo{LaTeX} 内核支持。}。目前支持多数学术论文目录样式，更复杂的样式可以查看 \pkg*{titletoc} 的相关用法。
 \begin{cnltxlist}
   \keyval{tocformat}{条目格式}\dtag
   目录中各类型条目的格式。可以设置条目字体和加入垂直间距等，垂直间距最好使用防止垂直间距重合的 \cs*{addvspace} 命令。如果是段落型目录，格式代码仅在段落中当前级别条目前执行一次。也可以用 \cs{CTEXifname} 命令或 \option{tocformat*} 选项给有无编号的标题分别设置格式。
@@ -857,7 +859,7 @@
   目录条目标签与标题间的代码，默认为插入 \code{1em} 横向距离。
   \keyval{tocbelow}{距离命令}\dtag
   在目录条目下方执行的代码，可以插入垂直距离等命令。
-  \keyval{tocline}{标题定义}\dtag[\textcolor{red}{\ding{73}}]
+  \keyval{tocline}{标题定义}\dtag[\textcolor{red}{\sface}]
   这个选项在章节标题基础上扩展了浮动环境的题注标题在目录文件中的定义。章节和题注标题选项中参数 \code{\#1} 代表标题编号 \cs*{the}\meta{计数器} 对应的计数器名称，参数 \code{\#2} 则代表相应标题内容。
   \begin{ctexexam}
   \ctexset
@@ -875,7 +877,7 @@
     }
   \end{ctexexam}
   \command{RegisterTocName}[\sarg\marg{条目名列表}]\newtagv[Changed]{2024bo}%
-  给 \meta{条目名列表} 中的每个 \meta{条目名} 标题注册用于设置目录样式的选项，即选项前有符号 \ding{73} 表示需要注册后使用。前面提到的条目类型均已注册，新类型的条目注册后默认格式与图表条目相同。这个命令可以重复使用，会重置目录条目为默认格式。带有星号参数的命令使注册目录的条目形成一个段落，此时多出下面三个选项可用：
+  给 \meta{条目名列表} 中的每个 \meta{条目名} 标题注册用于设置目录样式的选项，即选项前有符号\hface 表示需要注册后使用。前面提到的条目类型均已注册，新类型的条目注册后默认格式与图表条目相同。这个命令可以重复使用，会重置目录条目为默认格式。带有星号参数的命令使注册目录的条目形成一个段落，此时多出下面三个选项可用：
   \keyval{tocbegin}{开始代码}\dtag\newtagv{2024as}%
   当前级别目录条目第一个标题前的代码，仅在存在更高级别的条目时有效。
   \keyval{tocsep}{中间代码}\dtag\Default{\Marg{.—}}\newtagv{2024as}%
@@ -885,7 +887,7 @@
   \command{contentsuse}[\marg{条目名}\marg{扩展名}]
   激活条目类型名称为 \meta{条目名} 的目录定制功能，它使用的目录文件后缀为 \meta{扩展名}。需要在激活条目后再使用命令 \cs{RegisterTocName} 注册选项。
   \command{DeclareFloatList}[\marg{条目名}\marg{扩展名}]
-  声明一种条目类型的目录命令 \cs*{listof}\meta{条目名}\code{\textcolor{cs}{s}}，并且支持\ref{subsec:directory command} 中图表目录命令的机制。使用这个命令要确保将条目加入目录的机制已经存在，例如搭配 \pkg*{newfloat} 宏包创建新的浮动环境。选项前有红色符号 \textcolor{red}{\ding{73}}（仍包含黑色符号选项的性质）表示在声明后可用。下面举一个声明算法环境和对应题注目录的例子：
+  声明一种条目类型的目录命令 \cs*{listof}\meta{条目名}\code{\textcolor{cs}{s}}，并且支持\ref{subsec:directory command} 中图表目录命令的机制。使用这个命令要确保将条目加入目录的机制已经存在，例如搭配 \pkg*{newfloat} 宏包创建新的浮动环境。选项前有实心符号 \textcolor{red}{\sface}（仍包含空心符号\hface 选项的性质）表示在声明后可用。下面举一个声明算法环境和对应题注目录的例子：
   \begin{ctexexam}
   \usepackage{newfloat}
   \DeclareFloatingEnvironment[
@@ -912,7 +914,7 @@
   \printlist[fancy]{loa}{}{}
   \end{ctexexam}
   \command{SetTocStyle}[\marg{条目名}\marg{风格名}\marg{键值列表}]
-  定义条目类型名称为 \meta{风格名} 的目录风格。使用 \cs*{ctexset} 命令设置目录样式时，除了条目标题定义选项 \option{tocline}，其它选项只有在目录输出命令前设置才有效，定义完目录风格后用 \cs{UseTocStyle} 命令可以在正文中任意位置生效。如果是没有 \ding{73} 符号的选项，\meta{条目名} 设置为 \module*{toc}。
+  定义条目类型名称为 \meta{风格名} 的目录风格。使用 \cs*{ctexset} 命令设置目录样式时，除了条目标题定义选项 \option{tocline}，其它选项只有在目录输出命令前设置才有效，定义完目录风格后用 \cs{UseTocStyle} 命令可以在正文中任意位置生效。如果是没有\hface 符号的选项，\meta{条目名} 设置为 \module*{toc}。
   \command{UseTocStyle}[\marg{条目名}\marg{风格名}\marg{扩展名}]
   使用对应条目类型名称为 \meta{风格名} 的目录风格，随后标题在目录中的格式会改变。本命令导言区和正文区均可使用，第三个必选参数还需要指定条目标题加入目录文件的 \meta{扩展名}。
   \begin{ctexexam}
@@ -934,7 +936,7 @@
   悬挂缩进选项 \option{hang} 使目录条目为悬挂缩进形式。缩进距离为条目标签及其与标题内容间距的长度和。通常情况下会统一设置条目标题是否悬挂缩进，因此这个选项被设计为对所有类型条目生效。
   \keyval{lolskip}{弹性长度}\Default{10pt}
   代码目录中每章第一个条目上方增加的垂直距离。与 \CTeX 的表格和图片目录中每章间的条目距离选项 \option*{lotskip} 和 \option*{lofskip} 类似，在 \cls*{article} 模式中此选项失效。
-  \keyval{between}{代码钩子}\dtag[\textcolor{red}{\ding{73}}]
+  \keyval{between}{代码钩子}\dtag[\textcolor{red}{\sface}]
   目录标题与条目内容间的钩子（作用于标题下方间距之后），如果是 \cls*{book} 模式则默认插入 \code{-10pt} 垂直距离抵消首行目录的额外垂直间距，这是由于图表和 由 \pkg*{newfloat} 宏包所创建环境的目录默认每使用一次章标题在题注目录中插入 \code{10pt} 距离。除了条目名的键路径外，此选项也可用于 \module*{toc} 路径中，表示章节标题目录标题代码钩子，如果是 \cls*{book} 模式则默认插入 \code{-1pc} 垂直距离。
   \keyval{bibetween}{代码钩子}
   与选项 \option{between} 类似，是英文章节标题目录（如果启用）标题代码钩子。
