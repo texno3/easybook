@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<*class>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
-\ProvidesExplClass{easybook}{2024/06/08}{2024bx}
+\ProvidesExplClass{easybook}{2024/06/10}{2024bz}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/06/08}{2024bx}
+\ProvidesExplPackage{easybase}{2024/06/10}{2024bz}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -2380,7 +2380,7 @@
       }
   }
 
-\cs_new:Npn \eb@lst@if@display #1#2
+\cs_new:Npn \lstifdisplay #1#2
   { \lst@ifdisplaystyle #1\else #2\fi }
 \lstdefinestyle{lst-base}
   {
@@ -2408,9 +2408,9 @@
   {
     style         = lst-base,
     language      = [LaTeX]TeX,
-    texcsstyle    = *\color{ctex@verb}\eb@lst@if@display{\bfseries}{},
-    basicstyle    = \ttfamily\eb@lst@if@display{\small}{\color{ctex@verb}},
-    keywordstyle  = \color{ctex@verb}\eb@lst@if@display{\bfseries}{}
+    texcsstyle    = *\color{ctex@verb}\lstifdisplay{\bfseries}{},
+    basicstyle    = \ttfamily\lstifdisplay{\small}{\color{ctex@verb}},
+    keywordstyle  = \color{ctex@verb}\lstifdisplay{\bfseries}{}
   }
 \lstset{style = lst-latex}
 \lstloadlanguages{C,C++,Java,Python,Matlab}
@@ -2596,7 +2596,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/08}{2024bx}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/10}{2024bz}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

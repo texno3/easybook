@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024bx,
-    date            = 2024/06/08,
+    version         = v2024bz,
+    date            = 2024/06/10,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -256,7 +256,8 @@
   cells = {cmd  = \pkg*},
   cell{1}{3,4}  = PaleTurquoise,
   cell{2}{5}    = PaleTurquoise,
-  cell{3}{2,4}  = PaleTurquoise,
+  cell{3}{2}    = PaleTurquoise,
+  cell{4}{5}    = PaleTurquoise,
   cell{5}{1}    = GreenYellow,
   cell{1}{2}    = GreenYellow,
   cell{3}{1,4}  = GreenYellow
@@ -832,7 +833,7 @@
 
 \subsection[目录]{目录\smodule{toc}}
 \label{subsec:catalog}
-模块 \module*{toc} 将使用 \pkg*{titletoc} 宏包处理目录样式。默认包括 \module*{part}$\longrightarrow$\module*{subparagraph}、\module*{figure}、\module*{table} 和 \module*{lstlisting} 条目名的键路径。选项前带有 \ding{73} 符号表示支持所有相应\textbf{条目名}的路径，其它选项则处于 \module*{toc} 键路径下。目录选项均支持标题编号判定命令 \cs{CTEXifname}。目前支持多数学术论文目录样式，更复杂的样式可以查看 \pkg*{titletoc} 的相关用法。
+模块 \module*{toc} 将使用 \pkg*{titletoc} 宏包处理目录样式。默认包括 \module*{part}$\longrightarrow$\module*{subparagraph}、\module*{figure}、\module*{table} 和 \module*{lstlisting} 条目名的键路径。选项前带有 \ding{73} 符号表示支持所有相应\textbf{条目名}的路径，其它选项则处于 \module*{toc} 键路径下。目录选项均支持标题编号判定命令 \cs{CTEXifname}\footnote{此功能需要\textbf{2023/06/01}以后的 \hologo{LaTeX} 内核支持。}。目前支持多数学术论文目录样式，更复杂的样式可以查看 \pkg*{titletoc} 的相关用法。
 \begin{cnltxlist}
   \keyval{tocformat}{条目格式}\dtag
   目录中各类型条目的格式。可以设置条目字体和加入垂直间距等，垂直间距最好使用防止垂直间距重合的 \cs*{addvspace} 命令。如果是段落型目录，格式代码仅在段落中当前级别条目前执行一次。也可以用 \cs{CTEXifname} 命令或 \option{tocformat*} 选项给有无编号的标题分别设置格式。
