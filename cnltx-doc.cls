@@ -745,7 +745,8 @@
 
 % --------------------------------------------------------------------------
 % versioning:
-\RequirePackage{marginnote,ragged2e}
+\RequirePackage[noadjust]{marginnote}
+\RequirePackage{ragged2e}
 \newcommand*\versionnoteformat{\footnotesize\sffamily\RaggedRight}
 
 \pgfkeys{
