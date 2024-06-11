@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<*class>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
-\ProvidesExplClass{easybook}{2024/06/10}{2024bz}
+\ProvidesExplClass{easybook}{2024/06/11}{2024ca}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2021/11/15]
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/06/10}{2024bz}
+\ProvidesExplPackage{easybase}{2024/06/11}{2024ca}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -443,7 +443,7 @@
 
 \seq_set_from_clist:Nn \l__eb_module_paths_seq
   {
-    tools,font,spread,
+    tools,font,space,
     bib,thmt,toc,
     hdr,float,ref,geo
   }
@@ -1947,14 +1947,14 @@
   }
 \cs_set_eq:NN \addtosubfont \ebaddtofont
 
-\ctex_define:nn { spread }
+\ctex_define:nn { space }
   {
-    line .code:n              = \setspread{#1},
-    table .fp_set:N           = \l__eb_spread_table_fp,
-    table .initial:n          = 1.2,
-    math .tl_set:N            = \eb@spread@math,
-    math .initial:n           = 1.2,
-    footnote .code:n          =
+    linespread .code:n          = \setspread{#1},
+    tabspread .fp_set:N         = \l__eb_spread_table_fp,
+    tabspread .initial:n        = 1.2,
+    mathspread .tl_set:N        = \eb@spread@math,
+    mathspread .initial:n       = 1.2,
+    fntspread .code:n           =
       {
         \tl_set:Nn \eb@spread@footnote {#1}
         \group_begin:
@@ -1963,20 +1963,20 @@
         \exp_args:NNNo \group_end:
         \dim_set:Nn \footnotesep { \dim_use:N \box_ht:N \strutbox }
       },
-    footnote .initial:n       = 1.2,
-    caption-table .fp_set:N   = \l__eb_spread_caption_table_fp,
-    caption-figure .fp_set:N  = \l__eb_spread_caption_figure_fp,
-    caption-listing .fp_set:N = \l__eb_spread_caption_listing_fp,
-    caption-every .meta:n     =
+    fntspread .initial:n        = 1.2,
+    captab-spread .fp_set:N     = \l__eb_spread_caption_table_fp,
+    capfig-spread .fp_set:N     = \l__eb_spread_caption_figure_fp,
+    caplst-spread .fp_set:N     = \l__eb_spread_caption_listing_fp,
+    caption-spread .meta:n      =
       {
-        caption-table   = {#1},caption-figure = {#1},
-        caption-listing = {#1}
+        captab-spread   = {#1},capfig-spread = {#1},
+        caplst-spread = {#1}
       },
-    caption-every .initial:n  = 1.2,
-    every .meta:n             =
+    caption-spread .initial:n   = 1.2,
+    everyspread .meta:n         =
       {
-        line = {#1},table = {#1},math = {#1},
-        caption-every = {#1},footnote = {#1}
+        linespread = {#1},tabspread = {#1},mathspread = {#1},
+        caption-spread = {#1},fntspread = {#1}
       },
     abovedisplayskip .code:n    =
       { \AfterPreamble{\skip_set:Nn \abovedisplayskip {#1}} },
@@ -1995,8 +1995,14 @@
 \tl_if_eq:NnT \l__ctex_scheme_tl { chinese }
   {
     \fp_compare:nNnTF { \l__ctex_line_spread_fp } = { 1.3 }
-      { \ctex_set:nn { spread } { line = 1.354,table = 1.354 } }
-      { \ctex_set:nn { spread } { line = \fp_use:N \l__ctex_line_spread_fp } }
+      {
+        \ctex_set:nn { space }
+          { linespread = 1.354,tabspread = 1.354 }
+      }
+      {
+        \ctex_set:nn { space }
+          { linespread = \fp_use:N \l__ctex_line_spread_fp }
+      }
   }
 \AfterPreamble{\skip_set:Nn \abovedisplayshortskip { 0ex plus .1ex }}
 
@@ -2365,6 +2371,9 @@
       { \eb_put_biblatex:n { citestyle = \l__eb_bib_cite_style_tl } }
     \RequirePackage[backend = biber]{biblatex}
     \clist_map_function:NN \l__eb_bib_datafile_clist \addbibresource
+    \int_set_eq:NN \c@biburlucpenalty \c_one_int
+    \int_set_eq:NN \c@biburllcpenalty \c_one_int
+    \int_set_eq:NN \c@biburlnumpenalty \c_one_int
     \tl_gset:Nn \blx@default@theheading { bibintoc }
     \defbibheading{bibintoc}[\bibname]{\eb_biber_toc_title:n {##1}}
     \skip_zero:N \bibitemsep
@@ -2596,7 +2605,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/10}{2024bz}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/11}{2024ca}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

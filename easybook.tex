@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024bz,
-    date            = 2024/06/10,
+    version         = v2024ca,
+    date            = 2024/06/11,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -287,7 +287,7 @@
   同时开启 \option{newline} 和 \keyis{scheme}{plain} 选项以符合英文原生风格。
   \keychoice{paper}{\fbox{a4paper},b5paper,c5paper,letterpaper,\optpath*{other paper}}
   文档页面尺寸选项将参数交给 \pkg*{geometry} 宏包处理，可使用它支持的所有标准纸张规格。
-  \keyval{configs}{配置文件列表}\dtag\newtag[Chg]%
+  \keyval{configs}{配置文件列表}\dtag
   载入用户配置的文件名列表，文件列表以花括号包裹并以英文逗号分隔。文件名应包含如 \code{tex}、\code{def} 或 \code{cfg} 等扩展名。若配置文件不在当前文件夹则文件名需要包含路径，即 \code{path/file.cfg}。
   \keychoice{floatpage}{true,\fbox{false}}
   开启这个选项后浮动环境 \env{table} 和 \env{figure} 的比例参数会使用默认值。关闭它则尽可能避免出现浮动页，使图表环境与正文段落更加紧凑，减少多余的空白版面。
@@ -355,8 +355,8 @@
   row{1,3}  = {font = \sffamily},
   row{2,4}  = {cmd = \module*}
   }
-  \hyperref[subsec:tools]{工具} & \hyperref[subsec:font]{部件字体} & \hyperref[subsec:spread]{行距} & \hyperref[subsec:hyperlinks]{超链接} & \hyperref[subsec:reference]{参考文献} \\
-  tools & font & spread & ref & bib \\
+  \hyperref[subsec:tools]{工具} & \hyperref[subsec:font]{部件字体} & \hyperref[subsec:space]{间距} & \hyperref[subsec:hyperlinks]{超链接} & \hyperref[subsec:reference]{参考文献} \\
+  tools & font & space & ref & bib \\
   \hyperref[subsec:theorem]{定理} & \hyperref[subsec:page margins]{页面尺寸} & \hyperref[subsec:header and footer]{页眉页脚} & \hyperref[subsec:catalog]{目录} & \\
   thmt & geo & hdr & toc &
   \end{longtblr}
@@ -400,7 +400,7 @@
   设置脚注跟随编号的计数器，仅在导言区有效。默认跟随章计数器，即开启新的章标题时脚注编号从1开始。
   \keychoice{uppercase}{\fbox{all},first,none,none*}
   使用 \cs{rightmark} 和 \cs{leftmark} 等标题标记命令获取标题内容用于页眉页脚时其中英文的大小写类型。\code{all} 为标题标记中的英文字母全部大写。\code{first} 为标记以英文起始时仅第一个字母大写。\code{none} 不改变标记中英文字母的大小写形式，变体 \code{none*} 则强制标记的字母均为小写形式。
-  \kvsplit{tagform}{左括号,右括号}\Default{\Marg{(,)}}\newtag[Chg]%
+  \kvsplit{tagform}{左括号,右括号}\Default{\Marg{(,)}}
   设置行间公式标签的括号及格式，以英文逗号分隔，分别代表左右括号。\meta{左括号} 的末尾可以是带有一个参数的命令，用于接受公式编号。将标签括号设置为方括号，并给编号使用无衬线字体：
   \begin{ctexexam}
   \newcommand{\bracketsf}[1]{[\textsf{#1}}
@@ -469,35 +469,35 @@
   将目录中的超链接取消、置于标题上、置于页码上或置于标题和页码上。
 \end{cnltxlist}
 
-\subsection[行距]{行距\smodule{spread}}
-\label{subsec:spread}
+\subsection[间距]{间距\smodule{space}}
+\label{subsec:space}
 行距因子用于设置各种行距倍数，\meta{数值} 是不带有长度单位的浮点数。各类行距既可以在导言区全局设置，也可以在正文中设置对后面生效。
 \begin{cnltxlist}
-  \keyval{line}{数值}\Default{1.354}
-  正文行距因子。中文主题下行距因子初始值为 \code{1.354}（相当于 \textsf{Word} 的1.25倍行距），如果设置了文类或 \pkg*{ctex} 宏包的全局行距选项 \option*{linespread} 则初始值设为它的值。
-  \keyval{table}{数值}\Default{1.354}
+  \keyval{linespread}{数值}\Default{1.354}
+  正文行距因子。中文主题下行距因子初始值为 \code{1.354}（相当于 \textsf{Word} 的1.25倍行距），如果设置了文类或 \pkg*{ctex} 宏包的全局行距选项 \option{linespread} 则初始值设为它的值。
+  \keyval{tabspread}{数值}\Default{1.354}
   表格内容行距因子，对传统表格 \env{tabular} 和 \env{tabularx} 等环境生效。\pkg*{tabularray} 宏包的 \env{tblr} 环境自带 \option*{stretch} 和 \option*{rowsep} 等行间距选项，这里不做调整。
-  \keyval{math}{数值}\Default{1.2}
+  \keyval{mathspread}{数值}\Default{1.2}
   数学环境的行距因子，包含了 \pkg*{amsmath} 和 \pkg*{mathtools} 宏包提供的公式环境。
-  \keyval{caption-figure}{数值}\Default{1.2}
+  \keyval{capfig-spread}{数值}\Default{1.2}
   图片题注的行距因子。
-  \keyval{caption-table}{数值}\Default{1.2}
+  \keyval{captab-spread}{数值}\Default{1.2}
   表格题注的行距因子。
-  \keyval{caption-listing}{数值}\Default{1.2}
+  \keyval{caplst-spread}{数值}\Default{1.2}
   代码题注的行距因子。
-  \keyval{caption-every}{数值}\Default{1.2}
+  \keyval{caption-spread}{数值}\Default{1.2}
   同时设置图片、表格和代码题注的行距因子。
-  \keyval{footnote}{数值}\Default{1.2}
+  \keyval{fntspread}{数值}\Default{1.2}
   脚注内容整体的行距因子。可以使用 \module*{hdr} 模块 \option{fnpara-format} 选项的代码单独覆盖每个脚注的行距，从而使脚注间和内容文本自身的行距不同。
   \begin{ctexexam}
-  \ebspreadset{footnote = 1.3}
+  \ebspaceset{fntspread = 1.3}
   \ebhdrset{fnpara-format = \linespread{1.2}\selectfont}
   \end{ctexexam}
-  \keyval{every}{数值}
+  \keyval{everyspread}{数值}
   统一设置上述所有的行距因子。
-  \keyval{abovedisplayskip}{弹性长度}\Default{0.5ex plus .1ex minus .1ex}\newtag%
+  \keyval{abovedisplayskip}{弹性长度}\Default{0.5ex plus .1ex minus .1ex}
   行间公式与上面正文间的额外距离。
-  \keyval{belowdisplayskip}{弹性长度}\Default{0.5ex plus .1ex minus .1ex}\newtag%
+  \keyval{belowdisplayskip}{弹性长度}\Default{0.5ex plus .1ex minus .1ex}
   行间公式与下面正文间的额外距离。
 \end{cnltxlist}
 
@@ -517,7 +517,7 @@
   \keyval{marginpar}{字体命令}\Default{\cs*{footnotesize}}
   设置边注的字体，包括字体族、字体系列、字体尺寸和字体形状命令。
   \command{ebaddtofont}[\marg{字体类型}\marg{字体命令}]
-  用于在上述各种字体原有的格式上附加代码。其中 \meta{字体命令} 也可以包括行距命令且相对于 \module*{spread} 模块具有优先性，不同题注的 \meta{字体类型} 则为相应选项的后缀名。
+  用于在上述各种字体原有的格式上附加代码。其中 \meta{字体命令} 也可以包括行距命令且相对于 \module*{space} 模块具有优先性，不同题注的 \meta{字体类型} 则为相应选项的后缀名。
   \begin{ctexexam}
   \ebaddtofont{every}{\linespread{1.5}\selectfont}
   \ebaddtofont{footnote}{\sffamily}
@@ -745,8 +745,8 @@
   每个脚注第二段及之后段落的首行缩进，等于长度 \cs{fnafterindent} 的值。
   \keyval{fnparskip}{弹性长度}\Default{0ex plus .1ex}
   不同脚注自身的段落间距，脚注内容文本分段时生效，等于长度 \cs{fnparskip} 的值。
-  \keyval{footnotesep}{刚性长度}\newtag%
-  不同脚注之间的距离，默认情况下它自适应 \module*{spread} 模块脚注行距选项 \option{footnote} 的值。
+  \keyval{footnotesep}{刚性长度}
+  不同脚注之间的距离，默认情况下它自适应 \module*{space} 模块脚注行距选项 \option{footnote} 的值。
   \keychoice{fntext-pos}{normal,\fbox{super}}
   设置脚注内容标记的位置，正常文本或是上标形式。
   \keychoice{fnmark-num}{\fbox{plain},pifont,pifont*,pisans,pisans*,\optpath*{short num}}
@@ -761,7 +761,7 @@
   \end{ctexexam}
   \begin{cnltxlist}[itemsep = 0ex]
   \command{SetFntSymbsList}[\marg{符号表名}\marg{符号数量}\marg{符号列表}]\default{}
-  \command{UseFntSymbsList}[\marg{符号表名}]\newtag[Chg]%
+  \command{UseFntSymbsList}[\marg{符号表名}]
   这两个命令用于在脚注短编号标记为 \code{s} 自定义符号型时设置符号列表。\cs{SetFntSymbsList} 命令用于定义名为 \meta{符号表名} 的符号列表，\cs{UseFntSymbsList} 命令用于启用已定义的符号列表。默认的脚注符号列表是空的，注意使用符号型标记的脚注时计数器 \code{footnote} 的值仍然递增，以及定义新列表时 \meta{符号列表} 的写法和命令顺序：
   \begin{ctexexam}
   \SetFntSymbsList{fancy}{2}{{1}{*}{2}{\P}}
@@ -794,7 +794,7 @@
   定义脚注正文标记的格式，与正文标记编号命令 \cs{theupfootnote} 配合使用。
   \command{defdownfntmark}[\marg{脚注内容标记格式}]
   定义脚注内容标记的格式，与内容标记编号命令 \cs{thedownfootnote} 配合使用。
-  \command{deffntpara}[\marg{脚注段落文本格式}]\newtag%
+  \command{deffntpara}[\marg{脚注段落文本格式}]
   定义脚注段落文本的格式的命令。脚注段落文本由脚注内容标记和文本两部分组成，段落格式定义中参数 \code{\#1} 代表内容文本。
   \command{notminipage}[\marg{普通页内容}\marg{迷你页内容}]
   用于在定义脚注标记的命令中判断当前脚注是否处于迷你页而输出不同的内容。
@@ -976,7 +976,7 @@
 \begin{cnltxlist}
   \command{tableofcontents}[\sarg\oarg{键值列表}\darg{代码钩子}]
   章节标题目录命令，支持中英文双语标题目录输出。带有星号参数不输出目录条目上方的标题。\meta{代码钩子} 是当输出方案 \keyis{plan}{both} 时中文与英文目录之间执行的代码，可以插入设置目录样式和换页等命令。
-  \keychoice{plan}{\fbox{cn},bi,both}\newtag[Exp]%
+  \keychoice{plan}{\fbox{cn},bi,both}
   章节标题目录的输出方案。\code{cn} 只输出中文目录，\code{bi} 只输出英文目录。\code{both} 同时连续输出中文和英文目录，需要与双语目录标题命令 \cs{bichapter} 等或双语标题选项 \option{title} 配合使用。
   \keyval{bicontentsname}{英文目录标题}\Default{Contents}
   英文目录的标题，为通用接口命令 \cs*{ctexset} 的选项。
@@ -988,7 +988,7 @@
   输出代码目录命令。带有星号参数的命令不输出目录标题。
 
   如果需要部分而不是全文的目录或其它类型的目录，可以查看 \pkg*{titletoc} 宏包的相关示例。如果需要双语图表目录，可以查看 \pkg*{bicaption} 宏包的相关示例。上面目录命令的可选参数改进了原本单一的功能，也提供了配置命令 \cs{SetTocOuter} 在目录命令外设置选项默认值。
-  \command{SetTocOuter}[\marg{键值列表}]\newtag%
+  \command{SetTocOuter}[\marg{键值列表}]
   统一设置上述所有目录可选参数的默认值\footnote{由于目录命令通常只在文中使用一次，因此不设计为可以分别指定不同目录的参数。}，其中 \meta{键值列表} 的选项如下：
   \keyval{level}{标题命令}
   设定输出目录标题的命令。如果使用 \option{title} 选项设置了双语标题则需要配合双语标题命令。
@@ -1008,7 +1008,7 @@
   用于更改目录的双语标题。标题之间用一个英文逗号分开，对主目录来说前部分为中文目录标题，后部分为英文目录标题，对图表和代码目录来说后部分则是加入英文目录的条目。也可以只有一部分，表示中文目录的标题。
   \keychoice{bilist}{mix,\fbox{new}}
   确定章节标题目录中双语标题条目的输出排列方式。选项 \code{mix} 使每个英文标题条目在中文目录中跟随对应的中文标题输出，\code{new} 则在新建的英文目录中输出英文标题。这是个全局选项，在所有目录的可选参数中使用均可生效，但推荐在章节标题目录中使用。
-  \command{ebifbitoc}[\marg{英文目录代码}\marg{中文目录代码}]\newtag%
+  \command{ebifbitoc}[\marg{英文目录代码}\marg{中文目录代码}]
   启用混合双语目录条目即 \keyis{bilist}{mix} 时，在设置目录样式时可以配合 \cs{ebifbitoc} 命令判断当前条目是否为英文，从而输出不同的代码。
   \begin{ctexexam}
   \SetTocStyle{section}{fancy}
@@ -1172,7 +1172,7 @@
 \begin{cnltxlist}
   \command{hangpara}[\marg{缩进长度}\marg{缩进开始行数}]
   悬挂缩进命令 \cs{hangpara} 使其后的一个段落保持悬挂缩进。参数与 \env{hangparas} 环境相同，不过只有一个段落。\meta{缩进长度} 可以是带单位的数值或由文本长度测定命令 \cs{widthof} 提供。
-  \command{hangfrom}[\sarg\oarg{缩进长度}\marg{悬挂内容}\oarg{缩进开始行数}]\newtag%
+  \command{hangfrom}[\sarg\oarg{缩进长度}\marg{悬挂内容}\oarg{缩进开始行数}]
   指定首行的 \meta{悬挂内容}，其后一个段落保持悬挂缩进。\meta{缩进长度} 默认为 \meta{悬挂内容} 文本长度 \cs{hangwd} 的值，支持数学表达式。\meta{缩进开始行数} 默认为 \code{1}。如果是带有星号参数的命令，则首行不输出 \meta{悬挂内容}，以等于 \meta{缩进长度} 长度的空白代替。
   \begin{ctexexam}
   \hangfrom[\hangwd + 1em]{悬挂标签\hspace{0.5em}}[1]
@@ -1290,7 +1290,7 @@
   \command{setcounter}[\marg{计数器}\marg{整数}]\default{}
   \command{stepcounter}[\marg{计数器}]
   常用的计数器设置命令。命令 \cs{newcounter} 创建一个初始值为0的新计数器。命令 \cs{setcounter} 将计数器的值设定为指定值。命令 \cs{stepcounter} 使计数器的值递增1。
-  \command{counterwithin}[\sarg\oarg{格式}\marg{计数器}\oarg{连字符}\marg{父计数器}]\newtag[Chg]%
+  \command{counterwithin}[\sarg\oarg{格式}\marg{计数器}\oarg{连字符}\marg{父计数器}]
   对计数器进行绑定的命令。将 \meta{计数器} 绑定于 \meta{父计数器}，即 \meta{父计数器} 的值递增时 \meta{计数器} 的值会归零。输出格式 \cs*{the}\meta{计数器} 被定义为 \cs*{the}\meta{父计数器}\meta{连字符}\meta{格式}\marg{计数器}。\meta{格式} 一般为更改计数器编号形式的命令，默认为 \cs*{arabic}。带有星号参数的命令仅进行绑定不更改输出格式。
   \command{counterwithout}[\sarg\oarg{格式}\marg{计数器}\marg{父计数器}]
   对计数器关系进行解绑的命令。将 \meta{计数器} 解绑于 \meta{父计数器}，同时输出格式被改为 \meta{格式}\marg{计数器}。带有星号参数的命令仅进行解绑不更改输出格式。
