@@ -4,8 +4,8 @@
 \usepackage[fontset = fandol]{ctex}
 \usepackage
   {
-    enumitem,indentfirst,tabularray,fancyvrb,
-    geometry,hologo,pifont,changelog,calc
+    enumitem,indentfirst,tabularray,
+    fancyvrb,geometry,hologo,changelog,calc
   }
 \definecolorscheme{blue}
   {
@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024ca,
-    date            = 2024/06/11,
+    version         = v2024cc,
+    date            = 2024/06/13,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -35,7 +35,7 @@
       },
     arg-format      = \normalfont\small\itshape\xeCJKVerbAddon,
     abstract-format = \small,
-    module-sep      = \,\raisebox{-1pt}{\ding{224}}\,,
+    module-sep      = \,$\Rightarrow$\,,
     title-format    = \huge\sffamily
   }
 \KOMAoptions{numbers = noenddot}
@@ -145,7 +145,7 @@
     \code{\choices{#2}}
   }
 % Use a separate module margin marker to prevent overlap
-\newcommand{\smodule}[1]{\cnltx@module@text*{\normalsize #1}}
+\newcommand{\smodule}[1]{{\normalsize\cnltx@module@text*{#1}}}
 \renewcommand{\cnltx@package@abstract@width}{0.85\linewidth}
 \renewcommand{\cnltx@write@lastname}{}
 \newcounter{ctexexam}
@@ -204,35 +204,21 @@
 \end{itemize}
 
 \subsection{前言}
-对于排版外文文档已有诸如 \cls*{KOMA-Script} 和 \cls*{memoir} 等应用广泛的文档类，但这些文档类并不是为中文用户设计的，难免有些水土不符，且用户手册繁杂，对于普通用户来说学习成本高，难以快速上手。中文文档的解决方案 \pkg*{ctex} 宏集解决了中文输出和章节标题格式的设置问题，但在编写文档过程中往往需要更多基本的定制功能，例如目录、图表标题、页眉页脚、脚注和页面边距等，这往往需要额外加载不同功能的宏包。\easybook{} 文档类在 \cls*{ctexbook} 基础上载入了一些使用频率较高且基本稳定的宏包，对它们的功能进行整合并优化联动使用，模块化的改装提供统一的接口兼容 \pkg*{ctex} 文档类，可以满足学术类文档例如中国学位论文模板的基本需求。\easybook{} 提供了与 \CTeX 相同现代化风格的键值设置，支持不同类型的选项与层次化的选项设置。
+对于排版外文文档已有诸如 \cls*{KOMA-Script} 和 \cls*{memoir} 等应用广泛的文档类，但这些文档类并不是为中文用户设计的，难免有些水土不符，且用户手册繁杂，对于普通用户来说学习成本高，难以快速上手。中文文档的解决方案 \CTeX 宏集解决了中文输出和章节标题格式的设置问题，但在编写文档过程中往往需要更多基本的定制功能，例如目录、图表标题、页眉页脚、脚注和页面边距等，这往往需要额外加载不同功能的宏包。\easybook{} 文档类在 \cls*{ctexbook} 基础上载入了一些使用频率较高且基本稳定的宏包，对它们的功能进行整合并优化联动使用，模块化的改装提供统一的接口兼容 \CTeX 文档类，可以满足学术类文档例如中国学位论文模板的基本需求。\easybook{} 提供了与 \CTeX 相同现代化风格的键值设置，支持不同类型的选项与层次化的选项设置。
 
 \subsection{基本用法}
 \label{subsec:basic usage}
-以下一份简单的 \TeX 文档演示了 \easybook{} 的最基本用法，在导言区进行宏包载入与文档设置，一些详细的使用样例会不定期上传在 \href{https://www.latexstudio.net/}{\hologo{LaTeX} 工作室} 的网站。
+以下一份简单的 \TeX 文档演示了 \easybook{} 的最基本用法，在导言区进行宏包载入与文档设置，一些详细的使用样例会不定期上传在 \href{https://www.latexstudio.net/}{\hologo{LaTeX} 工作室} 的网站。或者直接使用 \pkg*{easybase} 宏包，目前适用于 \cls*{ctexbook}、\cls*{ctexrep}、\cls*{ctexart} 以及标准文档类，包含了\ref{sec:interface options} 所示各个模块接口命令的功能。当在\textbf{标准文档类}后载入时还可以使用 \pkg*{ctex} 宏包的选项，将会传递给 \pkg*{ctex} 宏包。文档类和宏包支持的全局选项见\ref{sec:document class options}。
 \begin{frameverb}
-  \documentclass[文档类选项]{easybook}
+  \documentclass[全局选项]{easybook}
+  % \documentclass[全局选项]{ctexbook}
 
+  % \usepackage[全局选项]{easybase}
   \ctexset{键值列表}
   \usepackage{宏包列表}
 
   \begin{document}
-  \chapter{欢迎}
-  \section{Welcome to easybook}
-    Hello, \LaTeX
-  \end{document}
-\end{frameverb}
-
-或者直接使用 \pkg*{easybase} 宏包，目前适用于 \cls*{ctexbook}、\cls*{ctexrep}、\cls*{ctexart} 以及标准文档类，包含了\ref{sec:interface options} 所示各个模块接口命令的功能。它的宏包选项共享文档类选项的一部分，支持的选项见\ref{sec:document class options}。当在\textbf{标准文档类}后载入时还可以使用 \pkg*{ctex} 宏包的选项，将会传递给 \pkg*{ctex} 宏包。
-\begin{frameverb}
-  \documentclass[文档类选项]{ctexbook}
-
-  \usepackage[宏包选项]{easybase}
-  \ctexset{键值列表}
-
-  \usepackage{宏包列表}
-
-  \begin{document}
-  \chapter{欢迎}
+  \chapter{hello :)}
   \section{Welcome to easybook}
     Hello, \LaTeX
   \end{document}
@@ -248,7 +234,7 @@
   xelatex -shell-escape easybook
 \end{frameverb}
 当然也可以使用 \code{latexmk} 及一些软件自带的编译工具，这里就不做介绍。 \\
-\ding{72} 需要注意正确\textbf{编译索引}要增加 \code{-shell-escape} 命令行选项。
+$\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-shell-escape} 命令行选项。
 
 \subsection{依赖宏包}
 \ref{table:package list} 为 \pkg*{easybase} 直接调用的关键宏包清单，通常情况下它们是常用且稳定的。\colorbox{PaleTurquoise}{蓝色}背景的宏包表示修改了或依赖它们的内部命令。\colorbox{GreenYellow}{绿色}背景的宏包表示并未调用它们，但做了一些预配置，可在导言区手动载入以实现相关的功能。
@@ -271,9 +257,9 @@
   tcolorbox & titletoc & tabularray & ulem &
 \end{longtblr}
 
-\section{文档类选项}
+\section{全局选项}
 \label{sec:document class options}
-文档类选项应当在使用 \easybook{} 文档类或 \pkg*{easybase} 宏包（部分支持）时指定，可见\ref{subsec:basic usage} 的例子。选项前带有\hface 符号表示只可用于文档类，否则文档类与宏包都适用。除了下面列举的选项以外，还支持标准和 \CTeX 文档类的选项。
+全局选项应当在使用 \easybook{} 文档类或 \pkg*{easybase} 宏包（部分支持）时指定，可见\ref{subsec:basic usage} 的例子。选项前带有\hface 符号表示只可用于文档类，否则文档类与宏包都适用。文档类选项除了下面额外增加的以外，还支持标准和 \CTeX 文档类的选项。
 
 \subsection{基本选项}
 \begin{cnltxlist}
@@ -313,7 +299,7 @@
   [
   caption = 英文字体预设方案,
   label = table:english font,
-  remark{\ding{72}} = \code{times*} 方案为 \textsf{windows} 系统的预置字体。,
+  remark{$\blacktriangleright$} = \code{times*} 方案为 \textsf{windows} 系统的预置字体。,
   postsep = \bigskipamount-\itemsep
   ]{
   hline{2}  = {0.5pt,DarkBlue},
@@ -471,7 +457,7 @@
 
 \subsection[间距]{间距\smodule{space}}
 \label{subsec:space}
-行距因子用于设置各种行距倍数，\meta{数值} 是不带有长度单位的浮点数。各类行距既可以在导言区全局设置，也可以在正文中设置对后面生效。
+间距模块 \module*{space} 用于调整段落中的间距。带有 \option*{spread} 的选项可以设置行距倍数，\meta{数值} 是不带有长度单位的浮点数。各类行距既可以在导言区全局设置，也可以在正文中设置对后面生效。
 \begin{cnltxlist}
   \keyval{linespread}{数值}\Default{1.354}
   正文行距因子。中文主题下行距因子初始值为 \code{1.354}（相当于 \textsf{Word} 的1.25倍行距），如果设置了文类或 \pkg*{ctex} 宏包的全局行距选项 \option{linespread} 则初始值设为它的值。
@@ -1461,6 +1447,7 @@
   \added
   \item 新增统一设置所有目录格式时的条目类型排除命令 \cs{ExcludeEveryTocName}。
   \end{version}
+  \shortversion{v = 2024cc,date = 2022/06/13,changes = 修复全局选项 \option{class} 无法正确切换单双面排版的问题。}
 \end{changelog}
 \nocite{*}
 

@@ -12,9 +12,9 @@
 % LaTeX version 2005/12/01 or later.
 %
 % This work has the LPPL maintenance status `maintained'.
+%<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\NeedsTeXFormat{LaTeX2e}[2021/11/15]
-\ProvidesExplClass{easybook}{2024/06/11}{2024ca}
+\ProvidesExplClass{easybook}{2024/06/13}{2024cc}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -299,9 +299,8 @@
   }
 %</class>
 %<*package>
-\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/06/11}{2024ca}
+\ProvidesExplPackage{easybase}{2024/06/13}{2024cc}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -406,12 +405,15 @@
     paper .initial:n        = a4paper,
     class .choice:,
     class .value_required:n = true,
-    class/book .code:n      = { },
+    class/book .code:n      =
+      {
+        \bool_set_true:N \l__eb_class_mode_book_bool
+        \PassOptionsToPackage{twoside}{geometry}
+      },
     class/article .code:n   =
       {
         \bool_set_false:N \l__eb_class_mode_book_bool
-        \boolfalse{@twoside}
-        \boolfalse{@mparswitch}
+        \PassOptionsToPackage{twoside = false}{geometry}
       },
     class .initial:n        = book,
     book .meta:n            = { class = book },
@@ -1473,8 +1475,8 @@
   { \keys_define:nn { } { eb/tocouter .inherit:n = ctex/section } }
 \NewDocumentCommand{\eb_assign_toc_title:n}
   {>{\SplitArgument{1}{,}}m}
-  {\eb_assign_toc_title_judge:nn #1}
-\cs_new_protected:Npn \eb_assign_toc_title_judge:nn #1#2
+  {\eb_toc_assign_title_judge:nn #1}
+\cs_new_protected:Npn \eb_toc_assign_title_judge:nn #1#2
   {
     \tl_set:Nn \eb@toc@title {#1}
     \tl_if_novalue:nTF {#2}
@@ -1969,7 +1971,7 @@
     caplst-spread .fp_set:N     = \l__eb_spread_caption_listing_fp,
     caption-spread .meta:n      =
       {
-        captab-spread   = {#1},capfig-spread = {#1},
+        captab-spread = {#1},capfig-spread = {#1},
         caplst-spread = {#1}
       },
     caption-spread .initial:n   = 1.2,
@@ -1990,7 +1992,7 @@
           }
       },
     belowdisplayskip .initial:n = 0.5ex plus .1ex minus .1ex,
-    unknown .code:n             = \eb_msg_deprecated_option:n { spread }
+    unknown .code:n             = \eb_msg_deprecated_option:n { space }
   }
 \tl_if_eq:NnT \l__ctex_scheme_tl { chinese }
   {
@@ -2371,12 +2373,12 @@
       { \eb_put_biblatex:n { citestyle = \l__eb_bib_cite_style_tl } }
     \RequirePackage[backend = biber]{biblatex}
     \clist_map_function:NN \l__eb_bib_datafile_clist \addbibresource
-    \int_set_eq:NN \c@biburlucpenalty \c_one_int
-    \int_set_eq:NN \c@biburllcpenalty \c_one_int
-    \int_set_eq:NN \c@biburlnumpenalty \c_one_int
     \tl_gset:Nn \blx@default@theheading { bibintoc }
     \defbibheading{bibintoc}[\bibname]{\eb_biber_toc_title:n {##1}}
     \skip_zero:N \bibitemsep
+    \setcounter{biburlucpenalty}{1}
+    \setcounter{biburllcpenalty}{1}
+    \setcounter{biburlnumpenalty}{1}
   }
 \eb_at_end_preamble:n
   {
@@ -2605,7 +2607,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/11}{2024ca}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/13}{2024cc}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
