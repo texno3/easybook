@@ -329,11 +329,11 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   开启 \cls*{article} 文章模式，与 \keyis*{class}{article} 等效。
 \end{cnltxlist}
 
-\section{接口选项}
+\section{模块选项}
 \label{sec:interface options}
 \begin{cnltxlist}
   \command*{ctexset}[\oarg{模块名}\marg{键值列表}]
-  \easybook{} 扩展了 \CTeX 宏集 \hologo{LaTeX3} 风格键值的通用控制命令 \cs*{ctexset}，接口选项同样可用它设置，原有的 \meta{键值列表} 仍然可用。本文档类目前有9个模块用于实现常规的排版功能，如\ref{table:module List} 所示。
+  \easybook{} 扩展了 \CTeX 宏集 \hologo{LaTeX3} 风格键值的通用控制命令 \cs*{ctexset}，模块选项同样可用它设置，原有的 \meta{键值列表} 仍然可用。本文档类目前有9个模块用于实现常规的排版功能，如\ref{table:module List} 所示。
   \begin{longtblr}
   [caption = 模块功能和名称清单,label = table:module List]
   {
@@ -367,6 +367,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 
 \subsection[工具]{工具\smodule{tools}}
 \label{subsec:tools}
+工具模块 \module*{tools} 主要用于综合设置各类杂项的排版元素。
 \begin{cnltxlist}
   \keychoice{color}{\fbox{none},seaside,energy,cyberpunk}
   \easybook{} 预置了四种颜色主题，默认主题 \code{none} 为黑白页面，颜色主题不包括超链接。
@@ -392,12 +393,12 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \newcommand{\bracketsf}[1]{[\textsf{#1}}
   \ebtoolsset{tagform = {\bracketsf,]}}
   \end{ctexexam}
-  \kvsplit-{figurepath}{\marg{路径名1}\marg{路径名2}$\cdots$\marg{路径名n}}
-  设置插入图片的文件夹路径名。可以有多个路径名，每个路径包含在花括号内分隔，只有一个路径时需要包含在两层括号内。
-\end{cnltxlist}
-
-\subsubsection{连字符}
-\begin{cnltxlist}
+  \kvsplit-{figurepath}{\marg{路径名1}\marg{路径名2}$\cdots$\marg{路径名n}}\newtagv[Changed]{2024cc}%
+  设置插入图片的文件夹路径名。每个路径需包含在花括号内，只有一个路径时括号可以省略。
+  \begin{ctexexam}
+  \ctexset{tools/figurepath = path1}
+  \ctexset{tools/figurepath = {path2}{path3}}
+  \end{ctexexam}
   \keyval{hyphen-figure}{图片连字符}\Default{\Marg{.}}
   设置图片题注编号的连字符。
   \keyval{hyphen-table}{表格连字符}\Default{\Marg{.}}
@@ -408,35 +409,6 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   设置公式题注编号的连字符。
   \keyval{hyphen-every}{连字符}\Default{\Marg{.}}
   统一设置上述所有编号的连字符。
-\end{cnltxlist}
-
-\subsubsection{上下标全局设置}
-\label{subsubsec:super-sub-script}
-\begin{cnltxlist}
-  \keyval{spvmove}{刚性长度}\Default{0pt}
-  上标命令 \cs{super} 对应的上标垂直偏移量。
-  \keyval{sphmove}{刚性长度}\Default{0pt}
-  上标命令 \cs{super} 对应的上标水平偏移量。
-  \keyval{sbvmove}{刚性长度}\Default{0pt}
-  下标命令 \cs{sub} 对应的下标垂直偏移量。
-  \keyval{sbhmove}{刚性长度}\Default{0pt}
-  下标命令 \cs{sub} 对应的下标水平偏移量。
-  \opt{nohmove}
-  同时取消上标和下标的 \meta{水平偏移}，与 \keyis{sphmove}{0pt} 和 \keyis{sbhmove}{0pt} 等效。
-  \opt{novmove}
-  同时取消上标和下标的 \meta{垂直偏移}，与 \keyis{spvmove}{0pt} 和 \keyis{sbvmove}{0pt} 等效。
-  \keyval{spcmd}{格式命令}
-  上标命令 \cs{super} 对应的上标的格式命令。
-  \keyval{sbcmd}{格式命令}
-  下标命令 \cs{sub} 对应的下标的格式命令。
-  \keyval{spbhmove}{刚性长度}\Default{0pt}
-  上下标命令 \cs{supersub} 对应的上下标共同水平偏移量。
-  \kvsplit{spbcmd}{上标格式,下标格式}
-  上下标命令 \cs{supersub} 对应的上下标格式命令。以英文逗号分隔为前后两个部分分别设置上下标格式，也可以只有前部分，表示上标的格式。
-  \kvsplit{vsep}{上标偏移,下标偏移}\Default{0.6ex}
-  上下标命令 \cs{supersub} 对应的上下标额外垂直距离。前部分为上标的偏移量，后部分为下标的偏移量。如果只有前部分则上下标各自垂直移动当前值的一半。
-  \keychoice{halign}{\fbox{l},c,r}
-  上下标命令 \cs{supersub} 对应的上下标水平对齐方式，有左 \code{l}、居中 \code{c} 和右 \code{r} 三种对齐方式。
 \end{cnltxlist}
 
 \subsection[超链接]{超链接\smodule{ref}}
@@ -489,6 +461,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 
 \subsection[部件字体]{部件字体\smodule{font}}
 \label{subsec:font}
+部件字体模块 \module*{font} 用于设置除了正文外其它排版元素的字体。
 \begin{cnltxlist}
   \keyval{caption-table}{字体命令}\Default{\cs*{sffamily}\cs*{small}}
   设置表格题注的字体，包括字体族、字体系列、字体尺寸和字体形状命令。
@@ -1063,15 +1036,15 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \end{ctexexam}
 \end{cnltxlist}
 
-\subsection[上标和下标]{上标和下标\smodule{tools}}
-上标和下标的功能来自 \pkg*{spbmark} 宏包，下面有三个命令可以用于输出上标和下标。可以使用键值列表的形式对上下标格式进行局部或全局设置，下面命令中两个可选参数的键值列表是等效的。全局设置的详情见\ref{subsubsec:super-sub-script}，更多命令和详细用法见 \pkg*{spbmark} 宏包说明文档。
+\subsection[上标和下标]{上标和下标}
+上标和下标的功能来自 \pkg*{spbmark} 宏包，可以使用键值列表的形式对上下标格式进行局部设置或用 \cs{spbset} 命令全局设置。所有选项也支持用 \module{tools} 模块设置，更多选项可见宏包文档。
 \begin{cnltxlist}
   \command{super}[\sarg\oarg{键值列表1}\marg{内容}\oarg{键值列表2}]
-  输出上标的命令，可用于文本和数学模式，在数学模式中可代替 \code{\^{}} 符号和 \cs*{sp} 命令。
+  输出上标的命令，可用于文本和数学模式，在数学模式中可代替 \code{\^{}} 符号和 \cs*{sp} 命令。命令中两个可选参数的键值列表等效。
   \command{sub}[\sarg\oarg{键值列表1}\marg{内容}\oarg{键值列表2}]
-  输出下标的命令，可用于文本和数学模式，在数学模式中可代替 \code{\_{}} 符号和 \cs*{sb} 命令。
+  输出下标的命令，可用于文本和数学模式，在数学模式中可代替 \code{\_{}} 符号和 \cs*{sb} 命令。命令中两个可选参数的键值列表等效。
   \command{supersub}[\sarg\oarg{键值列表1}\marg{上标内容}\marg{下标内容}\oarg{键值列表2}]
-  同时输出上标和下标的命令，与简短命令 \cs{spb} 等效。
+  同时输出上标和下标的命令，与简短命令 \cs{spb} 等效。命令中两个可选参数的键值列表等效。
   \command{spbifmath}[\marg{数学模式代码}\marg{文本模式代码}]
   根据上下标处于数学还是文本模式分别设置不同的值，应当在格式命令或偏移距离选项中使用。
 
@@ -1081,7 +1054,11 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \keyval{hmove}{刚性长度}\Default{0pt}
   上标或下标的水平偏移。如果是上下标命令使用则代表上标和上标的共同偏移。
   \keyval{cmd}{格式命令}
-  上标或下标的格式命令选项。最后一个命令可以带有一个参数，这个参数用于接受上标或下标。
+  上标或下标的格式命令选项。最后一个命令可以带有一个参数，这个参数用于接受上标或下标。下面两种设置方式是等效的：
+  \begin{ctexexam}
+  \spbset{spcmd = \color{red}}
+  \ctexset[tools]{spcmd = \color{red}}
+  \end{ctexexam}
   \keyval{height}{刚性长度}
   段落中当前行上标或下标的基线与前一行的间距。
   \keyval{depth}{刚性长度}

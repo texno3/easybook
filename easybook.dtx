@@ -724,7 +724,11 @@
   {
     \bool_if:NF \l__eb_ps_used_bool { \pagestyle{fancy} }
     \tl_if_blank:VF \l_eb_graphics_path_tl
-      { \exp_args:NV \graphicspath \l_eb_graphics_path_tl }
+      {
+        \regex_match:nVTF { \cB. } \l_eb_graphics_path_tl
+          { \exp_args:NV \graphicspath \l_eb_graphics_path_tl }
+          { \exp_args:Nx \graphicspath { {\l_eb_graphics_path_tl} } }
+      }
     \providecommand{\kaishu}{\itshape}
   }
 
