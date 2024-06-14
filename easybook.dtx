@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/06/13}{2024cc}
+\ProvidesExplClass{easybook}{2024/06/14}{2024cd}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -300,7 +300,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/06/13}{2024cc}
+\ProvidesExplPackage{easybase}{2024/06/14}{2024cd}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -387,6 +387,8 @@
 \bool_set_true:N \l__eb_class_mode_book_bool
 \bool_set_false:N \l__eb_compile_draft_bool
 \clist_new:N \g__eb_ctex_options_clist
+\cs_new_protected:Npn \eb_put_geometry:n #1
+  { \PassOptionsToPackage{#1}{geometry} }
 
 \keys_define:nn { easybase }
   {
@@ -401,19 +403,19 @@
     theorem .bool_set:N     = \l__eb_theorem_support_bool,
     theorem .default:n      = true,
     theorem .initial:n      = true,
-    paper .code:n           = \PassOptionsToPackage{#1}{geometry},
+    paper .code:n           = \eb_put_geometry:n {#1},
     paper .initial:n        = a4paper,
     class .choice:,
     class .value_required:n = true,
     class/book .code:n      =
       {
         \bool_set_true:N \l__eb_class_mode_book_bool
-        \PassOptionsToPackage{twoside}{geometry}
+        \eb_put_geometry:n { twoside }
       },
     class/article .code:n   =
       {
         \bool_set_false:N \l__eb_class_mode_book_bool
-        \PassOptionsToPackage{twoside = false}{geometry}
+        \eb_put_geometry:n { twoside = false }
       },
     class .initial:n        = book,
     book .meta:n            = { class = book },
@@ -591,8 +593,7 @@
 \cs_new_protected:Npn \blankpagestyle #1
   { \tl_set:Nn \l__eb_blank_pagestyle_tl {#1} }
 \blankpagestyle{empty}
-\RenewDocumentCommand{\cleardoublepage}
-  {O{\l__eb_blank_pagestyle_tl}}
+\RenewDocumentCommand{\cleardoublepage}{O{\l__eb_blank_pagestyle_tl}}
   {
     \clearpage
     \ifbool{@twoside}
@@ -612,19 +613,6 @@
     \IfBooleanTF{#1}{\clearpage}{\cleardoublepage}
     \booltrue{@mainmatter}
     \pagenumbering{arabic}
-  }
-\clist_map_inline:nn
-  { chapter,section,subsection }
-  {
-    \exp_args:Nc \NewDocumentCommand { eb@mark@#1@label@layout }
-      {O{\use:c { CTEXthe#1 }}m}
-      {\tl_set:cn { eb@mark@#1@label } {##1##2}}
-    \cs_new_protected:cpn { eb_mark_#1_name_parse:n } ##1
-      {
-        \regex_match:nnTF { \[.*\] } {##1}
-          { \use:c { eb@mark@#1@label@layout }##1 }
-          { \use:c { eb@mark@#1@label@layout }{##1} }
-      }
   }
 \NewDocumentCommand{\markrule}
   {O{\textwidth}D(){ctex@frame}m>{\SplitArgument{1}{|}}O{}}
@@ -646,32 +634,49 @@
         { none* } { \text_lowercase:n }
       }
   }
+\cs_new_protected:Npn \eb@register@hdr@mark #1
+  {
+    \exp_args:Nc \NewDocumentCommand { eb@mark@#1@label@layout }
+      {O{\use:c { CTEXthe#1 }}m}
+      {\tl_set:cn { eb@mark@#1@label } {##1##2}}
+    \cs_new_protected:cpn { eb_mark_#1_name_parse:n } ##1
+      {
+        \regex_match:nnTF { ^\[.*\] } {##1}
+          { \use:c { eb@mark@#1@label@layout }##1 }
+          { \use:c { eb@mark@#1@label@layout }{##1} }
+      }
+    \ctex_define:nn { hdr }
+      {
+        #1-mark .cs_set:cp  = { eb@mark@#1@whole } ##1,
+        #1-mark .initial:n  =
+          {
+            \CTEXifname{\use:c { eb@mark@#1@label }}{}
+            \eb_mark_uppercase_case_init:n {##1}
+          },
+        #1-label .code:n    = \use:c { eb_mark_#1_name_parse:n } {##1},
+      }
+  }
+\cs_new_protected:Npn \RegisterHdrMark #1
+  {
+    \clist_map_function:nN {#1}
+      \eb@register@hdr@mark
+  }
+\RegisterHdrMark{chapter,section,subsection}
+
+\ctex_set:nn { hdr }
+  {
+    chapter-label     = \hspace{1em},
+    section-label     = \hspace{0.5em},
+    subsection-label  = \hspace{0.5em}
+  }
 \ctex_define:nn { hdr }
   {
-    chap-mark .cs_set:Np      = \eb@mark@chapter@whole #1,
-    chap-mark .initial:n      =
-      {
-        \CTEXifname{\eb@mark@chapter@label}{}
-        \eb_mark_uppercase_case_init:n {#1}
-      },
-    sec-mark .cs_set:Np       = \eb@mark@section@whole #1,
-    sec-mark .initial:n       =
-      {
-        \CTEXifname{\eb@mark@section@label}{}
-        \eb_mark_uppercase_case_init:n {#1}
-      },
-    subsec-mark .cs_set:Np    = \eb@mark@subsection@whole #1,
-    subsec-mark .initial:n    =
-      {
-        \CTEXifname{\eb@mark@subsection@label}{}
-        \eb_mark_uppercase_case_init:n {#1}
-      },
-    chap-label .code:n        = \eb_mark_chapter_name_parse:n {#1},
-    chap-label .initial:n     = \hspace{1em},
-    sec-label .code:n         = \eb_mark_section_name_parse:n {#1},
-    sec-label .initial:n      = \hspace{0.5em},
-    subsec-label .code:n      = \eb_mark_subsection_name_parse:n {#1},
-    subsec-label .initial:n   = \hspace{0.5em},
+    chap-mark .meta:n         = { chapter-mark = {#1} },
+    sec-mark .meta:n          = { section-mark = {#1} },
+    subsec-mark .meta:n       = { subsection-mark = {#1} },
+    chap-label .meta:n        = { chapter-label = {#1} },
+    sec-label .meta:n         = { section-label = {#1} },
+    subsec-label .meta:n      = { subsection-label = {#1} },
     headrulewd .dim_set:N     = \eb@head@rule@wd,
     headrulewd .initial:n     = 0.5pt,
     footnoterulewd .dim_set:N = \eb@footnote@rule@wd,
@@ -2611,7 +2616,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/13}{2024cc}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/14}{2024cd}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

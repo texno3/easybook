@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024cc,
-    date            = 2024/06/13,
+    version         = v2024cd,
+    date            = 2024/06/14,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -393,7 +393,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \newcommand{\bracketsf}[1]{[\textsf{#1}}
   \ebtoolsset{tagform = {\bracketsf,]}}
   \end{ctexexam}
-  \kvsplit-{figurepath}{\marg{路径名1}\marg{路径名2}$\cdots$\marg{路径名n}}\newtagv[Changed]{2024cc}%
+  \kvsplit-{figurepath}{\marg{路径名1}\marg{路径名2}$\cdots$\marg{路径名n}}\newtagv[Changed]{2024cd}%
   设置插入图片的文件夹路径名。每个路径需包含在花括号内，只有一个路径时括号可以省略。
   \begin{ctexexam}
   \ctexset{tools/figurepath = path1}
@@ -487,7 +487,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \label{subsec:reference}
 \begin{cnltxlist}
   \keychoice{backend}{\fbox{bibtex},biblatex}
-  参考文献处理后端。默认用传统的 \hologo{BibTeX} 处理参考文献\footnote{使用 \hologo{BibTeX} 引擎时加载 \pkg*{natbib} 宏包，使用 \hologo{biber} 时将加载 \pkg*{biblatex} 宏包。}。
+  参考文献处理后端。选择 \code{bibtex} 时使用传统的 \hologo{BibTeX} 引擎处理参考文献，加载 \pkg*{natbib} 宏包。选择 \code{biblatex} 时使用 \hologo{biber} 引擎，加载 \pkg*{biblatex} 宏包。
   \keychoice{bibstyle}{\fbox{numerical},authoryear,\optpath*{other sty}}
   参考文献格式使用中国参考文献推荐标准GB/T 7714-2015，对应顺序编码制和著者—出版年制两种风格。若使用其它格式，使用 \hologo{BibTeX} 处理时需确保正确的 \code{bst} 文件，使用 \hologo{biber} 处理可使用 \pkg*{biblatex} 宏包支持的参考文献风格名称。
   \keyval{citestyle}{标注风格}
@@ -608,7 +608,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 
 \subsection[页面尺寸]{页面尺寸\smodule{geo}}
 \label{subsec:page margins}
-模块 \module*{geo} 会将选项（除了前两个为附加）交给页面尺寸宏包 \pkg*{geometry} 处理，并且支持它的键值列表，预置的页面尺寸与 \textsf{Word} 的默认值接近。下面列举几种代表性选项，其它选项可查阅宏包帮助文档。当在此设置纸张规格时，会覆盖文类选项 \option{paper} 的设置。
+模块 \module*{geo} 会将选项（除了前两个为附加）交给页面尺寸宏包 \pkg*{geometry} 处理，并且支持它的键值列表，预置的页面尺寸与 \textsf{Word} 的默认值接近。下面列举几种代表性选项，其它选项可查阅宏包帮助文档。当用此模块设置纸张规格时，会覆盖全局选项 \option{paper} 的设置。
 \begin{cnltxlist}[itemsep = 0ex]
   \keyval{headruleskip}{页眉线间距}\Default*{0pt}
   \keyval{footruleskip}{页脚线间距}\Default*{3.5pt}
@@ -617,7 +617,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \keyval{textheight}{版心文本高度}\default{}
   \keychoice{nofoot}{true,\fbox{false}}\default{}
   \begin{ctexexam}
-  \ebgeoset
+  \ctexset[geo]
     {
       headruleskip  = 3pt,
       vscale        = 0.9,
@@ -629,27 +629,27 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 
 \subsection[页眉页脚]{页眉页脚\smodule{hdr}}
 \label{subsec:header and footer}
-模块 \module*{hdr} 设置的命令由 \pkg*{fancyhdr} 宏包提供支持。标题标记由标签和标题组成，选项中参数 \code{\#1} 代表当前章、节或小节的标题。在 \cls*{book} 模式时使用标题标记选项 \option{chap-mark} 和 \option{sec-mark}，在 \cls*{article} 模式时使用 \option{sec-mark} 和 \option{subsec-mark} 选项，这与标准文档类的行为一致。重新设置标题标记选项时标记大小写选项 \option{uppercase} 会失效。
+模块 \module*{hdr} 设置的命令由 \pkg*{fancyhdr} 宏包提供支持。标题标记由标签和标题组成，选项中参数 \code{\#1} 代表当前章、节或小节的标题。在 \cls*{book} 模式时使用标题标记选项 \option{chapter-mark} 和 \option{section-mark}，在 \cls*{article} 模式时使用 \option{section-mark} 和 \option{subsection-mark} 选项，这与标准文档类的行为一致。重新设置标题标记选项时标记大小写选项 \option{uppercase} 会失效。
 \begin{cnltxlist}
-  \keyval{chap-mark}{标题标记}
-  \code{chapter} 级别标题标记的内容，包含了标签选项 \option{chap-label} 和章标题 \code{\#1}。
-  \keyval{sec-mark}{标题标记}
-  \code{section} 级别标题标记的内容，包含了标签选项 \option{sec-label} 和节标题 \code{\#1}。
-  \keyval{subsec-mark}{标题标记}
-  \code{subsection} 级别标题标记的内容，包含了标签选项 \option{subsec-label} 和小节标题 \code{\#1}。
-  \kvsplit-{chap-label}{\oarg{编号输出命令}\marg{距离命令}}\Default{\cs*{hspace}\Marg{1em}}
+  \keyval{chapter-mark}{标题标记}
+  \code{chapter} 级别标题标记的内容，包含了标签选项 \option{chapter-label} 和章标题 \code{\#1}。
+  \keyval{section-mark}{标题标记}
+  \code{section} 级别标题标记的内容，包含了标签选项 \option{section-label} 和节标题 \code{\#1}。
+  \keyval{subsection-mark}{标题标记}
+  \code{subsection} 级别标题标记的内容，包含了标签选项 \option{subsection-label} 和小节标题 \code{\#1}。
+  \kvsplit-{chapter-label}{\oarg{编号输出命令}\marg{距离命令}}\Default{\cs*{hspace}\Marg{1em}}
   \code{chapter} 级别标题标记的标签（标题有编号时）。比标题标记选项更常用，可选参数是对应章编号计数器值的输出命令，必选参数是编号与标题之间的距离命令：
   \begin{ctexexam}
   \ebhdrset
     {
-      chap-label  = [\thechapter]{\hspace{1em}},
-      sec-mark    = \CTEXifname{\CTEXthesection——}{}#1
+      chapter-label = [\thechapter]{\hspace{1em}},
+      section-mark  = \CTEXifname{\CTEXthesection——}{}#1
     }
   \end{ctexexam}
-  \kvsplit-{sec-label}{\oarg{编号输出命令}\marg{距离命令}}\Default{\cs*{hspace}\Marg{0.5em}}
-  \code{section} 级别标题标记的标签，用法与 \option{chap-label} 类似。
-  \kvsplit-{subsec-label}{\oarg{编号输出命令}\marg{距离命令}}\Default{\cs*{hspace}\Marg{0.5em}}
-  \code{subsection} 级别标题标记的标签，用法与 \option{chap-label} 类似。
+  \kvsplit-{section-label}{\oarg{编号输出命令}\marg{距离命令}}\Default{\cs*{hspace}\Marg{0.5em}}
+  \code{section} 级别标题标记的标签，用法与 \option{chapter-label} 类似。
+  \kvsplit-{subsection-label}{\oarg{编号输出命令}\marg{距离命令}}\Default{\cs*{hspace}\Marg{0.5em}}
+  \code{subsection} 级别标题标记的标签，用法与 \option{chapter-label} 类似。
   \keyval{headrule}{横线命令}
   绘制页眉横线的选项，可以使用 \cs*{hrule} 或\ref{exam:markrule} 所述 \cs{markrule} 等画线命令来绘制横线。
   \keyval{footrule}{横线命令}
@@ -677,7 +677,12 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{markboth}[\marg{左页标题标记}\marg{右页标题标记}]\default{}
   \command{markright}[\marg{右页标题标记}]\default{}
   \command{markdouble}[\marg{双页标题标记}]
-  这三个命令用于手动设置当前页标题标记，特殊情况下可以使用它们定义与标题不同的页眉页脚标记。上述标记命令内容的选项便是基于这三个命令。其中 \cs{markdouble} 根据是否是双面打印设置相应标记。如果是单面打印，则 \meta{左页标题标记} 无效。
+  这三个命令用于手动设置当前页标题标记，特殊情况下可以使用它们定义与标题不同的页眉页脚标记。其中 \cs{markdouble} 根据是否是双面打印设置相应标记。如果是单面打印，则 \meta{左页标题标记} 无效。标题标记选项 \meta{级别}\option*{-mark} 定义的是它们的参数，左右页标记规则已经进行了优化调整，若需更改可以重定义 \code{\textbackslash}\meta{级别}\code{\textcolor{cs}{mark}} 命令。
+  \begin{ctexexam}
+  \makeatletter
+  \renewcommand{\sectionmark}[1]{\markright{\eb@mark@section@whole{#1}}}
+  \makeatother
+  \end{ctexexam}
   \end{cnltxlist}
   \command{markrule}[\oarg{长度}\darg{颜色名}\marg{线宽}\baroarg{上间距,下间距}]
   实线命令 \cs{markrule} 既可在 \meta{横线命令} 中用于绘制页眉页脚横线，也可以在正文中使用。\meta{长度} 默认为版心的宽度，上下间距为横线与上下方部件的间距，带有长度单位，上下间距之间用符号 \code{|} 分开，若只有一部分则表示 \meta{上间距}。下面举一个设置页眉内容的例子：
@@ -1148,7 +1153,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \subsection{代码}
 \begin{cnltxlist}
   \command{lstdefinestyle}[\marg{代码风格}\marg{键值列表}]
-  代码抄录宏包 \pkg*{listings} 的代码风格定义命令，提供大量选项对代码样式进行高度定制。可以根据需要的代码语言和样式定义多种风格，默认使用的 \meta{代码风格} 为 \code{lst-latex}。
+  代码抄录宏包 \pkg*{listings} 提供了完善的排版功能，不需要前端处理器。这是它的代码风格定义命令，提供大量选项对代码样式进行高度定制。可以根据需要的代码语言定义多种风格，默认使用的 \meta{代码风格} 为适用于\TeX 语言的 \code{lst-latex}。
   \command{lstinline}[\oarg{键值列表}\marg{行内代码}]
   行内代码抄录命令。较原生的 \cs*{verb} 命令有较大改进，具有代码语言和样式支持。
   \environment{lstlisting}[\oarg{键值列表}]
@@ -1407,7 +1412,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \item 新增行间公式与正文上下间距选项 \option{abovedisplayskip} 和 \option{belowdisplayskip}。
   \item 新增目录文件扩展名分配命令 \cs{AllotCaptionExt}。
   \end{version}
-  \shortversion{v = 2024aq,date = 2022/03/31,changes = 修复命令 \cs{ebifbitoc} 用于条目缩进选项 \option{tocindent} 失效的问题。}
+  \shortversion{v = 2024aq,date = 2024/03/31,changes = 修复命令 \cs{ebifbitoc} 用于条目缩进选项 \option{tocindent} 失效的问题。}
   \begin{version}[v = 2024as,date = 2024/04/19]
   \changed
   \item 目录条目样式注册命令 \cs{RegisterTocName} 增加星号参数，支持设置段落型目录。
@@ -1415,16 +1420,16 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \item 新增目录条目标题标签定义的选项 \option{toclabel}。
   \item 新增段落型目录条目附加代码的选项 \option{tocbegin}、\option{tocsep} 和 \option{tocend}。
   \end{version}
-  \shortversion{v = 2024aw,date = 2022/04/22,changes = 新增新建章节标题命令 \cs{NewTitleCommand} 和 \cs{NewTitleEntryCommand}。}
-  \shortversion{v = 2024bb,date = 2022/04/26,changes = 增加对 \pkg*{thmtools} 宏包定理环境目录 \cs{listoftheorems} 的支持。}
-  \shortversion{v = 2024bk,date = 2022/05/07,changes = 新增局部题注目录分配命令 \cs{AllotPartialExt}。}
-  \begin{version}[v = 2024bn,date = 2022/05/10]
+  \shortversion{v = 2024aw,date = 2024/04/22,changes = 新增新建章节标题命令 \cs{NewTitleCommand} 和 \cs{NewTitleEntryCommand}。}
+  \shortversion{v = 2024bb,date = 2024/04/26,changes = 增加对 \pkg*{thmtools} 宏包定理环境目录 \cs{listoftheorems} 的支持。}
+  \shortversion{v = 2024bk,date = 2024/05/07,changes = 新增局部题注目录分配命令 \cs{AllotPartialExt}。}
+  \begin{version}[v = 2024bn,date = 2024/05/10]
   \fixed
   \item 修复 \module*{toc} 模块中带有 \option*{every} 后缀的选项不对所有已注册条目有效的问题。
   \added
   \item 新增统一设置所有目录格式时的条目类型排除命令 \cs{ExcludeEveryTocName}。
   \end{version}
-  \shortversion{v = 2024cc,date = 2022/06/13,changes = 修复全局选项 \option{class} 无法正确切换单双面排版的问题。}
+  \shortversion{v = 2024cd,date = 2024/06/14,changes = 修复全局选项 \option{class} 无法正确切换单双面排版的问题。}
 \end{changelog}
 \nocite{*}
 
