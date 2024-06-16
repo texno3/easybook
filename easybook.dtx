@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/06/14}{2024cd}
+\ProvidesExplClass{easybook}{2024/06/16}{2024ce}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -300,7 +300,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/06/14}{2024cd}
+\ProvidesExplPackage{easybase}{2024/06/16}{2024ce}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1370,6 +1370,7 @@
       }
     \cs_new:cpn { CTEX@#2@tocline } ##1##2
       { \CTEXnumberline{##1}##2 }
+    \exp_args:Nc \providecommand { ttll@#2 }{#3}
     \exp_args:Nc \providecommand { toclevel@#2 }{#3}
     \IfValueT{#1}{\eb_title_base_set_eq:nn {#1} {#2}}
   }
@@ -1600,6 +1601,12 @@
     \group_end:
   }
 
+\cs_set_eq:NN \eb@contentsuse@save \contentsuse
+\RenewDocumentCommand{\contentsuse}{O{-1000}mm}
+  {
+    \eb@contentsuse@save{#2}{#3}
+    \tl_set:cn { ttll@#2 } {#1}
+  }
 \contentsuse{lstlisting}{lol}
 \seq_put_left:Nn  \c__ctex_headings_seq { chapter }
 \seq_put_right:Nn \c__ctex_headings_seq { table }
@@ -2616,7 +2623,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/14}{2024cd}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/16}{2024ce}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
