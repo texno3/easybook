@@ -89,13 +89,13 @@
   { main,sans,mono,CJKmain,CJKsans,CJKmono }
   {
     \exp_args:Nc \RenewDocumentCommand { set#1font }{O{}mO{}}
-      {\use:c { eb_set#1font:nn } {##2} {##1,##3}}
+      {\use:c { eb_set#1font:nn } {##2} { ##1,##3 }}
   }
 \RenewDocumentCommand{\newCJKfontfamily}{omO{}mO{}}
   {
     \tl_set:Nx \l_tmpa_tl { \tl_if_novalue:nTF {#1} { \cs_to_str:N #2 } {#1} }
     \cs_new_protected:Npx #2 { \eb_switch_family:n { \l_tmpa_tl } }
-    \eb_set_family:xnn { \l_tmpa_tl } {#3,#5} {#4}
+    \eb_set_family:xnn { \l_tmpa_tl } { #3,#5 } {#4}
   }
 
 \cs_new_protected:Npn \eb@font@load@noto
@@ -314,6 +314,7 @@
 \cs_generate_variant:Nn \eb_set_hyperref:n { x }
 \cs_generate_variant:Nn \eb_at_begin_environment:nn { on }
 \cs_generate_variant:Nn \tl_if_novalue:nF { V }
+\cs_generate_variant:Nn \regex_match:nnTF { nV }
 
 \cs_set_protected:Npn \ctex_define:nn #1
   { \keys_define:nn { ctex/#1 } }
@@ -730,8 +731,7 @@
     \bool_if:NF \l__eb_ps_used_bool { \pagestyle{fancy} }
     \tl_if_blank:VF \l__eb_graphics_path_tl
       {
-        \exp_args:NnV
-        \regex_match:nnTF { \cB. } \l__eb_graphics_path_tl
+        \regex_match:nVTF { \cB. } \l__eb_graphics_path_tl
           { \exp_args:NV \graphicspath \l__eb_graphics_path_tl }
           { \exp_args:Nx \graphicspath { {\l__eb_graphics_path_tl} } }
       }
