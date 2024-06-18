@@ -314,7 +314,6 @@
 \cs_generate_variant:Nn \eb_set_hyperref:n { x }
 \cs_generate_variant:Nn \eb_at_begin_environment:nn { on }
 \cs_generate_variant:Nn \tl_if_novalue:nF { V }
-\cs_generate_variant:Nn \regex_match:nnTF { nV }
 
 \cs_set_protected:Npn \ctex_define:nn #1
   { \keys_define:nn { ctex/#1 } }
@@ -559,7 +558,15 @@
     tagform .code:n       = \eb_assign_tagform:n {#1},
     tagform .initial:n    = { (,) },
     brackets .meta:n      = { tagform = {#1} },
-    figurepath .tl_set:N  = \l__eb_graphics_path_tl
+    figurepath .code:n    =
+      {
+        \tl_if_blank:nF {#1}
+          {
+            \regex_match:nnTF { \cB. } {#1}
+              { \graphicspath{#1} }
+              { \graphicspath{{#1}} }
+          }
+      }
   }
 
 \includepdfset{fitpaper = true}
@@ -729,12 +736,6 @@
 \ctex_at_end_preamble:n
   {
     \bool_if:NF \l__eb_ps_used_bool { \pagestyle{fancy} }
-    \tl_if_blank:VF \l__eb_graphics_path_tl
-      {
-        \regex_match:nVTF { \cB. } \l__eb_graphics_path_tl
-          { \exp_args:NV \graphicspath \l__eb_graphics_path_tl }
-          { \exp_args:Nx \graphicspath { {\l__eb_graphics_path_tl} } }
-      }
     \providecommand{\kaishu}{\itshape}
   }
 
