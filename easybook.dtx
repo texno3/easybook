@@ -261,8 +261,8 @@
               { \par\nobreak\vskip 1.5pc }
               { \hspace{1em} }
           },
-        beforeskip  = -1.5ex,
-        afterskip   = 4ex
+        beforeskip  = 0pt,
+        afterskip   = 25pt
       },
     section         =
       {
@@ -558,7 +558,7 @@
     tagform .code:n       = \eb_assign_tagform:n {#1},
     tagform .initial:n    = { (,) },
     brackets .meta:n      = { tagform = {#1} },
-    figurepath .tl_set:N  = \l_eb_graphics_path_tl
+    figurepath .tl_set:N  = \l__eb_graphics_path_tl
   }
 
 \includepdfset{fitpaper = true}
@@ -728,11 +728,12 @@
 \ctex_at_end_preamble:n
   {
     \bool_if:NF \l__eb_ps_used_bool { \pagestyle{fancy} }
-    \tl_if_blank:VF \l_eb_graphics_path_tl
+    \tl_if_blank:VF \l__eb_graphics_path_tl
       {
-        \regex_match:nVTF { \cB. } \l_eb_graphics_path_tl
-          { \exp_args:NV \graphicspath \l_eb_graphics_path_tl }
-          { \exp_args:Nx \graphicspath { {\l_eb_graphics_path_tl} } }
+        \exp_args:NnV
+        \regex_match:nnTF { \cB. } \l__eb_graphics_path_tl
+          { \exp_args:NV \graphicspath \l__eb_graphics_path_tl }
+          { \exp_args:Nx \graphicspath { {\l__eb_graphics_path_tl} } }
       }
     \providecommand{\kaishu}{\itshape}
   }
