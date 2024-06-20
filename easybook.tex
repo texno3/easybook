@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024cf,
-    date            = 2024/06/18,
+    version         = v2024cg,
+    date            = 2024/06/20,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -33,7 +33,7 @@
       {
         \easybook{} 是基于 \cls*{ctexbook} 书籍文档类创建的纯净学术模板，同时兼具 \cls*{book} 与 \cls*{article} 文档类的功能。结合中国许多高校学位论文的通用框架设计，提供多个命令和接口可以使用户简便地定制论文模板。它的基础宏包 \pkg*{easybase} 还可以搭配 \CTeX 和标准文档类使用。
       },
-    arg-format      = \normalfont\small\itshape\xeCJKVerbAddon,
+    arg-format      = \normalfont\small\kaishu\xeCJKVerbAddon,
     abstract-format = \small,
     module-sep      = \,$\Rightarrow$\,,
     title-format    = \huge\sffamily
@@ -45,6 +45,7 @@
 \addtokomafont{section}{\normalfont\sffamily}
 \addtokomafont{subsection}{\normalfont\sffamily}
 \addtokomafont{subsubsection}{\normalfont\sffamily}
+\setkomafont{pagehead}{\normalfont\kaishu}
 \DeclareTOCStyleEntry[entryformat = \sffamily]{default}{section}
 \DeclareFieldFormat[book]{title}{\textsf{#1}}
 \geometry{margin = 1in,marginparwidth = 0.6in,footskip = 0.5in}
@@ -332,8 +333,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \section{模块选项}
 \label{sec:interface options}
 \begin{cnltxlist}
-  \command*{ctexset}[\oarg{模块名}\marg{键值列表}]
-  \easybook{} 扩展了 \CTeX 宏集 \hologo{LaTeX3} 风格键值的通用控制命令 \cs*{ctexset}，模块选项同样可用它设置，原有的 \meta{键值列表} 仍然可用。本文档类目前有9个模块用于实现常规的排版功能，如\ref{table:module List} 所示。
+  \command{ctexset}[\oarg{模块名}\marg{键值列表}]
+  \easybook{} 扩展了 \CTeX 宏集 \hologo{LaTeX3} 风格键值的通用控制命令 \cs{ctexset}，模块选项同样可用它设置，原有的 \meta{键值列表} 仍然可用。本文档类目前有9个模块用于实现常规的排版功能，如\ref{table:module List} 所示。
   \begin{longtblr}
   [caption = 模块功能和名称清单,label = table:module List]
   {
@@ -347,7 +348,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   thmt & geo & hdr & toc &
   \end{longtblr}
 
-  \ref{exam:kv setting} 使用\ref{subsec:tools} 介绍的工具模块 \module*{tools} 举例三种键值列表设置方式：1. 各 \meta{模块名} 是统一接口 \cs*{ctexset} 的键路径。2. 不同模块还具有单独的接口命令 \cs*{eb}\meta{模块名}\code{\textcolor{cs}{set}}。3. \meta{模块名} 也可以使用  \cs*{ctexset} 命令的可选参数设置。路径名与所属下级选项之间可以 \code{/} 或 \code{=} 号分开，斜线 \code{/} 后不能有空格或者换行。
+  \ref{exam:kv setting} 使用\ref{subsec:tools} 介绍的工具模块 \module*{tools} 举例三种键值列表设置方式：1. 各 \meta{模块名} 是统一接口 \cs{ctexset} 的键路径。2. 不同模块还具有单独的接口命令 \cs*{eb}\meta{模块名}\code{\textcolor{cs}{set}}。3. \meta{模块名} 也可以使用 \cs{ctexset} 命令的可选参数设置。路径名与所属下级选项之间可以 \code{/} 或 \code{=} 号分开，斜线 \code{/} 后不能有空格或者换行。
   \begin{ctexexam}[labelref = exam:kv setting]
   \ctexset
     {
@@ -638,7 +639,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \keyval{subsection-mark}{标题标记}
   \code{subsection} 级别标题标记的内容，包含了标签选项 \option{subsection-label} 和小节标题 \code{\#1}。
   \kvsplit-{chapter-label}{\oarg{编号输出命令}\marg{距离命令}}\Default{\cs*{hspace}\Marg{1em}}
-  \code{chapter} 级别标题标记的标签（标题有编号时）。比标题标记选项更常用，可选参数是对应章编号计数器值的输出命令，必选参数是编号与标题之间的距离命令：
+  \code{chapter} 级别标题标记的标签（标题有编号时）。比标题标记选项更常用，可选参数是对应章编号计数器值的输出命令，必选参数是标题标签与内容之间的距离命令：
   \begin{ctexexam}
   \ebhdrset
     {
@@ -878,7 +879,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \printlist[fancy]{loa}{}{}
   \end{ctexexam}
   \command{SetTocStyle}[\marg{条目名}\marg{风格名}\marg{键值列表}]
-  定义条目类型名称为 \meta{风格名} 的目录风格。使用 \cs*{ctexset} 命令设置目录样式时，除了条目标题定义选项 \option{tocline}，其它选项只有在目录输出命令前设置才有效，定义完目录风格后用 \cs{UseTocStyle} 命令可以在正文中任意位置生效。如果是没有\hface 符号的选项，\meta{条目名} 设置为 \module*{toc}。
+  定义条目类型名称为 \meta{风格名} 的目录风格。使用 \cs{ctexset} 命令设置目录样式时，除了条目标题定义选项 \option{tocline}，其它选项只有在目录输出命令前设置才有效，定义完目录风格后用 \cs{UseTocStyle} 命令可以在正文中任意位置生效。如果是没有\hface 符号的选项，\meta{条目名} 设置为 \module*{toc}。
   \command{UseTocStyle}[\marg{条目名}\marg{风格名}\marg{扩展名}]
   使用对应条目类型名称为 \meta{风格名} 的目录风格，随后标题在目录中的格式会改变。本命令导言区和正文区均可使用，第三个必选参数还需要指定条目标题加入目录文件的 \meta{扩展名}。
   \begin{ctexexam}
@@ -900,9 +901,9 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   悬挂缩进选项 \option{hang} 使目录条目为悬挂缩进形式。缩进距离为条目标签及其与标题内容间距的长度和。通常情况下会统一设置条目标题是否悬挂缩进，因此这个选项被设计为对所有类型条目生效。
   \keyval{lolskip}{弹性长度}\Default{10pt}
   代码目录中每章第一个条目上方增加的垂直距离。与 \CTeX 的表格和图片目录中每章间的条目距离选项 \option*{lotskip} 和 \option*{lofskip} 类似，在 \cls*{article} 模式中此选项失效。
-  \keyval{between}{代码钩子}\dtag[\textcolor{red}{\sface}]
-  目录标题与条目内容间的钩子（作用于标题下方间距之后），如果是 \cls*{book} 模式则默认插入 \code{-10pt} 垂直距离抵消首行目录的额外垂直间距，这是由于图表和 由 \pkg*{newfloat} 宏包所创建环境的目录默认每使用一次章标题在题注目录中插入 \code{10pt} 距离。除了条目名的键路径外，此选项也可用于 \module*{toc} 路径中，表示章节标题目录标题代码钩子，如果是 \cls*{book} 模式则默认插入 \code{-1pc} 垂直距离。
-  \keyval{bibetween}{代码钩子}
+  \keyval{between}{格式代码}\dtag[\textcolor{red}{\sface}]
+  目录标题与条目内容间的局部钩子（作用于标题下方间距之后），如果是 \cls*{book} 模式则默认插入 \code{-10pt} 垂直距离抵消首行目录的额外垂直间距，这是由于图表和 由 \pkg*{newfloat} 宏包所创建环境的目录默认每使用一次章标题在题注目录中插入 \code{10pt} 距离。除了条目名的键路径外，此选项也可用于 \module*{toc} 路径中，表示章节标题目录标题代码钩子，如果是 \cls*{book} 模式则默认插入 \code{-1pc} 垂直距离。
+  \keyval{bibetween}{格式代码}
   与选项 \option{between} 类似，是英文章节标题目录（如果启用）标题代码钩子。
   \keychoice{dotalign}{\fbox{true},false}
   将目录页码装进一个右对齐的水平盒子里。这样可以使目录引导线右端对齐并与页码保持一定间距，否则会与页码相连。
@@ -943,7 +944,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \keychoice{plan}{\fbox{cn},bi,both}
   章节标题目录的输出方案。\code{cn} 只输出中文目录，\code{bi} 只输出英文目录。\code{both} 同时连续输出中文和英文目录，需要与双语目录标题命令 \cs{bichapter} 等或双语标题选项 \option{title} 配合使用。
   \keyval{bicontentsname}{英文目录标题}\Default{Contents}
-  英文目录的标题，为通用接口命令 \cs*{ctexset} 的选项。
+  英文目录的标题，为通用接口命令 \cs{ctexset} 的选项。
   \command{listoffigures}[\sarg\oarg{键值列表}]
   输出图片目录命令。带有星号参数的命令不输出目录标题。
   \command{listoftables}[\sarg\oarg{键值列表}]
@@ -971,7 +972,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \kvsplit{title}{中文目录标题,英文目录标题}
   用于更改目录的双语标题。标题之间用一个英文逗号分开，对主目录来说前部分为中文目录标题，后部分为英文目录标题，对图表和代码目录来说后部分则是加入英文目录的条目。也可以只有一部分，表示中文目录的标题。
   \keychoice{bilist}{mix,\fbox{new}}
-  确定章节标题目录中双语标题条目的输出排列方式。选项 \code{mix} 使每个英文标题条目在中文目录中跟随对应的中文标题输出，\code{new} 则在新建的英文目录中输出英文标题。这是个全局选项，在所有目录的可选参数中使用均可生效，但推荐在章节标题目录中使用。
+  确定章节标题目录中双语标题条目的输出排列方式。选项 \code{mix} 使每个英文标题条目在中文目录中跟随对应的中文标题输出，\code{new} 则在新建的英文目录中输出英文标题，此新目录的扩展名为 \code{tec}。这是个全局选项，在所有目录的可选参数中使用均可生效，但推荐在章节标题目录中使用。
   \command{ebifbitoc}[\marg{英文目录代码}\marg{中文目录代码}]
   启用混合双语目录条目即 \keyis{bilist}{mix} 时，在设置目录样式时可以配合 \cs{ebifbitoc} 命令判断当前条目是否为英文，从而输出不同的代码。
   \begin{ctexexam}
@@ -1015,9 +1016,9 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \BeforeAddtoBitoc{\ctexset{chapter/nmuber = \arabic{chapter}}}
   \end{ctexexam}
   \command{appendix}[\splitoarg{前名字,后名字}\darg{编号输出命令}]
-  附录起始命令，其后的章节标题变为附录形式。\meta{前名字} 为英文目录中附录标题的前名字，同理 \meta{后名字} 为英文目录中附录标题的后名字。前后名字之间用一个半角逗号分开，也可以只有一部分，表示英文目录中附录标题前名字。\meta{编号输出命令} 为附录标题计数器在英文目录中的编号命令。注意这两个参数仅对 \code{bichapter} 级别的标题生效。
-  \command{BeforeAddtoBitoc}[\sarg\marg{英文标题加入目录前的代码}]
-  作用于局部范围的英文目录标题条目钩子，代码在标题加入目录前执行，可以插入条目标题定义命令临时改变英文目录中条目的格式，带有星号参数的命令会重置之前的代码。这个命令设置英文目录条目的标题格式具有最高优先级，放置在导言区或 \cs{bichapter} 等双语标题命令前生效。举一个在英文目录节标题条目编号前添加 \code{Section} 字符串的例子：
+  附录起始命令，其后的章节标题变为附录形式。\meta{前名字} 为英文目录中附录标题的前名字，同理 \meta{后名字} 为英文目录中附录标题的后名字。前后名字之间用一个半角逗号分开，也可以只有一部分，表示英文目录中附录标题前名字。\meta{编号输出命令} 为附录标题计数器在英文目录中的编号命令。注意这两个参数仅对 \code{chapter} 级别的标题生效。
+  \command{BeforeAddtoBitoc}[\sarg\marg{格式代码}]
+  英文目录中标题条目的格式钩子，\meta{格式代码} 在英文标题加入目录前执行，作用范围为局部。可以插入条目标题定义等命令临时改变英文目录中条目的格式，带有星号参数的命令会重置之前的代码。这个命令设置英文目录条目的标题格式具有最高优先级，放置在导言区或 \cs{bichapter} 等双语标题命令前生效。举一个在英文目录节标题条目编号前添加 \code{Section} 字符串的例子：
   \begin{ctexexam}
   \BeforeAddtoBitoc{\ctexset{section/name = Section\space}}
   \bisection{中文标题}{English title}
@@ -1272,8 +1273,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \begin{cnltxlist}
   \command{labelformat}[\marg{计数器}\marg{标签引用格式}]
   标签格式命令 \cs{labelformat} 可以设置标签引用格式。\meta{标签引用格式} 中 \code{\#1} 代表 \cs*{the}\meta{计数器}，可以设置引用序号的前缀和后缀。也可以使用 \pkg*{cleveref} 宏包提供更强大的标签功能。
-  \command{AtEndPreamble}[\marg{钩子代码}]
-  导言区末尾的钩子命令。为了保证兼容性 \pkg*{hyperref} 宏包被设计在导言区末尾载入，一些情况下需要钩子命令在 \pkg*{hyperref} 宏包后方执行 \meta{钩子代码}，例如载入 \pkg*{cleveref} 宏包。
+  \command{AtEndPreamble}[\marg{格式代码}]
+  导言区末尾的钩子命令。为了保证兼容性 \pkg*{hyperref} 宏包被设计在导言区末尾载入，一些情况下需要钩子命令在 \pkg*{hyperref} 宏包后方执行 \meta{格式代码}，例如载入 \pkg*{cleveref} 宏包。
   \begin{ctexexam}
   \labelformat{chapter}{第#1章}
   \labelformat{chapter}{第\thechapter 章}
