@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024cg,
-    date            = 2024/06/20,
+    version         = v2024ch,
+    date            = 2024/06/21,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -50,10 +50,10 @@
 \DeclareFieldFormat[book]{title}{\textsf{#1}}
 \geometry{margin = 1in,marginparwidth = 0.6in,footskip = 0.5in}
 \renewlist{cnltxlist}{description}{2}
-\SetEnumitemValue{label}{smallbullet}{\small\color{DarkBlue}\textbullet}
+\SetEnumitemValue{label}{textbullet}{\color{DarkBlue}\textbullet}
 \setlist{nosep,topsep = \smallskipamount,labelsep = 0.5em}
-\setlist[1]{labelindent = \parindent}
-\setlist[itemize,1]{label = smallbullet,leftmargin = *}
+\setlist[1]{labelindent = \parindent,leftmargin = *}
+\setlist[itemize,1]{label = textbullet}
 \setlist[cnltxlist]
   {
     leftmargin    = 0pt,
@@ -188,6 +188,12 @@
 \def\keylit{\@cnltx@option@item\keyis}
 \def\keychoice{\@cnltx@option@item\choicekey}
 \def\keybool{\@cnltx@option@item\boolkey}
+\renewenvironment{changelogdescription}
+  {\begin{description}[leftmargin = \parindent]}
+  {\end{description}}
+\renewenvironment{changelogitemize}
+  {\begin{itemize}[leftmargin = *]}
+  {\end{itemize}}
 \makeatother\ExplSyntaxOff
 \labelformat{section}{节#1}
 \labelformat{subsection}{小节#1}
