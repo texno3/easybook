@@ -14,13 +14,13 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/06/20}{2024ch}
+\ProvidesExplClass{easybook}{2024/06/22}{2024ci}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
 \bool_new:N \l__eb_title_newline_bool
-\bool_set_true:N  \l__eb_class_mode_book_bool
-\clist_new:N      \g__eb_doc_options_clist
+\bool_set_true:N \l__eb_class_mode_book_bool
+\clist_new:N \g__eb_doc_options_clist
 \cs_new_protected:Npn \eb_put_ctexbook:n #1
   { \PassOptionsToClass{#1}{ctexbook} }
 \cs_generate_variant:Nn \eb_put_ctexbook:n { V }
@@ -66,10 +66,11 @@
 
 \sys_if_engine_xetex:TF
   {
-    \cs_new_eq:NN \eb_set_family:nnn  \xeCJK_set_family:nnn
+    \cs_new_eq:NN \eb_set_family:nnn \xeCJK_set_family:nnn
     \cs_new_eq:NN \eb_switch_family:n \xeCJK_switch_family:n
-  }{
-    \cs_new_eq:NN \eb_set_family:nnn  \ctex_ltj_set_family:nnn
+  }
+  {
+    \cs_new_eq:NN \eb_set_family:nnn \ctex_ltj_set_family:nnn
     \cs_new_eq:NN \eb_switch_family:n \ctex_ltj_switch_family:n
   }
 \cs_generate_variant:Nn \eb_set_family:nnn { x }
@@ -300,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/06/20}{2024ch}
+\ProvidesExplPackage{easybase}{2024/06/22}{2024ci}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1023,7 +1024,7 @@
   {
     \noindent
     \clist_if_in:NnT \l__eb_footnote_value_clist { flush }
-      { \dim_zero:N \fnfirstindent }
+      { \tl_set:Nn \fnfirstindent { 0pt } }
     \int_case:nn { \dim_sign:V \fnfirstindent }
       {
         { 1 } { \use_i:nnn }
@@ -1771,8 +1772,7 @@
       {
         \tl_if_exist:cF { tf@#1 }
           { \iow_new:c { tf@#1 }\iow_open:cn { tf@#1 } { \jobname.#1 } }
-      }
-      {}
+      }{}
   }
 \cs_set_eq:NN \eb@starttoc \@starttoc
 \cs_set:Npn \@starttoc #1
@@ -2625,7 +2625,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/20}{2024ch}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/22}{2024ci}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
