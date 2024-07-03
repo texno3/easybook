@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/06/24}{2024cm}
+\ProvidesExplClass{easybook}{2024/07/03}{2024cn}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/06/24}{2024cm}
+\ProvidesExplPackage{easybase}{2024/07/03}{2024cn}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1658,7 +1658,7 @@
       {
         tocformat = \IfBooleanT{#1}{\contentsmargin{0pt}},
         tocindent = 0pt,
-        tocrule   = \IfBooleanTF{#1}{,~\thecontentspage}{\tocrule{$\cdot$}},
+        tocrule   = \IfBooleanTF{#1}{,~\thecontentspage}{\cdottocrule},
         toclabel  =
           {
             \bool_if:NTF \l__eb_toc_entry_hang_bool
@@ -1729,7 +1729,7 @@
       \eb@register@every@toc@option
   }
 \RegisterEveryTocOption{tocafter,tocindent,tocrule}
-\NewDocumentCommand{\tocrule}{st-O{0.7pc}d()mO{}}
+\NewDocumentCommand{\tocrule}{st-O{0.6pc}d()mO{}}
   {
     \normalsize\normalfont
     \ttl@row@i[#3]{\IfValueTF{#4}{\scalebox{#4}{#5}}{#5}}#6
@@ -1746,6 +1746,7 @@
           }
       }
   }
+\cs_set:Npn \cdottocrule { \tocrule{\textperiodcentered} }
 \ctex_define:nn { toc }
   {
     lolskip .skip_set:N   = \eb@toc@lol@skip,
@@ -1859,7 +1860,7 @@
       {
         tocformat = \addvspace{1pc}\sffamily,
         tocindent = 0pt,
-        tocrule   = \tocrule{$\cdot$}[\bfseries],
+        tocrule   = \cdottocrule[\bfseries],
         tocline   = \CTEXnumberline{#1}#2
       },
     section       =
@@ -1869,8 +1870,8 @@
         tocrule   =
           {
             \bool_if:NTF \l__eb_class_mode_book_bool
-              { \tocrule{$\cdot$} }
-              { \tocrule{$\cdot$}[\bfseries] }
+              { \cdottocrule }
+              { \cdottocrule[\bfseries] }
           }
       },
     subsection    =
@@ -2633,7 +2634,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/06/24}{2024cm}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/03}{2024cn}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024cm,
-    date            = 2024/06/24,
+    version         = v2024cn,
+    date            = 2024/07/03,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -619,9 +619,9 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \begin{cnltxlist}[itemsep = 0ex]
   \keyval{headruleskip}{页眉线间距}\dtag\Default*{0pt}
   \keyval{footruleskip}{页脚线间距}\dtag\Default*{3.5pt}
-  \kvsplit{hdivide}{左边距,版心文本宽度,右边距}\default{}
+  \kvsplit{hdivide}{左边距,版心宽度,右边距}\default{}
   \kvsplit{hmargin}{左边距,右边距}\default{}
-  \keyval{textheight}{版心文本高度}\default{}
+  \keyval{textheight}{版心高度}\default{}
   \keychoice{nofoot}{true,\fbox{false}}\default{}
   \begin{ctexexam}
   \ctexset[geo]
@@ -761,11 +761,11 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
       fnmarktext-format = \circledtext
     }
   \end{ctexexam}
-  \command{defupfntmark}[\marg{脚注正文标记格式}]
+  \command{defupfntmark}[\marg{正文标记格式}]
   定义脚注正文标记的格式，与正文标记编号命令 \cs{theupfootnote} 配合使用。
-  \command{defdownfntmark}[\marg{脚注内容标记格式}]
+  \command{defdownfntmark}[\marg{内容标记格式}]
   定义脚注内容标记的格式，与内容标记编号命令 \cs{thedownfootnote} 配合使用。
-  \command{deffntpara}[\marg{脚注段落文本格式}]
+  \command{deffntpara}[\marg{段落文本格式}]
   定义脚注段落文本的格式的命令。脚注段落文本由脚注内容标记和文本两部分组成，段落格式定义中参数 \code{\#1} 代表内容文本。
   \command{notminipage}[\marg{普通页内容}\marg{迷你页内容}]
   用于在定义脚注标记的命令中判断当前脚注是否处于迷你页而输出不同的内容。
