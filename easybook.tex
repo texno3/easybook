@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024cn,
-    date            = 2024/07/03,
+    version         = v2024co,
+    date            = 2024/07/06,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -232,13 +232,13 @@
 \end{frameverb}
 
 \subsection{编译方式}
-假设您的 \TeX 源文件名为 \code{easybook.tex}，需要使用参考文献和索引功能，并使用 \hologo{XeLaTeX} 和 \hologo{BibTeX} 引擎编译文档，那么需要在命令行中执行：
+假设您的 \TeX 源文件名为 \code{easybook-demo.tex}，需要使用参考文献和索引功能，并使用 \hologo{XeLaTeX} 和 \hologo{BibTeX} 引擎编译文档，那么需要在命令行中执行：
 \begin{frameverb}
-  xelatex -shell-escape easybook
-  bibtex easybook
-  makeindex easybook
-  xelatex -shell-escape easybook
-  xelatex -shell-escape easybook
+  xelatex -shell-escape easybook-demo
+  bibtex easybook-demo
+  makeindex easybook-demo
+  xelatex -shell-escape easybook-demo
+  xelatex -shell-escape easybook-demo
 \end{frameverb}
 当然也可以使用 \code{latexmk} 及一些软件自带的编译工具，这里就不做介绍。 \\
 $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-shell-escape} 命令行选项。
@@ -510,9 +510,9 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \keyval{prenote}{参考文献前注}
   该选项选择由 \cs{defbibnote} 所定义的前注，缺省状态下不打印任何前注。
   \keyval{section}{整数}\Default{0}
-  只打印在指定文节中引用的条目。该参考文献节从1开始编号，所有在 \env*{refsection} 环境外给出的引用标记为第零节。
+  只打印第 \meta{整数} 文节中引用的条目。该参考文献节从1开始编号，所有在 \env*{refsection} 环境外给出的引用标记为第零节。
   \keyval{type}{条目类型}
-  指定条目的打印类型。
+  只打印名为 \meta{条目类型} 的文献条目。
   \keyval{filter}{过滤器名}
   使用由 \cs{defbibfilter} 定义的 \option*{filter} 来过滤条目。
 
@@ -990,16 +990,24 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \UseTocStyle{section}{fancy}{toc}
   \tableofcontents[bilist = mix]
   \end{ctexexam}
+
+  除了上述选项还支持 \CTeX 键值列表所有路径的章节标题样式选项，下面仅列举几个选项例子。需要注意的是标题样式选项根据 \option{level} 选项中的\textbf{最后}一个标题命令判断键路径，所以这个标题命令名必须存在于 \CTeX 键值列表路径中，或带有 \code{\textcolor{cs}{bi}} 前缀表示双语标题。
   \keyval{format}{目录标题格式}
-  设置目录标题的格式，在标题级别为 \code{chapter} 或者 \cls*{article} 模式且标题级别为 \code{section} 时有效。
+  设置目录标题的格式。
+  \begin{ctexexam}
+  \tableofcontents[
+    level   = \clearpage\bisection*,
+    format  = \centering\sffamily\Large
+    ]
+  \end{ctexexam}
   \keyval{aftername}{标签后代码}
-  目录标题的标签与内容之间插入的代码，生效情形同上。
+  目录标题的标签与内容之间插入的代码。
   \keyval{aftertitle}{标题后代码}
-  目录标题内容之后插入的代码，生效情形同上。
+  目录标题内容之后插入的代码。
   \keyval{break}{格式命令}
-  控制章节标题与之前正文的分隔关系。一般用于设置是否在标题之前分页或者设置行间罚点，生效情形同上。
+  控制章节标题与之前正文的分隔关系。一般用于设置是否在标题之前分页或者设置行间罚点。
   \keyval{pagestyle}{页面风格}\Default{empty}
-  目录标题所在页的页面格式，仅当目录以 \code{chapter} 级别输出时有效。除了上述选项还支持 \CTeX 键值列表路径 \module*{chapter} 或 \module*{section} 所有的章节标题样式选项。
+  目录标题所在页的页面格式，仅当目录以 \code{chapter} 级别输出时有效。
 \end{cnltxlist}
 
 \subsection{双语章节标题和新建标题}
@@ -1437,8 +1445,9 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \item 新增统一设置所有目录格式时的条目类型排除命令 \cs{ExcludeEveryTocName}。
   \end{version}
   \shortversion{v = 2024cd,date = 2024/06/14,changes = 修复全局选项 \option{class} 无法正确切换单双面排版的问题。}
+  \shortversion{v = 2024co,date = 2024/07/06,changes = 目录命令的可选参数支持 \CTeX 键值列表所有路径的章节标题样式选项。}
 \end{changelog}
 \nocite{*}
-\AddToHook{cmd/printindex/before}{\clearpage}
+% \AddToHook{cmd/printindex/before}{\clearpage}
 
 \end{document}

@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/07/03}{2024cn}
+\ProvidesExplClass{easybook}{2024/07/06}{2024co}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/07/03}{2024cn}
+\ProvidesExplPackage{easybase}{2024/07/06}{2024co}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1422,47 +1422,73 @@
 \bool_new:N \l__eb_toc_notitle_bool
 \newbool{bitoc}
 \cs_new:Npn \ebifbitoc { \ifbool{bitoc} }
+\seq_new:N \l__eb_level_tmpa_seq
+\tl_new:N \l__eb_level_tmpa_tl
+\cs_generate_variant:Nn \regex_extract_all:nnN { no }
+\cs_generate_variant:Nn \keys_define:nn { nx }
+\cs_generate_variant:Nn \ctex_set:nn { ox }
+\cs_new_protected:Npn \eb_toc_extract_level:
+  {
+    \regex_extract_all:noN { \cC. } { \eb@toc@title@level }
+      \l__eb_level_tmpa_seq
+    \seq_get_right:NN \l__eb_level_tmpa_seq \l__eb_level_tmpa_tl
+    \tl_set:Nx \l__eb_level_tmpa_tl
+      {
+        \exp_last_unbraced:No
+          \cs_to_str:N { \l__eb_level_tmpa_tl }
+      }
+    \regex_replace_case_once:nN
+      {
+        { ^bi(.*) } { \1 }
+        { .* } { \0 }
+      }
+      \l__eb_level_tmpa_tl
+  }
 \keys_define:nn { eb/tocouter }
   {
-    level .tl_set:N   = \eb@toc@title@level,
-    level .initial:n  =
+    level .code:n       =
+      {
+        \tl_set:Nn \eb@toc@title@level {#1}
+        \eb_toc_extract_level:
+      },
+    level .initial:e    =
       {
         \bool_if:NTF \l__eb_class_mode_book_bool
-          { \bichapter* }
-          { \bisection* }
+          { \exp_not:N \bichapter* }
+          { \exp_not:N \bisection* }
       },
-    section .meta:n   = { level = \bisection* },
-    chapter .meta:n   = { level = \bichapter* },
-    none .code:n      =
+    section .meta:n     = { level = \bisection* },
+    chapter .meta:n     = { level = \bichapter* },
+    none .code:n        =
       {
         \tl_set:Nn \eb@toc@title@level
           { \par\use_none:nn }
         \bool_set_true:N \l__eb_toc_notitle_bool
       },
-    multoc .int_set:N = \l__eb_toc_columns_int,
-    multoc .default:n = 2,
-    multoc .initial:n = 1,
+    multoc .int_set:N   = \l__eb_toc_columns_int,
+    multoc .default:n   = 2,
+    multoc .initial:n   = 1,
     plan .choice:,
     plan .value_required:n = true,
-    plan/cn .code:n   =
+    plan/cn .code:n     =
       {
         \bool_set_true:N \l__eb_toc_plan_cn_bool
         \bool_set_false:N \l__eb_toc_plan_bi_bool
       },
-    plan/bi .code:n   =
+    plan/bi .code:n     =
       {
         \bool_set_false:N \l__eb_toc_plan_cn_bool
         \bool_set_true:N \l__eb_toc_plan_bi_bool
       },
-    plan/both .code:n =
+    plan/both .code:n   =
       {
         \bool_set_true:N \l__eb_toc_plan_cn_bool
         \bool_set_true:N \l__eb_toc_plan_bi_bool
       },
-    plan .initial:n   = cn,
-    columns .meta:n   = { multoc = {#1} },
-    title .code:n     = \eb_assign_toc_title:n {#1},
-    bilist .code:n    =
+    plan .initial:n     = cn,
+    columns .meta:n     = { multoc = {#1} },
+    title .code:n       = \eb_assign_toc_title:n {#1},
+    bilist .code:n      =
       {
         \tl_gset:Nn \g__eb_bilist_permute_value_tl {#1}
         \str_if_eq:nnTF {#1} { mix }
@@ -1480,12 +1506,16 @@
               }
           }
       },
-    name .tl_set:N    = \l__eb_print_index_name_tl,
-    name .initial:n   = \imki@jobname
+    name .tl_set:N      = \l__eb_print_index_name_tl,
+    name .initial:n     = \imki@jobname,
+    unknown .code:n     =
+      {
+        \ctex_set:ox { \l__eb_level_tmpa_tl }
+          { \eb_unknown_kv_handle: }
+      },
+    unknown .default:V  = \c_novalue_tl
   }
-\bool_if:NTF \l__eb_class_mode_book_bool
-  { \keys_define:nn { } { eb/tocouter .inherit:n = ctex/chapter } }
-  { \keys_define:nn { } { eb/tocouter .inherit:n = ctex/section } }
+
 \NewDocumentCommand{\eb_assign_toc_title:n}
   {>{\SplitArgument{1}{,}}m}
   {\eb_toc_assign_title_judge:nn #1}
@@ -2634,7 +2664,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/03}{2024cn}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/06}{2024co}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
