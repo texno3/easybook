@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024co,
-    date            = 2024/07/06,
+    version         = v2024cp,
+    date            = 2024/07/09,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -57,10 +57,8 @@
 \setlist[cnltxlist]
   {
     leftmargin    = 0pt,
-    labelwidth    = 2em,
     itemindent    = -1em,
-    labelsep      = 0pt,
-    listparindent = 2em,
+    listparindent = \parindent,
     topsep        = \smallskipamount,
     itemsep       = \smallskipamount,
     partopsep     = 0ex,
@@ -1445,6 +1443,13 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \item 新增统一设置所有目录格式时的条目类型排除命令 \cs{ExcludeEveryTocName}。
   \end{version}
   \shortversion{v = 2024cd,date = 2024/06/14,changes = 修复全局选项 \option{class} 无法正确切换单双面排版的问题。}
+  \begin{version}[v = 2024cf,date = 2024/06/16]
+  \fixed
+  \item 修复和改进新建章节/图表标题时目录层次深度的问题。
+  \changed
+  \item \module*{tools} 模块的图片路径选项 \option{figurepath} 可在正文中使用。
+  \end{version}
+  \shortversion{v = 2024ci,date = 2024/06/22,changes = 修复使用 \code{flush} 类型脚注报错。}
   \shortversion{v = 2024co,date = 2024/07/06,changes = 目录命令的可选参数支持 \CTeX 键值列表所有路径的章节标题样式选项。}
 \end{changelog}
 \nocite{*}
