@@ -1316,7 +1316,7 @@
       {
         \IfBooleanTF{##1}
           {
-            \use:c {#1}*{\phantomsection ##3}
+            \use:c {#1}*{##3}
             \CTEX@addtocline{#1}{##2}
             \tl_if_empty:oF {##4} { \CTEX@addbitocline{#1}{##4} }
             \use:c { #1mark }{##2}
@@ -1384,6 +1384,7 @@
         \bool_if:cTF { CTEX@#2@numbering }
           { \CTEX@ifnametrue }
           { \CTEX@ifnamefalse }
+        \CTEX@makeanchor{#2*}
         \addcontentsline{#1}{#2}{\use:c { CTEX@#2@tocline }{#2}{##1}}
       }
   }
