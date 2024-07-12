@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/07/09}{2024cp}
+\ProvidesExplClass{easybook}{2024/07/12}{2024cq}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/07/09}{2024cp}
+\ProvidesExplPackage{easybase}{2024/07/12}{2024cq}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1338,22 +1338,22 @@
     \skip_if_eq:nnF { \eb@toc@lol@skip } { \c_zero_skip }
       { \addtocontents{lol}{\protect\addvspace{\skip_use:N \eb@toc@lol@skip}} }
   }
-\cs_new_protected:Npn \eb_title_base_set_eq:nn #1#2
+\cs_new_protected:Npn \CopyTitleFormat #1#2
   {
-    \tl_set_eq:cc { CTEX@#2@beforeskip } { CTEX@#1@beforeskip }
-    \tl_set_eq:cc { CTEX@#2@afterskip } { CTEX@#1@afterskip }
-    \bool_set_eq:cc { CTEX@#2@numbering } { CTEX@#1@numbering }
-    \bool_set_eq:cc { CTEX@#2@fixskip } { CTEX@#1@fixskip }
-    \bool_set_eq:cc { CTEX@#2@hang } { CTEX@#1@hang }
-    \bool_set_eq:cc { CTEX@#2@runin } { CTEX@#1@runin }
-    \cs_set_eq:cc { CTEX@#2@tocline } { CTEX@#1@tocline }
-    \tl_set_eq:cc { CTEX@#2@break } { CTEX@#1@break }
-    \tl_set_eq:cc { CTEX@#2@format } { CTEX@#1@format }
-    \tl_set_eq:cc { CTEX@#2@nameformat } { CTEX@#1@nameformat }
-    \tl_set_eq:cc { CTEX@#2@numberformat } { CTEX@#1@numberformat }
-    \tl_set_eq:cc { CTEX@#2@titleformat } { CTEX@#1@titleformat }
-    \tl_set_eq:cc { CTEX@#2@aftername } { CTEX@#1@aftername }
-    \tl_set_eq:cc { CTEX@#2@aftertitle } { CTEX@#1@aftertitle }
+    \tl_set_eq:cc { CTEX@#1@beforeskip } { CTEX@#2@beforeskip }
+    \tl_set_eq:cc { CTEX@#1@afterskip } { CTEX@#2@afterskip }
+    \bool_set_eq:cc { CTEX@#1@numbering } { CTEX@#2@numbering }
+    \bool_set_eq:cc { CTEX@#1@fixskip } { CTEX@#2@fixskip }
+    \bool_set_eq:cc { CTEX@#1@hang } { CTEX@#2@hang }
+    \bool_set_eq:cc { CTEX@#1@runin } { CTEX@#2@runin }
+    \cs_set_eq:cc { CTEX@#1@tocline } { CTEX@#2@tocline }
+    \tl_set_eq:cc { CTEX@#1@break } { CTEX@#2@break }
+    \tl_set_eq:cc { CTEX@#1@format } { CTEX@#2@format }
+    \tl_set_eq:cc { CTEX@#1@nameformat } { CTEX@#2@nameformat }
+    \tl_set_eq:cc { CTEX@#1@numberformat } { CTEX@#2@numberformat }
+    \tl_set_eq:cc { CTEX@#1@titleformat } { CTEX@#2@titleformat }
+    \tl_set_eq:cc { CTEX@#1@aftername } { CTEX@#2@aftername }
+    \tl_set_eq:cc { CTEX@#1@aftertitle } { CTEX@#2@aftertitle }
   }
 \NewDocumentCommand{\NewTitleCommand}{omm}
   {
@@ -1375,7 +1375,7 @@
       { \CTEXnumberline{##1}##2 }
     \exp_args:Nc \providecommand { ttll@#2 }{#3}
     \exp_args:Nc \providecommand { toclevel@#2 }{#3}
-    \IfValueT{#1}{\eb_title_base_set_eq:nn {#1} {#2}}
+    \IfValueT{#1}{\CopyTitleFormat{#2}{#1}}
   }
 \NewDocumentCommand{\NewTitleEntryCommand}{O{toc}m}
   {
@@ -2665,7 +2665,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/09}{2024cp}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/12}{2024cq}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
