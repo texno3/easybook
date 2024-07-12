@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024cp,
-    date            = 2024/07/09,
+    version         = v2024cq,
+    date            = 2024/07/12,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -1052,6 +1052,12 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \lchapter{正常标题}
   \lchapterentry{加入目录的标题}
   \end{ctexexam}
+  \command{CopyTitleFormat}[\marg{条目名1}\marg{条目名2}]\newtagv{2024cq}%
+  将名为 \meta{条目名2} 的章节标题命令除了编号/名字外的格式复制给名为 \meta{条目名1} 的标题命令。
+  \begin{ctexexam}
+  \ctexset{section/format = \sffamily\color{blue}}
+  \CopyTitleFormat{subsection}{section}
+  \end{ctexexam}
 \end{cnltxlist}
 
 \subsection[上标和下标]{上标和下标}
@@ -1451,6 +1457,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \end{version}
   \shortversion{v = 2024ci,date = 2024/06/22,changes = 修复使用 \code{flush} 类型脚注报错。}
   \shortversion{v = 2024co,date = 2024/07/06,changes = 目录命令的可选参数支持 \CTeX 键值列表所有路径的章节标题样式选项。}
+  \shortversion{v = 2024cq,date = 2024/07/12,changes = 新增章节标题格式复制命令 \cs{CopyTitleFormat}。}
 \end{changelog}
 \nocite{*}
 % \AddToHook{cmd/printindex/before}{\clearpage}
