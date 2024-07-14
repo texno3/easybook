@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/07/12}{2024cq}
+\ProvidesExplClass{easybook}{2024/07/14}{2024cr}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/07/12}{2024cq}
+\ProvidesExplPackage{easybase}{2024/07/14}{2024cr}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -802,7 +802,7 @@
 \UseFntSymbsList{empty}
 \cs_set_eq:NN \DefineFntSymbols \SetFntSymbsList
 \cs_set_eq:NN \setfntsymbol \UseFntSymbsList
-\cs_new:Npn \eb_int_format_trans:NN #1
+\cs_new:Npn \eb_int_type_trans:NN #1
   {
     \str_case:nn {#1}
       {
@@ -843,17 +843,23 @@
     \clist_map_inline:nn
       { A,a,1,I,i,c,s }
       {
-        \regex_match:nnT {##1} {#2}
+        \regex_match:nnTF {##1} {#2}
           {
             \regex_replace_once:nnN {##1}
-              { \c{eb_int_format_trans:NN} ##1 \c{c@footnote} }
+              { \c{eb_int_type_trans:NN} ##1 \c{c@footnote} }
               \l__eb_fnmarktext_short_tokens_tl
-            \seq_map_break:
+            \cs_set_eq:NN #1 \l__eb_fnmarktext_short_tokens_tl
+            \clist_map_break:
+          }
+          {
+            \str_if_eq:nnT {##1} { s }
+              { \msg_warning:nnn { easybase } { unknown-fnt-type } {#2} }
           }
       }
-    \cs_set_eq:NN #1 \l__eb_fnmarktext_short_tokens_tl
     \cs_set_eq:NN \thedownfootnote \thefootnote
   }
+\msg_new:nnn { easybase } { unknown-fnt-type }
+  { The~'#1'~includes~unknown~footnote~numbering~type. }
 \cs_new_protected:Npn \eb_footnote_value_handle:n #1
   {
     \str_case:nnF {#1}
@@ -2665,7 +2671,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/12}{2024cq}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/14}{2024cr}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
