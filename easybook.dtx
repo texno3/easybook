@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/07/14}{2024cr}
+\ProvidesExplClass{easybook}{2024/07/15}{2024cs}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/07/14}{2024cr}
+\ProvidesExplPackage{easybase}{2024/07/15}{2024cs}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -372,7 +372,11 @@
     \IfNoValueTF{#1}
       {\IfFileExists{#2.sty}{\RequirePackage{#2}[#3]}{}}
       {\IfFileExists{#2.sty}{\RequirePackage[#1]{#2}[#3]}{}}
+    \IfFileExists{#2.sty}{}
+      {\msg_warning:nnn { easybase } { package-not-found } {#2}}
   }
+\msg_new:nnn { easybase } { package-not-found }
+  { The~macro~package~'#1'~can't~be~found. }
 \cs_new_protected:Npn \ebloadpackage #1
   {
     \int_compare:nTF { \clist_count:n {#1} <= 1 }
@@ -837,6 +841,7 @@
       }
     \cs_set_eq:NN \thedownfootnote \thefootnote
   }
+\cs_generate_variant:Nn \msg_warning:nnnn { nnnV }
 \cs_new_protected:Npn \eb_fnmarktext_short_label_set:Nn #1#2
   {
     \tl_set:Nn \l__eb_fnmarktext_short_tokens_tl {#2}
@@ -853,13 +858,21 @@
           }
           {
             \str_if_eq:nnT {##1} { s }
-              { \msg_warning:nnn { easybase } { unknown-fnt-type } {#2} }
+              {
+                \str_if_eq:nnTF {#1} { \thefootnote }
+                  { \str_set:Nn \l_tmpa_str { \thedownfootnote } }
+                  { \str_set:Nn \l_tmpa_str { \theupfootnote } }
+                \msg_warning:nnnV { easybase } { unknown-fnt-type } {#2} \l_tmpa_str
+              }
           }
       }
     \cs_set_eq:NN \thedownfootnote \thefootnote
   }
 \msg_new:nnn { easybase } { unknown-fnt-type }
-  { The~'#1'~includes~unknown~footnote~numbering~type. }
+  {
+    The~'#1'~includes~unknown~footnote~numbering~type \\
+    in~#2.
+  }
 \cs_new_protected:Npn \eb_footnote_value_handle:n #1
   {
     \str_case:nnF {#1}
@@ -2671,7 +2684,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/14}{2024cr}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/15}{2024cs}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
