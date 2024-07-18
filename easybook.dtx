@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/07/15}{2024cs}
+\ProvidesExplClass{easybook}{2024/07/18}{2024ct}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/07/15}{2024cs}
+\ProvidesExplPackage{easybase}{2024/07/18}{2024ct}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -313,7 +313,7 @@
 \cs_generate_variant:Nn \seq_set_from_clist:Nn { No }
 \cs_generate_variant:Nn \ctex_define:nn { nx }
 \cs_generate_variant:Nn \eb_set_hyperref:n { x }
-\cs_generate_variant:Nn \eb_at_begin_environment:nn { on }
+\cs_generate_variant:Nn \eb_at_begin_environment:nn { o }
 \cs_generate_variant:Nn \tl_if_novalue:nF { V }
 
 \cs_set_protected:Npn \ctex_define:nn #1
@@ -1925,7 +1925,7 @@
           }
       },
     subsection    =
-      { tocindent = \bool_if:NTF \l__eb_class_mode_book_bool { 3.8em } { 1.4em } }
+      { tocindent = \bool_if:NTF \l__eb_class_mode_book_bool { 3.8em } { 1.5em } }
   }
 
 \ctex_at_end_package:nn { imakeidx }
@@ -2684,7 +2684,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/15}{2024cs}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/18}{2024ct}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
