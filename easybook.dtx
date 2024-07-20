@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/07/18}{2024ct}
+\ProvidesExplClass{easybook}{2024/07/20}{2024cu}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/07/18}{2024ct}
+\ProvidesExplPackage{easybase}{2024/07/20}{2024cu}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1410,20 +1410,20 @@
 
 \ctex_define:nn { tools }
   {
-    hyphen-figure .tl_set:N   = \l__eb_hyphen_figure_tl,
-    hyphen-table .tl_set:N    = \l__eb_hyphen_table_tl,
-    hyphen-listing .tl_set:N  = \l__eb_hyphen_listing_tl,
-    hyphen-equation .tl_set:N = \l__eb_hyphen_equation_tl,
-    hyphen-every .meta:n      =
+    hyphen-figure .tl_set:N     = \l__eb_hyphen_figure_tl,
+    hyphen-table .tl_set:N      = \l__eb_hyphen_table_tl,
+    hyphen-lstlisting .tl_set:N = \l__eb_hyphen_lstlisting_tl,
+    hyphen-equation .tl_set:N   = \l__eb_hyphen_equation_tl,
+    hyphen-every .meta:n        =
       {
-        hyphen-figure  = {#1},hyphen-table    = {#1},
-        hyphen-listing = {#1},hyphen-equation = {#1}
+        hyphen-figure = {#1},hyphen-table = {#1},
+        hyphen-lstlisting = {#1},hyphen-equation = {#1}
       },
-    hyphen-every .initial:n   = .,
-    unknown .code:n           = \eb_msg_deprecated_option:n { tools }
+    hyphen-every .initial:n     = .,
+    unknown .code:n             = \eb_msg_deprecated_option:n { tools }
   }
 \clist_map_inline:nn
-  { figure,table,listing,equation }
+  { figure,table,lstlisting,equation }
   {
     \cs_set:cpn { the#1 }
       {
@@ -1988,19 +1988,19 @@
 
 \ctex_define:nn { font }
   {
-    caption-table .tl_set:N   = \l__eb_font_caption_table_tl,
-    caption-figure .tl_set:N  = \l__eb_font_caption_figure_tl,
-    caption-listing .tl_set:N = \l__eb_font_caption_listing_tl,
-    caption-every .meta:n     =
+    caption-table .tl_set:N       = \l__eb_font_caption_table_tl,
+    caption-figure .tl_set:N      = \l__eb_font_caption_figure_tl,
+    caption-lstlisting .tl_set:N  = \l__eb_font_caption_lstlisting_tl,
+    caption-every .meta:n         =
       {
-        caption-table   = {#1},caption-figure = {#1},
-        caption-listing = {#1}
+        caption-table = {#1},caption-figure = {#1},
+        caption-lstlisting = {#1}
       },
-    caption-every .initial:n  = \sffamily\small,
-    footnote .tl_set:N        = \eb@font@footnote,
-    marginpar .tl_set:N       = \marginfont,
-    marginpar .initial:n      = \footnotesize,
-    unknown .code:n           = \eb_msg_deprecated_option:n { font }
+    caption-every .initial:n      = \sffamily\small,
+    footnote .tl_set:N            = \eb@font@footnote,
+    marginpar .tl_set:N           = \marginfont,
+    marginpar .initial:n          = \footnotesize,
+    unknown .code:n               = \eb_msg_deprecated_option:n { font }
   }
 \cs_new_protected:Npn \ebaddtofont #1#2
   {
@@ -2010,13 +2010,13 @@
         { \tl_put_right:Nn \l__eb_font_caption_table_tl {#2} }
         { figure }
         { \tl_put_right:Nn \l__eb_font_caption_figure_tl {#2} }
-        { listing }
-        { \tl_put_right:Nn \l__eb_font_caption_listing_tl {#2} }
+        { lstlisting }
+        { \tl_put_right:Nn \l__eb_font_caption_lstlisting_tl {#2} }
         { every }
         {
           \tl_put_right:Nn \l__eb_font_caption_table_tl {#2}
           \tl_put_right:Nn \l__eb_font_caption_figure_tl {#2}
-          \tl_put_right:Nn \l__eb_font_caption_listing_tl {#2}
+          \tl_put_right:Nn \l__eb_font_caption_lstlisting_tl {#2}
         }
         { footnote }
         { \tl_put_right:Nn \eb@font@footnote {#2} }
@@ -2045,7 +2045,7 @@
     fntspread .initial:n        = 1.2,
     captab-spread .fp_set:N     = \l__eb_spread_caption_table_fp,
     capfig-spread .fp_set:N     = \l__eb_spread_caption_figure_fp,
-    caplst-spread .fp_set:N     = \l__eb_spread_caption_listing_fp,
+    caplst-spread .fp_set:N     = \l__eb_spread_caption_lstlisting_fp,
     caption-spread .meta:n      =
       {
         captab-spread = {#1},capfig-spread = {#1},
@@ -2086,7 +2086,7 @@
 \AfterPreamble{\skip_set:Nn \abovedisplayshortskip { 0ex plus .1ex }}
 
 \clist_map_inline:nn
-  { table,figure,listing }
+  { table,figure,lstlisting }
   {
     \DeclareCaptionFont{eb@#1@font}
       {
@@ -2104,7 +2104,7 @@
   }
 \captionsetup[table]{font = eb@table@font}
 \captionsetup[figure]{font = eb@figure@font}
-\captionsetup[lstlisting]{font = eb@listing@font}
+\captionsetup[lstlisting]{font = eb@lstlisting@font}
 \ctex_at_end_package:nn { bicaption }
   {
     \captionsetup[figure][bi-second]{name = Figure}
@@ -2278,6 +2278,9 @@
             \listnumberline{#2}
             \thmtname\thmtifnote{~(\thmtnote)}{}
           }
+        \cs_gset:cpn { thmt@contentsline@#2 }
+          { \thmt@contentslineIfNamed }
+        \exp_args:Nc \providecommand { p@#2 }[1]{##1}
       }
     \ctex_define:nn { thmt }
       {
@@ -2684,7 +2687,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/18}{2024ct}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/20}{2024cu}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

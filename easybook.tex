@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024ct,
-    date            = 2024/07/18,
+    version         = v2024cu,
+    date            = 2024/07/20,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -408,7 +408,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   设置图片题注编号的连字符。
   \keyval{hyphen-table}{表格连字符}\Default{\Marg{.}}
   设置表格题注编号的连字符。
-  \keyval{hyphen-listing}{代码连字符}\Default{\Marg{.}}
+  \keyval{hyphen-lstlisting}{代码连字符}\Default{\Marg{.}}
   设置代码题注编号的连字符。
   \keyval{hyphen-equation}{公式连字符}\Default{\Marg{.}}
   设置公式题注编号的连字符。
@@ -472,7 +472,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   设置表格题注的字体，包括字体族、字体系列、字体尺寸和字体形状命令。
   \keyval{caption-figure}{字体命令}\Default{\cs*{sffamily}\cs*{small}}
   设置图片题注的字体，包括字体族、字体系列、字体尺寸和字体形状命令。
-  \keyval{caption-listing}{字体命令}\Default{\cs*{sffamily}\cs*{small}}
+  \keyval{caption-lstlisting}{字体命令}\Default{\cs*{sffamily}\cs*{small}}
   设置代码题注的字体，包括字体族、字体系列、字体尺寸和字体形状命令。
   \keyval{caption-every}{字体命令}\Default{\cs*{sffamily}\cs*{small}}
   同时设置图片、表格和代码题注的字体命令。
@@ -1458,6 +1458,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \shortversion{v = 2024ci,date = 2024/06/22,changes = 修复使用 \code{flush} 类型脚注报错。}
   \shortversion{v = 2024co,date = 2024/07/06,changes = 目录命令的可选参数支持 \CTeX 键值列表所有路径的章节标题样式选项。}
   \shortversion{v = 2024cq,date = 2024/07/12,changes = 新增章节标题格式复制命令 \cs{CopyTitleFormat}。}
+  \shortversion{v = 2024cu,date = 2024/07/20,changes = 修复无编号的定理环境标签命令 \cs*{p@}\meta{定理名} 缺失导致报错的问题。}
 \end{changelog}
 \nocite{*}
 % \AddToHook{cmd/printindex/before}{\clearpage}
