@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/07/20}{2024cu}
+\ProvidesExplClass{easybook}{2024/07/20}{2024cv}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/07/20}{2024cu}
+\ProvidesExplPackage{easybase}{2024/07/20}{2024cv}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1422,17 +1422,20 @@
     hyphen-every .initial:n     = .,
     unknown .code:n             = \eb_msg_deprecated_option:n { tools }
   }
-\clist_map_inline:nn
-  { figure,table,lstlisting,equation }
+\AtBeginDocument
   {
-    \cs_set:cpn { the#1 }
+    \clist_map_inline:nn
+      { figure,table,lstlisting,equation }
       {
-        \int_compare:nNnT { \c@chapter } > { 0 }
+        \cs_set:cpn { the#1 }
           {
-            \thechapter
-            \tl_use:c { l__eb_hyphen_#1_tl }
+            \int_compare:nNnT { \c@chapter } > { 0 }
+              {
+                \thechapter
+                \tl_use:c { l__eb_hyphen_#1_tl }
+              }
+            \int_to_arabic:v { c@#1 }
           }
-        \int_to_arabic:v { c@#1 }
       }
   }
 
@@ -1813,6 +1816,8 @@
     hang .initial:n       = true,
     pagenumwd .code:n     = \contentsmargin{#1},
     pagenumwd .initial:n  = 1.55em,
+    fileopen .tl_set:N    = \l__eb_fileopen_type_tl,
+    fileopen .initial:n   = once,
     unknown .code:n       = \eb_msg_deprecated_option:n { toc }
   }
 
@@ -1841,8 +1846,12 @@
   }
 \AddToHook{enddocument/afterlastpage}
   {
-    \IfHookEmptyTF{starttoc/after}{}
-      {\iow_now:Nn \@mainaux { \RemoveFromHook{starttoc/after}[aux] }}
+    \tl_if_eq:NnTF \l__eb_fileopen_type_tl { once }
+      { \iow_now:Nn \@mainaux { \RemoveFromHook{starttoc/after}[*] } }
+      {
+        \IfHookEmptyTF{starttoc/after}{}
+          {\iow_now:Nn \@mainaux { \RemoveFromHook{starttoc/after}[aux] }}
+      }
   }
 \cs_set_protected:Npn \AllotPartialExt #1#2
   {
@@ -2687,7 +2696,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/20}{2024cu}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/20}{2024cv}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

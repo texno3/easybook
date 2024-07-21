@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024cu,
-    date            = 2024/07/20,
+    version         = v2024cv,
+    date            = 2024/07/21,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -404,12 +404,14 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \ctexset{tools/figurepath = path1}
   \ctexset{tools/figurepath = {path2}{path3}}
   \end{ctexexam}
+
+  以下几个选项用于设置题注编号的连字符，\code{chapter} 计数器的值大于0时连字符才有意义。若需更改题注编号的输出格式可在正文中重新定义 \cs*{the}\meta{计数器} 命令。
   \keyval{hyphen-figure}{图片连字符}\Default{\Marg{.}}
   设置图片题注编号的连字符。
   \keyval{hyphen-table}{表格连字符}\Default{\Marg{.}}
   设置表格题注编号的连字符。
   \keyval{hyphen-lstlisting}{代码连字符}\Default{\Marg{.}}
-  设置代码题注编号的连字符。
+  设置代码题注编号的连字符。\pkg*{listings} 宏包的 \option{numberbychapter} 选项失效。
   \keyval{hyphen-equation}{公式连字符}\Default{\Marg{.}}
   设置公式题注编号的连字符。
   \keyval{hyphen-every}{连字符}\Default{\Marg{.}}
@@ -596,7 +598,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \optpath{thmt/}\key{loeskip}{弹性长度}\Default{10pt}
   定理目录中每章第一个条目上方增加的垂直距离。与 \CTeX 的表格和图片目录中每章间的条目距离选项 \option*{lotskip} 和 \option*{lofskip} 类似，在 \cls*{article} 模式中此选项失效。
   \command{thmtifnote}[\marg{存在题注代码}\marg{不存在题注代码}]
-  如果标题没题注即定理环境不用可选参数，则标题不加入定理目录，这是默认且合理的行为。若需要将无题注的标题加入目录可将 \meta{环境名} 加入目录风格的 \option{show} 选项或使用 \cs*{settheoremtocline}\code{*} 命令。是否存在题注需要在 \meta{标题定义} 中使用 \cs{thmtifnote} 命令判定，从而输出不同的内容。
+  如果标题没题注即定理环境不用可选参数，则标题不加入定理目录，这是默认且合理的行为。若需要将无题注的标题加入目录可将 \meta{环境名} 传给目录风格的 \option{show} 选项或使用 \cs*{settheoremtocline}\code{*} 命令。是否存在题注需要在 \meta{标题定义} 中使用 \cs{thmtifnote} 命令判定，从而输出不同的内容。
   \command{thmtifname}[\marg{存在编号代码}\marg{不存在编号代码}]
   在 \meta{标题定义} 中测试当前定理是否有编号从而输出不同的内容，定理风格选项 \keyis{numbered}{no} 设置当前定理环境没有编号。
   \begin{ctexexam}
