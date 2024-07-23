@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/07/20}{2024cv}
+\ProvidesExplClass{easybook}{2024/07/23}{2024cw}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/07/20}{2024cv}
+\ProvidesExplPackage{easybase}{2024/07/23}{2024cw}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1617,8 +1617,9 @@
           { \protect\numberline{#3}{#4} }
       }
   }
-\cs_new_protected:Npn \AllotCaptionExt #1#2
+\cs_new_protected:Npn \AssignCaptionExt #1#2
   { \tl_set:cn { ext@#1 } {#2} }
+\cs_set_eq:NN \AllotCaptionExt \AssignCaptionExt
 \ctex_define:n
   {
     bicontentsname .tl_set:N  = \bicontentsname,
@@ -1853,7 +1854,7 @@
           {\iow_now:Nn \@mainaux { \RemoveFromHook{starttoc/after}[aux] }}
       }
   }
-\cs_set_protected:Npn \AllotPartialExt #1#2
+\cs_set_protected:Npn \AssignPartialExt #1#2
   {
     \tl_if_exist:cTF { ttl@partial#1 }
       { \msg_warning:nnnn { easybase } { repeated-ptoc } {#1} {#2} }
@@ -1863,12 +1864,13 @@
           {\ttl@topartial{#1}{##1}{##2}}
       }
   }
+\cs_set_eq:NN \AllotPartialExt \AssignPartialExt
 \msg_new:nnn { easybase } { repeated-ptoc }
   {
     Local~directory~file~'#2'~of~directory~type~'#1'~is \\
     repeatedly~allocated.
   }
-\AllotPartialExt{lol}{pll}
+\AssignPartialExt{lol}{pll}
 
 \cs_new_protected:Npn \RegisterTitleIfname #1
   {
@@ -2310,7 +2312,7 @@
     \theoremstyle{default}
     \cs_undefine:N \proof
     \DeclareFloatList{theorem}{loe}
-    \AllotPartialExt{loe}{ple}
+    \AssignPartialExt{loe}{ple}
     \eb_preto_cmd:nn { listoftheorems }
       {
         \group_begin:
@@ -2696,7 +2698,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/20}{2024cv}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/23}{2024cw}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

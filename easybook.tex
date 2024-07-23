@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024cv,
-    date            = 2024/07/21,
+    version         = v2024cw,
+    date            = 2024/07/23,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -869,16 +869,16 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \DeclareFloatList{algorithm}{loa}
   \listofalgorithms[multoc] % 在正文中输出双栏算法目录
   \end{ctexexam}
-  \command{AllotCaptionExt}[\marg{条目名}\marg{扩展名}]
+  \command{AssignCaptionExt}[\marg{条目名}\marg{扩展名}]
   给条目类型名称为 \meta{条目名} 的标题分配目录文件 \meta{扩展名}，注意 \meta{扩展名} 需要被定义在 \cs*{ext@}\meta{条目名} 命令中才有效（\pkg*{caption} 宏包的默认定义形式）。可以使不同的 \meta{条目名} 共享一个目录：
   \begin{ctexexam}
-  \AllotCaptionExt{table}{lof}
+  \AssignCaptionExt{table}{lof}
   \newcommand{\listoffiguretables}{\listoffigures} % 同时输出图表目录的命令
   \end{ctexexam}
-  \command{AllotPartialExt}[\marg{扩展名1}\marg{扩展名2}]\newtagv{2024bk}
+  \command{AssignPartialExt}[\marg{扩展名1}\marg{扩展名2}]\newtagv{2024bk}
   给目录文件扩展名为 \meta{扩展名1} 的目录分配扩展名为 \meta{扩展名2} 的局部目录\footnote{此功能需要\textbf{2023/06/01}以后的 \hologo{LaTeX} 内核支持。}，预注册的条目均无需再分配。用于搭配题注标题 \cs{caption} 命令和 \pkg*{titletoc} 宏包的局部题注目录命令。
   \begin{ctexexam}
-  \AllotPartialExt{loa}{pla}
+  \AssignPartialExt{loa}{pla}
   \startlist[fancy]{loa}
   \captionof{algorithm}{算法标题}
   \stoplist[fancy]{loa}
@@ -1431,7 +1431,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \item 新增脚注段落文本格式定义命令 \cs{deffntpara} 和脚注间距离选项 \option{footnotesep}。
   \item 新增悬挂缩进命令 \cs{hangfrom}。
   \item 新增行间公式与正文上下间距选项 \option{abovedisplayskip} 和 \option{belowdisplayskip}。
-  \item 新增目录文件扩展名分配命令 \cs{AllotCaptionExt}。
+  \item 新增目录文件扩展名分配命令 \cs{AssignCaptionExt}。
   \end{version}
   \shortversion{v = 2024aq,date = 2024/03/31,changes = 修复命令 \cs{ebifbitoc} 用于条目缩进选项 \option{tocindent} 失效的问题。}
   \begin{version}[v = 2024as,date = 2024/04/19]
@@ -1443,7 +1443,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \end{version}
   \shortversion{v = 2024aw,date = 2024/04/22,changes = 新增新建章节标题命令 \cs{NewTitleCommand} 和 \cs{NewTitleEntryCommand}。}
   \shortversion{v = 2024bb,date = 2024/04/26,changes = 增加对 \pkg*{thmtools} 宏包定理环境目录 \cs{listoftheorems} 的支持。}
-  \shortversion{v = 2024bk,date = 2024/05/07,changes = 新增局部题注目录分配命令 \cs{AllotPartialExt}。}
+  \shortversion{v = 2024bk,date = 2024/05/07,changes = 新增局部题注目录分配命令 \cs{AssignPartialExt}。}
   \begin{version}[v = 2024bn,date = 2024/05/10]
   \fixed
   \item 修复 \module*{toc} 模块中带有 \option*{every} 后缀的选项不对所有已注册条目有效的问题。
