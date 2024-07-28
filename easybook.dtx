@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/07/23}{2024cw}
+\ProvidesExplClass{easybook}{2024/07/28}{2024cx}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/07/23}{2024cw}
+\ProvidesExplPackage{easybase}{2024/07/28}{2024cx}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -878,7 +878,7 @@
     \str_case:nnF {#1}
       {
         { bottom }
-        { \bool_set_true:N \l__eb_fnpara_bottom_bool }
+        { \PushFntBottom }
         { flush }
         {
           \tl_set:Nn \l__eb_footnote_value_tl { plain }
@@ -911,7 +911,6 @@
       }
   }
 
-\bool_new:N \l__eb_fnpara_bottom_bool
 \tl_new:N \l__eb_fnmarktext_format_tl
 \tl_new:N \l__eb_fncustom_format_tl
 \clist_new:N \l__eb_footnote_value_clist
@@ -969,58 +968,91 @@
         { page } { \counterwithin*{footnote}{page} }
       }
       { \counterwithout*{footnote}{chapter} }
-    \eb_fnpara_if_pos_bottom:
   }
-\cs_new_protected:Npn \setspread #1 { \linespread{#1}\selectfont }
-\cs_new:Npn \eb@ifvoid #1#2#3 { \ifvoid #1#2\else #3\fi }
-\cs_new_protected:Npn \eb_fnpara_if_pos_bottom:
+
+\def\@if@footnotes@TF #1#2 {\ifvoid\footins #2\else #1\fi}
+\def\@outputbox@removebskip
   {
-    \bool_if:NT \l__eb_fnpara_bottom_bool
+    \ifx\@textbottom\relax\else
+      \@outputbox@append
+        {
+          \@tempskipa\lastskip
+          \ifnum\gluestretchorder\@tempskipa>\z@
+            \vskip -\@tempskipa
+            \xdef\@outputbox@reinsertbskip
+              {\noexpand\@outputbox@append{\vskip\the\@tempskipa}}
+          \else
+            \global\let\@outputbox@reinsertbskip\relax
+          \fi
+        }
+    \fi
+  }
+\let\@outputbox@reinsertbskip\relax
+\def\@outputbox@append #1
+  {
+    \setbox\@outputbox\vbox
       {
-        \IfPackageLoadedTF{footmisc}
-          {\msg_warning:nn { easybase } { bottom-not-compatible }}
-          {
-            \cs_set:Npn \@makecol
-              {
-                \setbox\@outputbox\box\@cclv
-                \let\@elt\relax
-                \xdef\@freelist{\@freelist\@midlist}
-                \global\let\@midlist\@empty
-                \@combinefloats
-                \eb@ifvoid\footins{}
-                  {
-                    \setbox\@outputbox\vbox
-                      {
-                        \boxmaxdepth\@maxdepth
-                        \unvbox\@outputbox
-                        \vfill\relax
-                        \vskip\skip\footins
-                        \color@begingroup
-                        \normalcolor\footnoterule
-                        \unvbox\footins
-                        \color@endgroup
-                      }
-                  }
-                \eb@ifvoid\@kludgeins
-                  {\@makespecialcolbox}
-                  {
-                    \setbox\@outputbox\vbox to\@colht
-                      {
-                        \@texttop\dimen@\dp\@outputbox
-                        \unvbox\@outputbox
-                        \vskip -\dimen@\@textbottom
-                      }
-                  }
-                \global\maxdepth\@maxdepth
-              }
-          }
+        \boxmaxdepth\@maxdepth
+        \dimen@\dp\@outputbox
+        \unvbox\@outputbox
+        #1
       }
   }
-\msg_new:nnn { easybase } { bottom-not-compatible }
+\def\@outputbox@attachfloats{\@combinefloats}
+\NewHook{makecol/footins/before}
+\NewHook{makecol/footins/begin}
+\def\@outputbox@appendfootnotes
   {
-    Not~compatible~with~the~'footmisc'~package. \\
-    Please~use~the~'bottom'~option~of~'footmisc'~package.
+    \@if@footnotes@TF
+      {
+        \UseHook{makecol/footins/before}
+        \@outputbox@append
+          {
+            \vskip\skip\footins
+            \UseHook{makecol/footins/begin}
+            \color@begingroup
+            \normalcolor
+            \footnoterule
+            \@nameuse{pdfcolfoot@current}
+            \unvbox\footins
+            \color@endgroup
+          }
+      }{}
   }
+\def\@makenormalcolbox
+  {
+    \setbox\@outputbox\vbox to\@colht
+      {
+        \@texttop
+        \dimen@\dp\@outputbox
+        \unvbox\@outputbox
+        \vskip -\dimen@
+        \@textbottom
+      }
+  }
+\cs_new_protected:Npn \PushFntBottom
+  {
+    \cs_set:Npn \@makecol
+      {
+        \setbox\@outputbox\box\@cclv
+        \@outputbox@removebskip
+        \let\@elt\relax
+        \xdef\@freelist{\@freelist\@midlist}
+        \global\let\@midlist\@empty
+        \@outputbox@attachfloats
+        \@if@footnotes@TF
+          {\@outputbox@append{\vfill}}
+          {\@outputbox@reinsertbskip}
+        \@outputbox@appendfootnotes
+        \ifvbox\@kludgeins
+          \@makespecialcolbox
+        \else
+          \@makenormalcolbox
+        \fi
+        \global\maxdepth\@maxdepth
+      }
+  }
+\@onlypreamble\PushFntBottom
 
 \cs_new_protected:Npn \eb_footnote_direct_hang:
   {
@@ -1076,6 +1108,7 @@
     \l__eb_fnpara_format_tl{#1}
     \tl_if_eq:NnT \l__eb_footnote_value_tl { hang } { \par }
   }
+\cs_new_protected:Npn \setspread #1 { \linespread{#1}\selectfont }
 \clist_map_inline:nn { \@footnotetext,\@mpfootnotetext }
   {
     \eb_patch_cmd:Nnn #1
@@ -2698,7 +2731,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/23}{2024cw}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/28}{2024cx}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024cw,
-    date            = 2024/07/23,
+    version         = v2024cx,
+    date            = 2024/07/28,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -710,6 +710,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \ebhdrset{footnotetype = plain,footnotetype = bottom}
   \ebhdrset{footnotetype = {hang,bottom}}
   \end{ctexexam}
+  \command{PushFntBottom}\newtagv{2024cx}%
+  默认情况下当具有 \code{b} 参数的底部浮动体与脚注同时存在时，脚注将位于浮动体上部。此命令可使脚注始终位于页面底部，与 \keyis{footnotetype}{bottom} 作用相同，只能在导言区全局使用。
   \keyval{fnfirstindent}{刚性长度}\Default{1em}
   每个脚注首段的首行缩进（悬挂缩进 \code{hang} 为整段缩进），等于长度 \cs{fnfirstindent} 的值。
   \keyval{fnafterindent}{刚性长度}\Default{2em}
@@ -1461,6 +1463,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \shortversion{v = 2024co,date = 2024/07/06,changes = 目录命令的可选参数支持 \CTeX 键值列表所有路径的章节标题样式选项。}
   \shortversion{v = 2024cq,date = 2024/07/12,changes = 新增章节标题格式复制命令 \cs{CopyTitleFormat}。}
   \shortversion{v = 2024cu,date = 2024/07/20,changes = 修复无编号的定理环境标签命令 \cs*{p@}\meta{定理名} 缺失导致报错的问题。}
+  \shortversion{v = 2024cx,date = 2024/07/28,changes = 新增将脚注置于页面底部的命令 \cs{PushFntBottom}。}
 \end{changelog}
 \nocite{*}
 % \AddToHook{cmd/printindex/before}{\clearpage}
