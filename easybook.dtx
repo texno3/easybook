@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/07/28}{2024cx}
+\ProvidesExplClass{easybook}{2024/07/29}{2024da}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/07/28}{2024cx}
+\ProvidesExplPackage{easybase}{2024/07/29}{2024da}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1507,7 +1507,7 @@
         \tl_set:Nn \eb@toc@title@level {#1}
         \eb_toc_extract_level:
       },
-    level .initial:e    =
+    level .initial:x    =
       {
         \bool_if:NTF \l__eb_class_mode_book_bool
           { \exp_not:N \bichapter* }
@@ -2731,7 +2731,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/28}{2024cx}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/07/29}{2024da}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024cx,
-    date            = 2024/07/28,
+    version         = v2024da,
+    date            = 2024/07/29,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -917,6 +917,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   将目录页码装进一个右对齐的水平盒子里。这样可以使目录引导线右端对齐并与页码保持一定间距，否则会与页码相连。
   \keyval{pagenumwd}{刚性长度}\Default{1.55em}
   设置开启 \option{dotalign} 选项时页码水平盒子的宽度。
+  \keychoice{fileopen}{\fbox{once},odd}
+  编译文档时打开目录文件进行写入操作的方式，这个选项影响重复使用目录命令时的输出行为。默认只在第一次编译时打开文件，选择 \code{odd} 将仅在奇数次编译时打开文件。
   \keyval{tocafter-every}{距离命令}\Default{\cs*{hspace}\Marg{1em}}
   统一设置所有类型条目编号与标题间的代码。
   \keyval{tocindent-every}{刚性长度}
