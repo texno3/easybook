@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024da,
-    date            = 2024/07/29,
+    version         = v2024dd,
+    date            = 2024/08/02,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -251,6 +251,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   cell{2}{5}    = PaleTurquoise,
   cell{3}{2}    = PaleTurquoise,
   cell{4}{5}    = PaleTurquoise,
+  cell{5}{2}    = PaleTurquoise,
   cell{5}{1}    = GreenYellow,
   cell{1}{2}    = GreenYellow,
   cell{3}{1,4}  = GreenYellow
@@ -297,6 +298,12 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \setCJKsansfont{SimHei}
   \setCJKmonofont{FangSong}
   \newCJKfontfamily[song]\songti{SimSun}
+  \end{ctexexam}
+
+  如果用 \textsf{overleaf} 或 \textsf{TexPage} 等在线平台编译文档，则只有 \code{fandol} 字体可用。使用其它字体可将字体文件上传至项目文件夹，例如上传至 \code{font} 文件夹设置正文和无衬线字体：
+  \begin{ctexexam}
+  \setCJKmainfont{simsun.ttc}[Path = ./font/]
+  \setCJKsansfont{simhei.ttf}[Path = ./font/]
   \end{ctexexam}
   \keychoice{font}{noto,times,times*,ebgaramond,libertine,palatino,\fbox{auto}}\dtag
   预置的英文字体相关配置方案如\ref{table:english font} 所示。这些字体已经包含在了 \hologo{TeXLive} 发行版中，所以通常不需要再专门安装。如果您想使用默认的Latin Modern或其它英文字体，可以使用 \code{auto} 选项配合 \pkg*{fontspec} 宏包的相关命令进行设置。
