@@ -1123,9 +1123,9 @@
 \ctex_at_end_package:nn { footmisc }
   {
     \eb_package_date_check:nn { footmisc } { 2022/02/10 }
-    \boolfalse{FN@setspace}
     \ifbool{FN@para}{}
       {
+        \boolfalse{FN@setspace}
         \cs_set_eq:NN \@makefntext \eb@@makefntext
         \cs_set_eq:NN \@footnotetext \eb@@footnotetext
       }
