@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/08/03}{2024de}
+\ProvidesExplClass{easybook}{2024/08/05}{2024df}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/08/03}{2024de}
+\ProvidesExplPackage{easybase}{2024/08/05}{2024df}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1973,7 +1973,7 @@
 
 \ctex_at_end_package:nn { imakeidx }
   {
-    \RenewDocumentCommand{\printindex}{st+od()}
+    \RenewDocumentCommand{\printindex}{st++o}
       {
         \group_begin:
         \tl_set_eq:NN \eb@toc@title \indexname
@@ -2455,7 +2455,7 @@
       { \exp_args:NV \bibliographystyle \l__eb_bib_both_style_tl }
     \tl_if_blank:VF \l__eb_bib_cite_style_tl
       { \exp_args:NV \setcitestyle \l__eb_bib_cite_style_tl }
-    \NewDocumentCommand{\printbibliography}{st+o}
+    \NewDocumentCommand{\printbibliography}{st++o}
       {
         \group_begin:
         \tl_set_eq:NN \eb@toc@title \bibname
@@ -2730,7 +2730,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/08/03}{2024de}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/08/05}{2024df}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

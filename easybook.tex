@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024de,
-    date            = 2024/08/03,
+    version         = v2024df,
+    date            = 2024/08/05,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -500,7 +500,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \label{subsec:reference}
 \begin{cnltxlist}
   \keychoice{backend}{\fbox{bibtex},biblatex}
-  参考文献处理后端。选择 \code{bibtex} 时使用传统的 \hologo{BibTeX} 引擎处理参考文献，加载 \pkg*{natbib} 宏包。选择 \code{biblatex} 时使用 \hologo{biber} 引擎，加载 \pkg*{biblatex} 宏包。
+  参考文献处理后端。选择 \code{bibtex} 时使用传统的 \hologo{BibTeX} 引擎处理参考文献，加载 \pkg*{natbib} 宏包。选择 \code{biblatex} 时使用 \hologo{biber} 引擎，加载 \pkg*{biblatex} 宏包。若自动载入参考文献宏包则位于导言区末尾，但在 \pkg*{hyperref} 宏包之前。
   \keychoice{bibstyle}{\fbox{numerical},authoryear,\optpath*{other sty}}
   参考文献格式使用中国参考文献推荐标准GB/T 7714-2015，对应顺序编码制和著者—出版年制两种风格。若使用其它格式，使用 \hologo{BibTeX} 处理时需确保正确的 \code{bst} 文件，使用 \hologo{biber} 处理可使用 \pkg*{biblatex} 宏包支持的参考文献风格名称。
   \keyval{citestyle}{标注风格}
@@ -552,11 +552,11 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \keyval{style}{定理样式}\Default{default}
   选项的值为使用 \cs{declaretheoremstyle} 命令新定义的定理样式。
 
-  使用 \cs{declaretheorem} 命令以\ref{exam:new theorem sty} 中的定理样式 \code{fancy} 新建一个定理环境猜想，然后用一个基于 \pkg*{tcolorbox} 宏包的预置彩色盒子 \env{easyboxi} 增加背景：
+  使用 \cs{declaretheorem} 命令以\ref{exam:new theorem sty} 中的定理样式 \code{fancy} 新建一个定理环境 \env*{lemma}，然后用一个基于 \pkg*{tcolorbox} 宏包的预置彩色盒子 \env{easyboxi} 增加背景：
   \begin{ctexexam}[labelref = exam:new theorem env]
-  \declaretheorem[style = fancy,name = 猜想]{caixiang}
+  \declaretheorem[style = fancy,name = 引理]{lemma}
   \addtotcbstyle{tc-easyboxi}{colback = GreenYellow}
-  \tcolorboxenvironment{caixiang}{tc-easyboxi}
+  \tcolorboxenvironment{lemma}{tc-easyboxi}
   \end{ctexexam}
   \command{declaretheoremstyle}[\oarg{键值列表1}\marg{定理样式}\oarg{键值列表2}]
   定理样式声明命令，键值列表支持自身以及定理声明命令 \cs{declaretheorem} 的所有选项。可选参数的 \meta{键值列表1} 与 \meta{键值列表2} 等效，其中支持的选项如下：
@@ -608,12 +608,12 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{thmtifname}[\marg{存在编号代码}\marg{不存在编号代码}]
   在 \meta{标题定义} 中测试当前定理是否有编号从而输出不同的内容，定理风格选项 \keyis{numbered}{no} 设置当前定理环境没有编号。
   \begin{ctexexam}
-  \contentsuse{caixiang}{loe}
-  \RegisterTocName{caixiang}
-  \setlisttheoremstyle{ignoreall,show = caixiang}
-  \settheoremtocline{caixiang}
+  \contentsuse{lemma}{loe}
+  \RegisterTocName{lemma}
+  \setlisttheoremstyle{ignoreall,show = lemma}
+  \settheoremtocline{lemma}
     {
-      \listnumberline{caixiang}
+      \listnumberline{lemma}
       \thmtname\thmtifnote{[\thmtnote]}{}
     }
   \end{ctexexam}
@@ -1329,13 +1329,13 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \subsection{索引}
 \begin{cnltxlist}
   \command{indexsetup}[\marg{键值列表}]
-  \pkg*{imakeidx} 宏包增强了索引的功能，可使用户在制作和排版文档的同时制作一个或多个索引。这是 \pkg*{imakeidx} 宏包的接口命令，用于设置索引表的整体格式。
+  \pkg*{imakeidx} 宏包增强了索引的功能，可使用户在制作和排版文档的同时制作一个或多个索引。这是 \pkg*{imakeidx} 宏包的接口命令，用于设置索引表的整体格式，它的 \option{level} 和 \option{headers} 选项失效。
   \command{index}[\oarg{索引名}\marg{标签}]
   索引标签命令的可选参数可以用不同的 \meta{索引名} 给多个索引表设置标签。
   \command{makeindex}[\oarg{键值列表}]
   用于导言区开启索引收集的命令。这个命令可以重复使用收集多个索引表，以不同的 \meta{索引名} 作为区分，如果仅打印一个索引表没必要重复使用。
   \command{printindex}[\sarg\oarg{键值列表}]
-  打印不同索引表的命令。这个命令被重新定义，\meta{键值列表} 中的选项与\ref{subsec:directory command} 其它目录命令相同，但是接口命令 \cs{indexsetup} 的部分选项失效。
+  打印不同索引表的命令。这个命令被重新定义，\meta{键值列表} 中的选项与\ref{subsec:directory command} 其它目录命令相同，并多出 \option{name} 选项用于指定打印索引的名字。
   \keyval{name}{索引名}
   指定输出名为 \meta{索引名} 的索引表，如果只使用一个索引表则默认为项目文件名不需要指定。
 \end{cnltxlist}
