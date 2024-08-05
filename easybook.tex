@@ -937,8 +937,47 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 
 \section{环境和命令}
 
-\subsection{文区命令}
+\subsection{封面和文区}
 \begin{cnltxlist}
+  \command{maketitle}[\oarg{键值列表}]\newtagv{2024df}%
+  重新改写了默认的封面标题命令，在保证原生风格的前提下使用 \pkg*{xtemplate} 宏包将封面抽象为由实例组成的模板。并为命令增加了可选参数，选项的含义与标准文档类一致：
+  \keyval{title}{文档标题}
+  设置文档的标题，可以包含格式命令。如果没有设置标题而输出封面会报错。
+  \keyval{author}{文档作者}
+  设置文档的作者，可以包含格式命令。多位作者之间可以用 \cs*{and} 命令分隔，每个作者后可用 \cs*{thanks} 命令添加致谢脚注。
+  \keyval{date}{文档日期}\Default{\cs*{today}}
+  设置文档的日期，可以包含格式命令。默认的文档日期为当前日期 \cs*{today}。
+  \command{DeclareInstance}[\Marg{easybook}\marg{位置}\Marg{cover}\marg{键值列表}]
+  封面模板可用 \pkg*{xtemplate} 提供的实例声明命令进行自由定制，\ref{exam:cover instance} 举例说明了定制页面中部的内容。模板由页面上、中和下三个位置的实例组成，它们的 \meta{位置} 名字分别为 \code{top}、\code{middle} 和 \code{bottom}。每个实例的属性可用 \meta{键值列表} 修改，包含的选项如下：
+  \keyval{content}{实例内容}
+  设置实例内容，可以包含任何记号列表的代码。通常为格式和排版内容的命令，在局部生效。
+  \keyval{beforecode}{实例前代码}
+  设置实例内容前的代码，可以包含任何记号列表的代码。通常为换页和垂直距离的命令。
+  \keyval{aftercode}{实例后代码}
+  与 \option{before} 选项类似，设置实例内容后的代码。
+  \keychoice{align}{l,\fbox{c},r,n}
+  设置实例内容的对齐方式，分别为左、中、右和自然对齐，自然对齐即正常的段落文本。
+  \begin{ctexexam}[labelref = exam:cover instance]
+  \DeclareInstance{easybook}{middle}{cover}
+    {
+      content     =
+        {
+          \thispagestyle{empty}
+          \begin{tblr}
+            {
+              columns     = c,
+              hline{2-4}  = {2}{0.5pt,solid},
+              column{1}   = {rightsep = 0pt}
+            }
+            标题：& 一个文档标题 \\
+            作者：& 张三 \\
+            日期：& \today
+          \end{tblr}
+        },
+      beforecode  = \null\vspace{3cm},
+      aftercode   = \clearpage
+    }
+  \end{ctexexam}
   \command{frontmatter}[\sarg\oarg{编号格式}]\Default{Roman}
   前言区命令。使部分和章标题不编号，带有星号的变体命令不使用 \cs{cleardoublepage} 命令。页码 \meta{编号格式} 可设置为 \code{arabic}、\code{Alph}、\code{alph}、\code{Roman}、\code{roman} 和 \code{chinese} 形式。
   \command{mainmatter}[\sarg]
@@ -1464,7 +1503,12 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \shortversion{v = 2024cq,date = 2024/07/12,changes = 新增章节标题格式复制命令 \cs{CopyTitleFormat}。}
   \shortversion{v = 2024cu,date = 2024/07/20,changes = 修复无编号的定理环境标签命令 \cs*{p@}\meta{定理名} 缺失导致报错的问题。}
   \shortversion{v = 2024cx,date = 2024/07/28,changes = 新增将脚注置于页面底部的命令 \cs{PushFntBottom}。}
-  \shortversion{v = 2024de,date = 2024/08/03,changes = 取消默认载入 \pkg*{ulem} 下划线宏包。}
+  \begin{version}[v = 2024df,date = 2024/08/05]
+  \changed
+  \item 取消默认载入 \pkg*{ulem} 下划线宏包。
+  \added
+  \item 使用 \pkg*{xtemplate} 宏包将封面标题命令 \cs{maketitle} 抽象为由实例组成的模板。
+  \end{version}
 \end{changelog}
 \nocite{*}
 % \AddToHook{cmd/printindex/before}{\clearpage}

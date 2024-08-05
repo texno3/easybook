@@ -332,7 +332,7 @@
     \clist_map_inline:nn {#1}
       { \AtBeginEnvironment{##1}{#2} }
   }
-\cs_new_protected:Npn \eb_at_end_preamble:n
+\cs_set_protected:Npn \ctex_before_end_preamble:n
   { \BeforeBeginEnvironment{document} }
 \cs_new_protected:Npn \eb_if_package_loaded:nnF #1#2#3
   {
@@ -957,7 +957,7 @@
     unknown .code:n                 = \eb_msg_deprecated_option:n { hdr }
   }
 
-\eb_at_end_preamble:n
+\ctex_before_end_preamble:n
   {
     \bool_if:NT \l__eb_chap_counter_withpart_bool
       { \counterwithin*{chapter}{part} }
@@ -2503,7 +2503,7 @@
     \setcounter{biburllcpenalty}{1}
     \setcounter{biburlnumpenalty}{1}
   }
-\eb_at_end_preamble:n
+\ctex_before_end_preamble:n
   {
     \providecommand{\bibname}{\refname}
     \clist_if_empty:NF \l__eb_bib_datafile_clist
@@ -2727,6 +2727,89 @@
         lstlistlistingname  = List~of~Codes,
         lstlistingname      = Code
       }
+  }
+
+\DeclareObjectType{easybook}{0}
+\DeclareTemplateInterface{easybook}{cover}{0}
+  {
+    content : tokenlist       = \c_empty_tl,
+    beforecode : tokenlist    = \c_empty_tl,
+    aftercode : tokenlist     = \c_empty_tl,
+    align : choice {l,r,c,n}  = c
+  }
+\DeclareTemplateCode{easybook}{cover}{0}
+  {
+    content     = \l__eb_cover_content_tl,
+    beforecode  = \l__eb_cover_before_code_tl,
+    aftercode   = \l__eb_cover_after_code_tl,
+    align       =
+      {
+        l = \cs_set_eq:NN \eb_cover_align: \raggedright,
+        r = \cs_set_eq:NN \eb_cover_align: \raggedleft,
+        c = \cs_set_eq:NN \eb_cover_align: \centering,
+        n = \cs_set:Npn \eb_cover_align: { }
+      }
+  }
+  {
+    \AssignTemplateKeys
+    \tl_use:N \l__eb_cover_before_code_tl
+    \group_begin:
+    \eb_cover_align:
+    \tl_use:N \l__eb_cover_content_tl
+    \tex_par:D
+    \group_end:
+    \tl_use:N \l__eb_cover_after_code_tl
+  }
+\DeclareInstance{easybook}{top}{cover}{}
+\DeclareInstance{easybook}{bottom}{cover}{}
+\DeclareInstance{easybook}{middle}{cover}
+  {
+    content     =
+      {
+        \LARGE\@title\par\vskip 3em
+        \large
+        \begin{tabular}[t]{c}
+          \@author
+        \end{tabular}\par\vskip 1.5em
+        \@date
+      },
+    beforecode  =
+      {
+        \ifbool{@titlepage}
+          {
+            \begin{titlepage}
+            \let\footnotesize\small
+            \let\footnoterule\relax
+            \let\footnote\thanks
+            \null\vfil
+          }
+          {\null}
+        \vskip 60\p@
+      },
+    aftercode   =
+      {
+        \@thanks
+        \ifbool{@titlepage}
+          {
+            \vfil\null
+            \end{titlepage}
+          }
+          {\thispagestyle{plain}}
+        \setcounter{footnote}{0}
+      }
+  }
+\keys_define:nn { eb/cover }
+  {
+    title .tl_set:N   = \@title,
+    author .tl_set:N  = \@author,
+    date .tl_set:N    = \@date
+  }
+\RenewDocumentCommand{\maketitle}{+O{}}
+  {
+    \keys_set:nn { eb/cover } {#1}
+    \UseInstance{easybook}{top}
+    \UseInstance{easybook}{middle}
+    \UseInstance{easybook}{bottom}
   }
 %</package>
 %<*tcolorbox>
