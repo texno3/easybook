@@ -40,4 +40,9 @@
       footnote .meta:n = { fntspread = {#1} }
     }
 }{}
+\IfPackageAtLeastTF{easybase}{2024/08/06}{
+  % v2024dh
+  \ctex_define:nn { font }
+    { caption-listing .meta:n = { caption-lstlisting = {#1} } }
+}{}
 \ExplSyntaxOff
