@@ -344,7 +344,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \label{sec:interface options}
 \begin{cnltxlist}
   \command{ctexset}[\oarg{模块名}\marg{键值列表}]
-  \easybook{} 扩展了 \CTeX 宏集 \hologo{LaTeX3} 风格键值的通用控制命令 \cs{ctexset}，模块选项同样可用它设置，原有的 \meta{键值列表} 仍然可用。本文档类目前有9个模块用于实现常规的排版功能，如\ref{table:module List} 所示。
+  \easybook{} 扩展了 \CTeX 宏集 \hologo{LaTeX3} 风格键值的通用控制命令 \cs{ctexset}，模块选项同样可用它设置，原有的 \meta{键值列表} 仍然可用。本文档类目前有10个模块用于实现常规的排版功能，如\ref{table:module List} 所示。
   \begin{longtblr}
   [caption = 模块功能和名称清单,label = table:module List]
   {
@@ -354,8 +354,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   }
   \hyperref[subsec:tools]{工具} & \hyperref[subsec:font]{部件字体} & \hyperref[subsec:space]{间距} & \hyperref[subsec:hyperlinks]{超链接} & \hyperref[subsec:reference]{参考文献} \\
   tools & font & space & ref & bib \\
-  \hyperref[subsec:theorem]{定理} & \hyperref[subsec:page margins]{页面尺寸} & \hyperref[subsec:header and footer]{页眉页脚} & \hyperref[subsec:catalog]{目录} & \\
-  thmt & geo & hdr & toc &
+  \hyperref[subsec:theorem]{定理} & \hyperref[subsec:page margins]{页面尺寸} & \hyperref[subsec:header and footer]{页眉页脚} & \hyperref[subsec:contents]{目录} & \hyperref[subsec:caption]{图表题注} \\
+  thmt & geo & hdr & toc & cap
   \end{longtblr}
 
   \ref{exam:kv setting} 使用\ref{subsec:tools} 介绍的工具模块 \module*{tools} 举例三种键值列表设置方式：1. 各 \meta{模块名} 是统一接口 \cs{ctexset} 的键路径。2. 不同模块还具有单独的接口命令 \cs*{eb}\meta{模块名}\code{\textcolor{cs}{set}}。3. \meta{模块名} 也可以使用 \cs{ctexset} 命令的可选参数设置。路径名与所属下级选项之间可以 \code{/} 或 \code{=} 号分开，斜线 \code{/} 后不能有空格或者换行。
@@ -599,7 +599,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{listoftheorems}[\sarg\oarg{键值列表}]\default{}
   \item\key{listoftheorems}{定理目录标题名}
   \command{settheoremtocline}[\sarg\marg{环境名}\marg{标题定义}]\newtagv{2024bb}%
-  对 \pkg*{thmtools} 宏包的定理环境目录命令 \cs{listoftheorems} 进行了适配调整，\ref{subsec:directory command} 和\ref{subsec:catalog} 中的选项机制均可用，但标题定义选项 \option{tocline} 较为特殊，需用 \cs{settheoremtocline} 命令单独设置。在 \meta{标题定义} 中有三个命令 \cs{thmtname}、\cs{thmtenvname} 和 \cs{thmtnote} 分别代表定理名、定理环境名和题注用于排版目录条目。
+  对 \pkg*{thmtools} 宏包的定理环境目录命令 \cs{listoftheorems} 进行了适配调整，\ref{subsec:directory command} 和\ref{subsec:contents} 中的选项机制均可用，但标题定义选项 \option{tocline} 较为特殊，需用 \cs{settheoremtocline} 命令单独设置。在 \meta{标题定义} 中有三个命令 \cs{thmtname}、\cs{thmtenvname} 和 \cs{thmtnote} 分别代表定理名、定理环境名和题注用于排版目录条目。
   \end{cnltxlist}
   \optpath{thmt/}\key{loeskip}{弹性长度}\Default{10pt}
   定理目录中每章第一个条目上方增加的垂直距离。与 \CTeX 的表格和图片目录中每章间的条目距离选项 \option*{lotskip} 和 \option*{lofskip} 类似，在 \cls*{article} 模式中此选项失效。
@@ -638,6 +638,32 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
       vcentering
     }
   \end{ctexexam}
+\end{cnltxlist}
+
+\subsection[图表题注]{图表题注\smodule{cap}}
+\label{subsec:caption}
+模块 \module*{cap} 用于设置图表等浮动体的题注格式。题注主要由三部分组成：标题标签即图表名与题注编号的组合，标题文本本身通常是内容的简短描述，以及将文本与标签分开的题注分隔符。可以在导言区设置整体格式，也可以在正文使用局部更改格式。模块 \module*{cap} 由 \pkg*{caption} 宏包提供支持，接口选项与 \pkg*{caption} 宏包完全一致，但写法为 \meta{条目名}\code{/}\meta{选项}。\pkg*{caption} 宏包提供了多种方法来定制浮动环境（例如 \env{figure} 和 \env{table}）中的题注，并可与许多其它宏包配合使用。功能包括旋转题注、侧向题注和连续题注等。下面列举几个题注选项的用法，\ref{exam:caption set} 中两种设置题注的方法是等效的，更多选项和创建方法可查看宏包文档：
+\begin{cnltxlist}[itemsep = 0ex]
+  \keyval{table/labelsep}{标签分隔符}\default{}
+  \keyval{figure/format}{题注格式}\default{}
+  \keyval{lstlisting/font}{题注字体}\default{}
+  \begin{ctexexam}[labelref = exam:caption set]
+  \ctexset[cap]
+    {
+      table/labelsep  = space,
+      figure/format   = plain
+    }
+  \captionsetup[table]{labelsep = space}
+  \captionsetup[figure]{format = plain}
+  \end{ctexexam}
+  \begin{cnltxlist}
+  \command{RegisterCapOptions}[\marg{条目名列表}]
+  给模块 \module*{cap} 注册题注类型为 \meta{条目名} 的 \pkg*{caption} 接口选项。已预注册 \module*{figure}、\module*{table} 和 \module*{lstlisting} 三种类型的题注选项。可以搭配 \pkg*{newfloat} 宏包创建更多类型的浮动环境并设置相应题注。
+  \end{cnltxlist}
+  \command{caption}[\sarg\oarg{目录标题}\marg{标题}]\default{}
+  \command{captionof}[\sarg\marg{条目名}\oarg{目录标题}\marg{标题}]\default{}
+  \command{bicaption}[\sarg\oarg{目录中文标题}\marg{中文标题}\oarg{目录英文标题}\marg{英文标题}]
+  题注命令 \cs{caption} 用于在图表上下方插入题注，需要在浮动环境 \env*{figure} 和 \env*{table} 中使用。在浮动环境外可以使用 \cs{captionof} 命令，第一个参数指定条目名。\cs{bicaption} 命令可以实现中英文双语题注，需要在导言区载入 \pkg*{bicaption} 宏包，具体用法见宏包文档。
 \end{cnltxlist}
 
 \subsection[页眉页脚]{页眉页脚\smodule{hdr}}
@@ -813,7 +839,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \end{cnltxlist}
 
 \subsection[目录]{目录\smodule{toc}}
-\label{subsec:catalog}
+\label{subsec:contents}
 模块 \module*{toc} 将使用 \pkg*{titletoc} 宏包处理目录样式。默认包括 \module*{part}$\longrightarrow$\module*{subparagraph}、\module*{figure}、\module*{table} 和 \module*{lstlisting} 条目名的键路径。选项前带有\hface 符号表示支持所有相应\textbf{条目名}的路径，其它选项则处于 \module*{toc} 键路径下。目录选项均支持标题编号判定命令 \cs{CTEXifname}\footnote{此功能需要\textbf{2023/06/01}以后的 \hologo{LaTeX} 内核支持。}。目前支持多数学术论文目录样式，更复杂的样式可以查看 \pkg*{titletoc} 的相关用法。
 \begin{cnltxlist}
   \keyval{tocformat}{条目格式}\dtag
@@ -992,7 +1018,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 
 \subsection{目录命令}
 \label{subsec:directory command}
-\easybook{} 改进了标准文档类中定制性较低的章节标题和图表标题目录命令。现在目录命令带有可选参数用于设置标题格式和栏数等，并且与标准文档类不同的是目录命令可在正文中\textbf{重复}使用\footnote{此功能需要\textbf{2023/06/01}以后的 \hologo{LaTeX} 内核支持。}。更多目录命令的创建和样式设置可参考\ref{subsec:catalog}。
+\easybook{} 改进了标准文档类中定制性较低的章节标题和图表标题目录命令。现在目录命令带有可选参数用于设置标题格式和栏数等，并且与标准文档类不同的是目录命令可在正文中\textbf{重复}使用\footnote{此功能需要\textbf{2023/06/01}以后的 \hologo{LaTeX} 内核支持。}。更多目录命令的创建和样式设置可参考\ref{subsec:contents}。
 \begin{cnltxlist}
   \command{tableofcontents}[\sarg\oarg{键值列表}\darg{代码钩子}]
   章节标题目录命令，支持中英文双语标题目录输出。带有星号参数不输出目录条目上方的标题。\meta{代码钩子} 是当输出方案 \keyis{plan}{both} 时中文与英文目录之间执行的代码，可以插入设置目录样式和换页等命令。
@@ -1351,20 +1377,6 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \end{ctexexam}
 \end{cnltxlist}
 
-\subsection{图表题注}
-\pkg*{caption} 宏包提供了多种方法来定制浮动环境（例如 \env{figure} 和 \env{table}）中的标题，并可与许多其它宏包配合使用。功能包括旋转题注、侧向题注和连续题注等。
-\begin{cnltxlist}
-  \command{captionsetup}[\oarg{条目名}\marg{键值列表}]
-  这是 \pkg*{caption} 宏包的接口命令，\meta{键值列表} 提供多个选项更改图表题注的格式。题注主要由三部分组成：标题标签即图表名与题注编号的组合，标题文本本身通常是内容的简短描述，以及将文本与标签分开的题注分隔符。可以在导言区设置整体格式，也可以在正文使用局部更改格式。
-\end{cnltxlist}
-
-\begin{cnltxlist}[itemsep = 0ex]
-  \command{caption}[\sarg\oarg{目录标题}\marg{标题}]\default{}
-  \command{captionof}[\sarg\marg{条目名}\oarg{目录标题}\marg{标题}]\default{}
-  \command{bicaption}[\sarg\oarg{目录中文标题}\marg{中文标题}\oarg{目录英文标题}\marg{英文标题}]
-  题注命令 \cs{caption} 用于在图表上下方插入题注，需要在浮动环境 \env*{figure} 和 \env*{table} 中使用。在浮动环境外可以使用 \cs{captionof} 命令，第一个参数指定条目名。可以搭配 \pkg*{newfloat} 宏包创建更多类型的浮动环境并设置相应题注。\cs{bicaption} 命令可以实现中英文双语题注，需要在导言区载入 \pkg*{bicaption} 宏包，具体用法见说明文档。
-\end{cnltxlist}
-
 \subsection{索引}
 \begin{cnltxlist}
   \command{indexsetup}[\marg{键值列表}]
@@ -1508,6 +1520,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \item 取消默认载入 \pkg*{ulem} 下划线宏包。
   \added
   \item 使用 \pkg*{xtemplate} 宏包将封面标题命令 \cs{maketitle} 抽象为由实例组成的模板。
+  \item 新增图表题注模块 \module*{cap}。
   \end{version}
 \end{changelog}
 \nocite{*}
