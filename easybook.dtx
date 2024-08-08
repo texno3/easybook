@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/08/06}{2024dh}
+\ProvidesExplClass{easybook}{2024/08/08}{2024di}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/08/06}{2024dh}
+\ProvidesExplPackage{easybase}{2024/08/08}{2024di}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1123,12 +1123,12 @@
 \ctex_at_end_package:nn { footmisc }
   {
     \eb_package_date_check:nn { footmisc } { 2022/02/10 }
-    \ifbool{FN@para}{}
+    \ifboolexpr{not (bool {FN@para} or bool {FN@sidefn})}
       {
         \boolfalse{FN@setspace}
         \cs_set_eq:NN \@makefntext \eb@@makefntext
         \cs_set_eq:NN \@footnotetext \eb@@footnotetext
-      }
+      }{}
     \ifboolexpr
       {
         bool {FN@hangfoot} or
@@ -2136,8 +2136,7 @@
           {
             \use:x
               {
-                \exp_not:n
-                  { \captionsetup[#1] }
+                \exp_not:N \captionsetup[#1]
                   { \eb_unknown_kv_handle: }
               }
           },
@@ -2791,12 +2790,20 @@
   {
     content     =
       {
+        \notbool{@titlepage}
+          {
+            \renewcommand{\theupfootnote}{\@fnsymbol\c@footnote}
+            \renewcommand{\thefootnote}{\@fnsymbol\c@footnote}
+          }
+          {}
         \LARGE\@title\par\vskip 3em
         \large
         \begin{tabular}[t]{c}
           \@author
         \end{tabular}\par\vskip 1.5em
         \@date
+        \notbool{@titlepage}{\par\vskip 1.5em}{}
+        \@thanks
       },
     beforecode  =
       {
@@ -2813,7 +2820,6 @@
       },
     aftercode   =
       {
-        \@thanks
         \ifbool{@titlepage}
           {
             \vfil\null
@@ -2838,7 +2844,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/08/06}{2024dh}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/08/08}{2024di}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
