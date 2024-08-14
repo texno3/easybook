@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024di,
-    date            = 2024/08/08,
+    version         = v2024dj,
+    date            = 2024/08/14,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -976,9 +976,9 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{DeclareInstance}[\Marg{easybook}\marg{位置}\Marg{cover}\marg{键值列表}]
   封面模板可用 \pkg*{xtemplate} 提供的实例声明命令进行自由定制，\ref{exam:cover instance} 举例说明了定制页面中部的内容。模板由页面上、中和下三个位置的实例组成，它们的 \meta{位置} 名字分别为 \code{top}、\code{middle} 和 \code{bottom}。每个实例的属性可用 \meta{键值列表} 修改，包含的选项如下：
   \keyval{content}{实例内容}
-  设置实例内容，可以包含任何记号列表的代码。通常为格式和排版内容的命令，在局部生效。
+  设置实例内容，可以包含任何记号列表。通常为格式和排版内容的命令，在局部生效。
   \keyval{beforecode}{实例前代码}
-  设置实例内容前的代码，可以包含任何记号列表的代码。通常为换页和垂直距离的命令。
+  设置实例内容前的代码，可以包含任何记号列表。通常为换页和垂直距离的命令。
   \keyval{aftercode}{实例后代码}
   与 \option{before} 选项类似，设置实例内容后的代码。
   \keychoice{align}{l,\fbox{c},r,n}
