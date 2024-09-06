@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024dk,
-    date            = 2024/09/04,
+    version         = v2024dm,
+    date            = 2024/09/06,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -621,7 +621,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 
 \subsection[页面尺寸]{页面尺寸\smodule{geo}}
 \label{subsec:page margins}
-页面尺寸模块 \module*{geo} 用于设置纸张大小和各种页面边距，它将选项交给页面尺寸宏包 \pkg*{geometry} 处理，并且支持它的键值列表，预置的页面尺寸与 \textsf{Word} 的默认值接近。下面列举几种 \pkg*{geometry} 的代表性选项，前面有\hface 符号的选项为额外附加，其它选项可查阅宏包帮助文档。当用此模块设置纸张规格时，会覆盖全局选项 \option{paper} 的设置。
+页面尺寸模块 \module*{geo} 用于设置纸张大小和各种页面边距，它将选项交给页面尺寸宏包 \pkg*{geometry} 处理，并且支持它的键值列表，预置的页面尺寸与 \textsf{Word} 的默认值接近。下面列举几种 \pkg*{geometry} 不同键值输入方式的选项，前面有\hface 符号的选项为额外附加，其它选项可查阅宏包帮助文档。当用此模块设置纸张规格时，会覆盖全局选项 \option{paper} 的设置。
 \begin{cnltxlist}[itemsep = 0ex]
   \keyval{headruleskip}{页眉线间距}\dtag\Default*{0pt}
   \keyval{footruleskip}{页脚线间距}\dtag\Default*{3.5pt}
@@ -864,7 +864,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   目录条目标签与标题间的代码，默认为插入 \code{1em} 横向距离。
   \keyval{tocbelow}{距离命令}\dtag
   在目录条目下方执行的代码，可以插入垂直距离等命令。
-  \keyval{tocline}{标题定义}\dtag[\textcolor{red}{\sface}]
+  \keyval{tocline}{标题定义}\dtag[\sface]
   这个选项在章节标题基础上扩展了浮动环境的题注标题在目录文件中的定义。章节和题注标题选项中参数 \code{\#1} 代表标题编号 \cs*{the}\meta{计数器} 对应的计数器名称，参数 \code{\#2} 则代表相应标题内容。
   \begin{ctexexam}
   \ctexset
@@ -892,7 +892,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{contentsuse}[\oarg{目录层次}\marg{条目名}\marg{扩展名}]\newtagv[Changed]{2024ce}%
   激活条目类型为 \meta{条目名} 的目录定制功能，目录文件后缀为 \meta{扩展名}，若 \meta{扩展名} 为 \code{toc} 则条目会自动激活。可选参数 \meta{目录层次} 为条目在目录中的层次深度，默认值为 \code{-1000}，当它大于目录深度计数器 \code{tocdepth} 时不显示。图表等标题的目录条目无深度因此为默认值，章节标题 \module*{part}$\longrightarrow$\module*{subparagraph} 的深度则从 \code{-1} 到 \code{5} 依次递增。需要在激活条目后再使用命令 \cs{RegisterTocName} 注册选项。
   \command{DeclareFloatList}[\marg{条目名}\marg{扩展名}]
-  声明一种条目类型的目录命令 \cs*{listof}\meta{条目名}\code{\textcolor{cs}{s}}，并且支持\ref{subsec:directory command} 中图表目录命令的机制。使用这个命令要确保将条目加入目录的机制已经存在，例如搭配 \pkg*{newfloat} 宏包创建新的浮动环境。选项前有实心符号 \textcolor{red}{\sface}（仍包含空心符号\hface 选项的性质）表示在声明后可用。下面举一个声明算法环境和对应题注目录的例子：
+  声明一种条目类型的目录命令 \cs*{listof}\meta{条目名}\code{\textcolor{cs}{s}}，并且支持\ref{subsec:directory command} 中图表目录命令的机制。使用这个命令要确保将条目加入目录的机制已经存在，例如搭配 \pkg*{newfloat} 宏包创建新的浮动环境。选项前有实心符号\sface（仍包含空心符号\hface 选项的性质）表示在声明后可用。下面举一个声明算法环境和对应题注目录的例子：
   \begin{ctexexam}
   \usepackage{newfloat}
   \DeclareFloatingEnvironment[
@@ -941,7 +941,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   悬挂缩进选项 \option{hang} 使目录条目为悬挂缩进形式。缩进距离为条目标签及其与标题内容间距的长度和。通常情况下会统一设置条目标题是否悬挂缩进，因此这个选项被设计为对所有类型条目生效。
   \keyval{lolskip}{弹性长度}\Default{10pt}
   代码目录中每章第一个条目上方增加的垂直距离。与 \CTeX 的表格和图片目录中每章间的条目距离选项 \option*{lotskip} 和 \option*{lofskip} 类似，在 \cls*{article} 模式中此选项失效。
-  \keyval{between}{格式代码}\dtag[\textcolor{red}{\sface}]
+  \keyval{between}{格式代码}\dtag[\sface]
   目录标题与条目内容间的局部钩子（作用于标题下方间距之后），如果是 \cls*{book} 模式则默认插入 \code{-10pt} 垂直距离抵消首行目录的额外垂直间距，这是由于图表和 由 \pkg*{newfloat} 宏包所创建环境的目录默认每使用一次章标题在题注目录中插入 \code{10pt} 距离。除了条目名的键路径外，此选项也可用于 \module*{toc} 路径中，表示章节标题目录标题代码钩子，如果是 \cls*{book} 模式则默认插入 \code{-1pc} 垂直距离。
   \keyval{bibetween}{格式代码}
   与选项 \option{between} 类似，是英文章节标题目录（如果启用）标题代码钩子。
