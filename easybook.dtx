@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/09/06}{2024dm}
+\ProvidesExplClass{easybook}{2024/09/11}{2024dn}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,16 +301,14 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/09/06}{2024dm}
+\ProvidesExplPackage{easybase}{2024/09/11}{2024dn}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
 \cs_generate_variant:Nn \dim_sign:n { V }
 \cs_generate_variant:Nn \int_to_arabic:n { v }
 \cs_generate_variant:Nn \msg_warning:nnn { nnV }
-\cs_generate_variant:Nn \prop_set_from_keyval:Nn { NV }
 \cs_generate_variant:Nn \skip_set:Nn { NV }
-\cs_generate_variant:Nn \seq_set_from_clist:Nn { No }
 \cs_generate_variant:Nn \ctex_define:nn { nx }
 \cs_generate_variant:Nn \eb_set_hyperref:n { x }
 \cs_generate_variant:Nn \eb_at_begin_environment:nn { o }
@@ -416,11 +414,13 @@
       {
         \bool_set_true:N \l__eb_class_mode_book_bool
         \eb_put_geometry:n { twoside }
+        \booltrue{@titlepage}
       },
     class/article .code:n   =
       {
         \bool_set_false:N \l__eb_class_mode_book_bool
         \eb_put_geometry:n { twoside = false }
+        \boolfalse{@titlepage}
       },
     class .initial:n        = book,
     book .meta:n            = { class = book },
@@ -2796,7 +2796,8 @@
             \renewcommand{\thefootnote}{\@fnsymbol\c@footnote}
           }
           {}
-        \LARGE\@title\par\vskip 3em
+        \LARGE\@title\par
+        \notbool{@titlepage}{\vskip 1.5em}{\vskip 3em}
         \large
         \begin{tabular}[t]{c}
           \@author
@@ -2843,7 +2844,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/06}{2024dm}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/11}{2024dn}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
