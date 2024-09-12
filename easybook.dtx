@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/09/11}{2024dn}
+\ProvidesExplClass{easybook}{2024/09/12}{2024do}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/09/11}{2024dn}
+\ProvidesExplPackage{easybase}{2024/09/12}{2024do}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -2794,16 +2794,18 @@
           {
             \renewcommand{\theupfootnote}{\@fnsymbol\c@footnote}
             \renewcommand{\thefootnote}{\@fnsymbol\c@footnote}
+            \let\footnote\thanks
           }
           {}
-        \LARGE\@title\par
+        \bgroup\LARGE\@title\par\egroup
         \notbool{@titlepage}{\vskip 1.5em}{\vskip 3em}
-        \large
+        \bgroup\large
         \begin{tabular}[t]{c}
           \@author
-        \end{tabular}\par\vskip 1.5em
-        \@date
-        \notbool{@titlepage}{\par\vskip 1.5em}{}
+        \end{tabular}\par\egroup
+        \vskip 1.5em
+        \bgroup\large\@date\par\egroup
+        \notbool{@titlepage}{\vskip 1.5em}{}
         \@thanks
       },
     beforecode  =
@@ -2844,7 +2846,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/11}{2024dn}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/12}{2024do}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
