@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/09/13}{2024dp}
+\ProvidesExplClass{easybook}{2024/09/16}{2024dq}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/09/13}{2024dp}
+\ProvidesExplPackage{easybase}{2024/09/16}{2024dq}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -964,7 +964,11 @@
     \str_case:VnT \l__eb_fnt_parent_counter_tl
       {
         { part } { \counterwithin*{footnote}{part} }
-        { page } { \counterwithin*{footnote}{page} }
+        { page }
+        {
+          \RequirePackage{zref-perpage}
+          \zmakeperpage{footnote}
+        }
       }
       { \counterwithout*{footnote}{chapter} }
   }
@@ -2846,7 +2850,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/13}{2024dp}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/16}{2024dq}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

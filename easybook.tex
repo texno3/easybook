@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024dp,
-    date            = 2024/09/13,
+    version         = v2024dq,
+    date            = 2024/09/16,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -395,7 +395,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \keychoice{withpart}{true,\fbox{false}}
   使章标题跟随部分计数器编号，仅在导言区有效。当开启新的部分标题时章编号从1开始。
   \keychoice{fntnumwith}{part,\fbox{chapter},page}
-  设置脚注跟随编号的计数器，仅在导言区有效。默认跟随章计数器，即开启新的章标题时脚注编号从1开始。
+  设置脚注重置编号的方式，仅在导言区有效。默认跟随章计数器，即开启新的章标题时脚注编号从1开始。选项 \code{page} 代表的是换页而不是页计数器，这是由于在一些排版情况下换页后页计数器仍为上页的值。
   \keychoice{uppercase}{\fbox{all},first,none,none*}
   使用 \cs{rightmark} 和 \cs{leftmark} 等标题标记命令获取标题内容用于页眉页脚时其中英文的大小写类型。\code{all} 为标题标记中的英文字母全部大写。\code{first} 为标记以英文起始时仅第一个字母大写。\code{none} 不改变标记中英文字母的大小写形式，变体 \code{none*} 则强制标记的字母均为小写形式。
   \kvsplit{tagform}{左括号,右括号}\Default{\Marg{(,)}}
@@ -1522,6 +1522,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \item 使用 \pkg*{xtemplate} 宏包将封面标题命令 \cs{maketitle} 抽象为由实例组成的模板。
   \item 新增图表题注模块 \module*{cap}。
   \end{version}
+  \shortversion{v = 2024dq,date = 2024/09/16,changes = 修复脚注重置编号的方式为 \code{page} 时在一些换页情况下失败的问题。}
 \end{changelog}
 \nocite{*}
 % \AddToHook{cmd/printindex/before}{\clearpage}
