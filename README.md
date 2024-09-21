@@ -9,6 +9,3 @@ This work may be distributed and/or modified under the conditions of the LPPL-1.
 ## 网址
 
 | [Gitee](https://gitee.com/texno3/easybook) | [Github](https://github.com/texno3/easybook) | [CTAN](https://ctan.org/pkg/easybook) |
-
-## 分支
-目前有三个分支，分别为[示例](https://gitee.com/texno3/easybook/tree/example/)，储存示例文件；[兼容](https://gitee.com/texno3/easybook/tree/compatible/)，储存旧版本兼容文件；[`cnltx` 文档类](https://gitee.com/texno3/easybook/tree/cnltx-doc/)，改写了 `cnltx` 文档类用于编写用户手册，储存源文件。
