@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/09/16}{2024dq}
+\ProvidesExplClass{easybook}{2024/09/16}{2024ds}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/09/16}{2024dq}
+\ProvidesExplPackage{easybase}{2024/09/16}{2024ds}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -702,18 +702,18 @@
   }
 
 \cs_set:Npn \markdouble #1 { \markboth{#1}{\ifbool{@twoside}{#1}{}} }
-\cs_new:Npn \eb@level@markdouble #1#2
+\cs_new_protected:Npn \eb@level@markdouble #1#2
   { \markdouble{\use:c { eb@mark@#1@whole }{#2}} }
-\cs_new:Npn \eb@level@markright #1#2
+\cs_new_protected:Npn \eb@level@markright #1#2
   { \markright{\use:c { eb@mark@#1@whole }{#2}} }
 \cs_gset:Npn \chaptermark #1 { \eb@level@markdouble{chapter}{#1} }
-\cs_gset:Npn \sectionmark #1
+\cs_gset:Npx \sectionmark #1
   {
     \bool_if:NTF \l__eb_class_mode_book_bool
       { \eb@level@markright{section}{#1} }
       { \eb@level@markdouble{section}{#1} }
   }
-\cs_gset:Npn \subsectionmark #1
+\cs_gset:Npx \subsectionmark #1
   {
     \bool_if:NF \l__eb_class_mode_book_bool
       { \eb@level@markright{subsection}{#1} }
@@ -2850,15 +2850,13 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/16}{2024dq}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/16}{2024ds}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
   { \tcbset{#1/.append~style = {#2}} }
 \cs_set_protected:Npn \deftcbstyle #1#2
   { \tcbset{#1/.style = {#2}} }
-\cs_new_protected:Npn \tcbappstyle
-  { \@ifstar{\deftcbstyle}{\addtotcbstyle} }
 
 \deftcbstyle{tc-easyboxi}
   {
