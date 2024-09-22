@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/09/16}{2024ds}
+\ProvidesExplClass{easybook}{2024/09/22}{2024dt}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/09/16}{2024ds}
+\ProvidesExplPackage{easybase}{2024/09/22}{2024dt}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -311,7 +311,6 @@
 \cs_generate_variant:Nn \skip_set:Nn { NV }
 \cs_generate_variant:Nn \ctex_define:nn { nx }
 \cs_generate_variant:Nn \eb_set_hyperref:n { x }
-\cs_generate_variant:Nn \eb_at_begin_environment:nn { o }
 \cs_generate_variant:Nn \tl_if_novalue:nF { V }
 
 \cs_set_protected:Npn \ctex_define:nn #1
@@ -325,11 +324,6 @@
   { \AddToHook{cmd/#1/before}{#2} }
 \cs_new_protected:Npn \eb_appto_cmd:nn #1#2
   { \AddToHook{cmd/#1/after}{#2} }
-\cs_new_protected:Npn \eb_at_begin_environment:nn #1#2
-  {
-    \clist_map_inline:nn {#1}
-      { \AtBeginEnvironment{##1}{#2} }
-  }
 \cs_set_protected:Npn \ctex_before_end_preamble:n
   { \BeforeBeginEnvironment{document} }
 \cs_new_protected:Npn \eb_if_package_loaded:nnF #1#2#3
@@ -1111,13 +1105,12 @@
     \l__eb_fnpara_format_tl{#1}
     \tl_if_eq:NnT \l__eb_footnote_value_tl { hang } { \par }
   }
-\cs_new_protected:Npn \setspread #1 { \linespread{#1}\selectfont }
 \clist_map_inline:nn { \@footnotetext,\@mpfootnotetext }
   {
     \eb_patch_cmd:Nnn #1
       { \reset@font }
       {
-        \setspread{\eb@spread@footnote}
+        \usestretch{\eb@spread@footnote}
         \eb@font@footnote
       }
   }
@@ -2073,19 +2066,45 @@
   }
 \cs_set_eq:NN \addtosubfont \ebaddtofont
 
+\cs_new_protected:Npn \usestretch #1
+  {
+    \edef\baselinestretch{#1}
+    \@currsize
+  }
+\cs_new_protected:Npn \restore@usespace
+  {
+    \par
+    \vskip\parskip
+    \vskip\baselineskip
+    \endgroup
+    \vskip -\parskip
+    \vskip -\baselineskip
+  }
+\NewDocumentEnvironment{usespace}{m+b}
+  {
+    \par
+    \begingroup
+    \usestretch{#1}#2
+    \restore@usespace
+  }{}
+\msg_new:nnn { easybase } { invalid-spread }
+  {
+    The~line~spacing~factor~option~'#1'~is~invalid. \\
+    Please~use~the~'usespace'~environment~to~set~the~line~spacing.
+  }
+\cs_new_protected:Npn \eb_invalid_spread_warning:
+  { \msg_warning:nnV { easybase } { invalid-spread } \l_keys_key_str }
 \ctex_define:nn { space }
   {
-    linespread .code:n          = \setspread{#1},
-    tabspread .fp_set:N         = \l__eb_spread_table_fp,
-    tabspread .initial:n        = 1.2,
-    mathspread .tl_set:N        = \eb@spread@math,
-    mathspread .initial:n       = 1.2,
+    linespread .code:n          = \usestretch{#1},
+    tabspread .code:n           = \eb_invalid_spread_warning:,
+    mathspread .code:n          = \eb_invalid_spread_warning:,
     fntspread .code:n           =
       {
         \tl_set:Nn \eb@spread@footnote {#1}
         \group_begin:
         \footnotesize
-        \setspread{\eb@spread@footnote}
+        \usestretch{\eb@spread@footnote}
         \exp_args:NNNo \group_end:
         \dim_set:Nn \footnotesep { \dim_use:N \box_ht:N \strutbox }
       },
@@ -2101,8 +2120,8 @@
     caption-spread .initial:n   = 1.2,
     everyspread .meta:n         =
       {
-        linespread = {#1},tabspread = {#1},mathspread = {#1},
-        caption-spread = {#1},fntspread = {#1}
+        linespread = {#1},caption-spread = {#1},
+        fntspread = {#1}
       },
     abovedisplayskip .code:n    =
       { \AfterPreamble{\skip_set:Nn \abovedisplayskip {#1}} },
@@ -2121,14 +2140,8 @@
 \tl_if_eq:NnT \l__ctex_scheme_tl { chinese }
   {
     \fp_compare:nNnTF { \l__ctex_line_spread_fp } = { 1.3 }
-      {
-        \ctex_set:nn { space }
-          { linespread = 1.354,tabspread = 1.354 }
-      }
-      {
-        \ctex_set:nn { space }
-          { linespread = \fp_use:N \l__ctex_line_spread_fp }
-      }
+      { \usestretch{1.354} }
+      { \usestretch{\fp_use:N \l__ctex_line_spread_fp} }
   }
 \AfterPreamble{\skip_set:Nn \abovedisplayshortskip { 0ex plus .1ex }}
 
@@ -2159,7 +2172,7 @@
   {
     \DeclareCaptionFont{eb@#1@font}
       {
-        \setspread{\fp_use:c { l__eb_spread_caption_#1_fp }}
+        \usestretch{\fp_use:c { l__eb_spread_caption_#1_fp }}
         \tl_use:c { l__eb_font_caption_#1_tl }
       }
   }
@@ -2179,9 +2192,6 @@
     \captionsetup[figure][bi-second]{name = Figure}
     \captionsetup[table][bi-second]{name = Table}
   }
-\eb_at_begin_environment:nn
-  { tabular,tabularx,longtable }
-  { \setspread{\fp_use:N \l__eb_spread_table_fp} }
 \UseTblrLibrary{booktabs}
 
 \bool_if:NF \l__eb_float_page_bool
@@ -2400,7 +2410,6 @@
         \cs_set:cpn { ll@#2 } { \@bsphack #3\@esphack }
       }
   }
-
 \setchemformula
   {
     math-scripts      = false,
@@ -2419,30 +2428,6 @@
         group-digits          = none
       }
   }{}
-\eb_at_begin_environment:nn
-  {
-    array,matrix,pmatrix,bmatrix,Bmatrix,vmatrix,Vmatrix,
-    matrix*,pmatrix*,bmatrix*,Bmatrix*,vmatrix*,Vmatrix*,
-    cases,cases*,dcases,dcases*,rcases,rcases*,drcases,drcases*,
-    aligned,alignedat,gathered,multlined,lgathered,rgathered
-  }
-  { \setspread{\eb@spread@math} }
-\clist_map_inline:nn
-  { \start@gather,\start@align,\start@multline }
-  {
-    \eb_patch_cmd:Nnn #1
-      { \collect@body }
-      {
-        \setspread{\eb@spread@math}
-        \collect@body
-      }
-  }
-\eb_patch_cmd:Nnn \gather@split
-  { \spread@equation }
-  {
-    \setspread{\eb@spread@math}
-    \spread@equation
-  }
 \ctex_at_end_package:nn { unicode-math }
   { \msg_redirect_module:nnn { unicode-math } { warning } { info } }
 \ctex_at_end_package:nn { tcolorbox }
@@ -2463,7 +2448,6 @@
     bititle .initial:n        = Bibliography,
     unknown .code:n           = \eb_msg_deprecated_option:n { bib }
   }
-
 \cs_new_protected:Npn \eb_bibtex_natbib_set:
   {
     \RequirePackage[sort&compress]{natbib}
@@ -2850,7 +2834,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/16}{2024ds}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/22}{2024dt}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

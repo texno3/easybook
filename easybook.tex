@@ -23,7 +23,7 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024ds,
+    version         = v2024dt,
     date            = 2024/09/22,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
@@ -446,10 +446,6 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \begin{cnltxlist}
   \keyval{linespread}{数值}\Default{1.354}
   正文行距因子。中文主题下行距因子初始值为 \code{1.354}（相当于 \textsf{Word} 的1.25倍行距），如果设置了文类或 \pkg*{ctex} 宏包的全局行距选项 \option{linespread} 则初始值设为它的值。
-  \keyval{tabspread}{数值}\Default{1.354}
-  表格内容行距因子，对传统表格 \env{tabular} 和 \env{tabularx} 等环境生效。\pkg*{tabularray} 宏包的 \env{tblr} 环境自带 \option*{stretch} 和 \option*{rowsep} 等行间距选项，这里不做调整。
-  \keyval{mathspread}{数值}\Default{1.2}
-  数学环境的行距因子，包含了 \pkg*{amsmath} 和 \pkg*{mathtools} 宏包提供的公式环境。
   \keyval{capfig-spread}{数值}\Default{1.2}
   图片题注的行距因子。
   \keyval{captab-spread}{数值}\Default{1.2}
@@ -470,6 +466,20 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   行间公式与上面正文间的额外距离。
   \keyval{belowdisplayskip}{弹性长度}\Default{0.5ex plus .1ex minus .1ex}
   行间公式与下面正文间的额外距离。
+  \begin{cnltxlist}
+  \command{usestretch}[\marg{数值}]\newtagv{2024dt}%
+  设置之后文本的行距。可在任意地方使用，在局部范围生效。
+  \environment{usespace}[\marg{数值}]\newtagv{2024dt}%
+  设置环境内文本的行距。可包含行间公式和表格等环境。
+  \begin{ctexexam}
+  \begin{usespace}{1.5}\nointerlineskip
+  \begin{align}
+    \cos 2x &= \cos^2 x - \sin^2 x \\
+    &= 2\cos^2 x - 1
+  \end{align}
+  \end{usespace}
+  \end{ctexexam}
+  \end{cnltxlist}
 \end{cnltxlist}
 
 \subsection[部件字体]{部件字体\smodule{font}}
@@ -1523,6 +1533,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \item 新增图表题注模块 \module*{cap}。
   \end{version}
   \shortversion{v = 2024dq,date = 2024/09/16,changes = 修复脚注重置编号的方式为 \code{page} 时在一些换页情况下失败的问题。}
+  \shortversion{v = 2024dt,date = 2024/09/22,changes = 新增用于设置行距的命令 \cs{usestretch} 和环境 \env{usespace}。}
 \end{changelog}
 \nocite{*}
 % \AddToHook{cmd/printindex/before}{\clearpage}
