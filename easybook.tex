@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024dt,
-    date            = 2024/09/22,
+    version         = v2024du,
+    date            = 2024/09/23,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -458,7 +458,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   脚注内容整体的行距因子。可以使用 \module*{hdr} 模块 \option{fnpara-format} 选项的代码单独覆盖每个脚注的行距，从而使脚注间和内容文本自身的行距不同。
   \begin{ctexexam}
   \ebspaceset{fntspread = 1.3}
-  \ebhdrset{fnpara-format = \linespread{1.2}\selectfont}
+  \ebhdrset{fnpara-format = \usestretch{1.2}}
   \end{ctexexam}
   \keyval{everyspread}{数值}
   统一设置上述所有的行距因子。
@@ -468,11 +468,12 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   行间公式与下面正文间的额外距离。
   \begin{cnltxlist}
   \command{usestretch}[\marg{数值}]\newtagv{2024dt}%
-  设置之后文本的行距。可在任意地方使用，在局部范围生效。
+  设置之后文本的行距。可在任意地方使用，作用范围为局部。
   \environment{usespace}[\marg{数值}]\newtagv{2024dt}%
   设置环境内文本的行距。可包含行间公式和表格等环境。
   \begin{ctexexam}
   \begin{usespace}{1.5}\nointerlineskip
+  \ebspaceset{belowdisplayskip = 6pt}
   \begin{align}
     \cos 2x &= \cos^2 x - \sin^2 x \\
     &= 2\cos^2 x - 1
@@ -501,7 +502,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{ebaddtofont}[\marg{字体类型}\marg{字体命令}]
   用于在上述各种字体原有的格式上附加代码。其中 \meta{字体命令} 也可以包括行距命令且相对于 \module*{space} 模块具有优先性，不同题注的 \meta{字体类型} 则为相应选项的后缀名。
   \begin{ctexexam}
-  \ebaddtofont{every}{\linespread{1.5}\selectfont}
+  \ebaddtofont{every}{\usestretch{1.5}}
   \ebaddtofont{footnote}{\sffamily}
   \end{ctexexam}
 \end{cnltxlist}
@@ -986,7 +987,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{DeclareInstance}[\Marg{easybook}\marg{位置}\Marg{cover}\marg{键值列表}]
   封面模板可用 \pkg*{xtemplate} 提供的实例声明命令进行自由定制，\ref{exam:cover instance} 举例说明了定制页面中部的内容。模板由页面上、中和下三个位置的实例组成，它们的 \meta{位置} 名字分别为 \code{top}、\code{middle} 和 \code{bottom}。每个实例的属性可用 \meta{键值列表} 修改，包含的选项如下：
   \keyval{content}{实例内容}
-  设置实例内容，可以包含任何记号列表。通常为格式和排版内容的命令，在局部生效。
+  设置实例内容，可以包含任何记号列表。通常为格式和排版内容的命令，作用范围为局部。
   \keyval{beforecode}{实例前代码}
   设置实例内容前的代码，可以包含任何记号列表。通常为换页和垂直距离的命令。
   \keyval{aftercode}{实例后代码}
