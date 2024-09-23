@@ -416,7 +416,7 @@
         \eb_put_geometry:n { twoside = false }
         \boolfalse{@titlepage}
       },
-    class .initial:n        = book,
+    class .initial:x        = \ifbool{@titlepage}{book}{article},
     book .meta:n            = { class = book },
     article .meta:n         = { class = article },
     unknown .code:n = \clist_gput_right:NV \g__eb_ctex_options_clist \CurrentOption
