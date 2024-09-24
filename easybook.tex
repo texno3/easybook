@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024du,
-    date            = 2024/09/23,
+    version         = v2024dx,
+    date            = 2024/09/24,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -632,7 +632,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 
 \subsection[页面尺寸]{页面尺寸\smodule{geo}}
 \label{subsec:page margins}
-页面尺寸模块 \module*{geo} 用于设置纸张大小和各种页面边距，它将选项交给页面尺寸宏包 \pkg*{geometry} 处理，并且支持它的键值列表，预置的页面尺寸与 \textsf{Word} 的默认值接近。下面列举几种 \pkg*{geometry} 不同键值输入方式的选项，前面有\hface 符号的选项为额外附加，其它选项可查阅宏包帮助文档。当用此模块设置纸张规格时，会覆盖全局选项 \option{paper} 的设置。
+页面尺寸模块 \module*{geo} 用于设置纸张大小和各种页面边距，它将选项交给页面尺寸宏包 \pkg*{geometry} 处理，支持通用接口 \cs{geometry} 的键值列表，预置的页面尺寸与 \textsf{Word} 的默认值接近。下面列举几种 \pkg*{geometry} 不同键值输入方式的选项，前面有\hface 符号的选项为额外附加，其它选项可查阅宏包帮助文档。当用此模块设置纸张规格时，会覆盖全局选项 \option{paper} 的设置。模块 \module*{geo} 的通用接口命令只能在导言区中使用。
 \begin{cnltxlist}[itemsep = 0ex]
   \keyval{headruleskip}{页眉线间距}\dtag\Default*{0pt}
   \keyval{footruleskip}{页脚线间距}\dtag\Default*{3.5pt}
@@ -648,6 +648,29 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
       hdivide       = {2cm,15cm,*},
       vcentering
     }
+  \end{ctexexam}
+
+  \pkg*{geometry} 宏包支持在文档中部改变页面尺寸，提供了新建和保存页面布局的命令。需要注意的是，\pkg*{fancyhdr} 宏包配置页面标记是以文档开始的页面尺寸为参考，若中途更改页面布局后需用标记偏移命令 \cs{fancyhfoffset} 重置参考的尺寸，以确保标记位置正确。
+  \command{newgeometry}[\marg{键值列表}]
+  在正文中更改页面布局，\meta{键值列表} 为 \pkg*{geometry} 宏包通用接口的各种页面尺寸选项。
+  \command{restoregeometry}
+  恢复正文开始时的页面布局。
+  \command{savegeometry}[\marg{布局名}]
+  保存当前页面布局名为 \meta{布局名}。
+  \command{loadgeometry}[\marg{布局名}]
+  载入保存的名为 \meta{布局名} 的页面布局。
+  \begin{ctexexam}
+    L1
+  \newgeometry{left = 3cm,right = 1cm,bottom = 0.1cm}
+  \savegeometry{L2}
+    L2 (new, saved)
+  \restoregeometry
+    L1 (restored)
+  \newgeometry{margin = 1cm,includefoot}
+    L3 (new)
+  \loadgeometry{L2}
+  \fancyhfoffset{0pt}
+    L2 (loaded)
   \end{ctexexam}
 \end{cnltxlist}
 
@@ -721,6 +744,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
       \ebhdrset{headrule = {}}
     }
   \end{ctexexam}
+  \command{pagestyle}[\marg{风格名}]\Default{fancy}
+  设置 \meta{风格名} 为当前及之后页的页面风格。
   \command{fancyhead}[\oarg{位置}\marg{内容}]\default{}
   \command{fancyfoot}[\oarg{位置}\marg{内容}]
   为了确保页面显示正确，使用 \cs{fancyhead} 和 \cs{fancyfoot} 等命令设置页眉页脚时需要在页边距的命令之后。默认设置的是一个名为 \code{fancy} 的页面风格。\pkg*{fancyhdr} 将页眉页脚分成了左中右和奇数页（odd）、偶数页（even）共12个部分，可选参数中 \code{E} 和 \code{O} 代表偶数和奇数，\code{L}、\code{C} 和 \code{R} 代表左、中和右部分。单面打印时，含有偶数位置的命令无效。
