@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/09/24}{2024dx}
+\ProvidesExplClass{easybook}{2024/09/28}{2024ea}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/09/24}{2024dx}
+\ProvidesExplPackage{easybase}{2024/09/28}{2024ea}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -397,9 +397,13 @@
     floatpage .bool_set:N   = \l__eb_float_page_bool,
     floatpage .default:n    = true,
     floatpage .initial:n    = false,
-    theorem .bool_set:N     = \l__eb_theorem_support_bool,
-    theorem .default:n      = true,
-    theorem .initial:n      = true,
+    theorem .choices:nn     =
+      { thmtools,keytheorems,false }
+      { \tl_set:Nn \l__eb_theorem_support_tl {#1} },
+    theorem .value_required:n = true,
+    theorem/true .meta:n    = { theorem = thmtools },
+    theorem .default:n      = thmtools,
+    theorem .initial:n      = thmtools,
     paper .code:n           = \eb_put_geometry:n {#1},
     paper .initial:n        = a4paper,
     class .choice:,
@@ -1846,8 +1850,6 @@
     hang .initial:n       = true,
     pagenumwd .code:n     = \contentsmargin{#1},
     pagenumwd .initial:n  = 1.55em,
-    fileopen .tl_set:N    = \l__eb_fileopen_type_tl,
-    fileopen .initial:n   = once,
     unknown .code:n       = \eb_msg_deprecated_option:n { toc }
   }
 
@@ -1868,20 +1870,12 @@
         \group_begin:
         \makeatletter
         \file_if_exist_input:n { \jobname.#1 }
-        \UseHookWithArguments{starttoc/after}{1}{#1}
+        \AddToHook{enddocument/afterlastpage}
+          {\UseHookWithArguments{starttoc/after}{1}{#1}}
         \boolfalse{@nobreak}
         \group_end:
       }
       { \eb@starttoc{#1} }
-  }
-\AddToHook{enddocument/afterlastpage}
-  {
-    \tl_if_eq:NnTF \l__eb_fileopen_type_tl { once }
-      { \iow_now:Nn \@mainaux { \RemoveFromHook{starttoc/after}[*] } }
-      {
-        \IfHookEmptyTF{starttoc/after}{}
-          {\iow_now:Nn \@mainaux { \RemoveFromHook{starttoc/after}[aux] }}
-      }
   }
 \cs_set_protected:Npn \AssignPartialExt #1#2
   {
@@ -2343,24 +2337,24 @@
     \tl_clear:N \l__eb_eqsymb_intro_tl
     \ignorespaces
   }
-\bool_if:NT \l__eb_theorem_support_bool
+\cs_new_protected:Npn \eb_theorem_load_thmtools:
   {
     \RequirePackage{amsthm,thmtools}
     \cs_set_eq:NN \eb@declaretheoremstyle@save \declaretheoremstyle
     \cs_set_eq:NN \eb@declaretheorem@save \declaretheorem
     \RenewDocumentCommand{\declaretheoremstyle}{+O{}m+O{}}
-      {\eb@declaretheoremstyle@save[#1,#3]{#2}}
+      {\eb@declaretheoremstyle@save[##1,##3]{##2}}
     \RenewDocumentCommand{\declaretheorem}{+O{}m+O{}}
       {
-        \eb@declaretheorem@save[style = default,#1,#3]{#2}
-        \settheoremtocline{#2}
+        \eb@declaretheorem@save[style = default,##1,##3]{##2}
+        \settheoremtocline{##2}
           {
-            \listnumberline{#2}
+            \listnumberline{##2}
             \thmtname\thmtifnote{~(\thmtnote)}{}
           }
-        \cs_gset:cpn { thmt@contentsline@#2 }
+        \cs_gset:cpn { thmt@contentsline@##2 }
           { \thmt@contentslineIfNamed }
-        \exp_args:Nc \providecommand { p@#2 }[1]{##1}
+        \exp_args:Nc \providecommand { p@##2 }[1]{####1}
       }
     \ctex_define:nn { thmt }
       {
@@ -2378,14 +2372,14 @@
       bodyfont      = \normalfont,
       postheadspace = 1em
       ]
-    \theoremstyle{default}
     \cs_undefine:N \proof
     \DeclareFloatList{theorem}{loe}
     \AssignPartialExt{loe}{ple}
     \eb_preto_cmd:nn { listoftheorems }
       {
         \group_begin:
-        \def\contentsline #1 {\use:c { thmt@contentsline@#1 }{#1}}
+        \let\thmt@contentsline\contentsline
+        \def\contentsline ##1 {\use:c { thmt@contentsline@##1 }{##1}}
       }
     \eb_appto_cmd:nn { listoftheorems } { \group_end: }
     \eb_preto_cmd:nn { @chapter }
@@ -2397,19 +2391,28 @@
     \def\thmtname{\thmt@thmname}
     \def\thmtenvname{\thmt@envname}
     \def\thmtnote{\thmt@shortoptarg}
-    \def\thmtformatoptarg #1 {#1}
-    \def\thmtifname #1#2 {\ifbool{thmt@isstarred}{#2}{#1}}
-    \def\thmtifnote #1#2
+    \def\thmtformatoptarg ##1 {##1}
+    \def\thmtifname ##1##2 {\ifbool{thmt@isstarred}{##2}{##1}}
+    \def\thmtifnote ##1##2
       {
         \tl_if_empty:NTF \thmt@shortoptarg
-          {#2}
-          { \protect\thmtformatoptarg{#1} }
+          {##2}
+          { \protect\thmtformatoptarg{##1} }
       }
     \NewDocumentCommand{\settheoremtocline}{smm}
       {
-        \IfBooleanT{#1}{\def\thmt@contentslineIgnore{\thmt@contentsline}}
-        \cs_set:cpn { ll@#2 } { \@bsphack #3\@esphack }
+        \IfBooleanT{##1}{\def\thmt@contentslineIgnore{\thmt@contentsline}}
+        \cs_set:cpn { ll@##2 } { \@bsphack ##3\@esphack }
       }
+  }
+\cs_new_protected:Npn \eb_theorem_load_keytheorems:
+  { \RequirePackage{keytheorems} }
+\str_case:Vn \l__eb_theorem_support_tl
+  {
+    { thmtools }
+    { \eb_theorem_load_thmtools: }
+    { keytheorems }
+    { \eb_theorem_load_keytheorems: }
   }
 \setchemformula
   {
@@ -2731,6 +2734,8 @@
         lstlistingname      = 代码,
         listtheoremname     = 定理清单
       }
+    \ctex_at_end_package:nn { keytheorems }
+      { \keytheoremlistset{title = 定理清单} }
   }
   {
     \keys_set_known:nn { ctex }
@@ -2835,7 +2840,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/24}{2024dx}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/28}{2024ea}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024dx,
-    date            = 2024/09/24,
+    version         = v2024ea,
+    date            = 2024/09/28,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -282,8 +282,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   载入用户配置的文件名列表，文件列表以花括号包裹并以英文逗号分隔。文件名应包含如 \code{tex}、\code{def} 或 \code{cfg} 等扩展名。若配置文件不在当前文件夹则文件名需要包含路径，即 \code{path/file.cfg}。
   \keychoice{floatpage}{true,\fbox{false}}
   开启这个选项后浮动环境 \env{table} 和 \env{figure} 的比例参数会使用默认值。关闭它则尽可能避免出现浮动页，使图表环境与正文段落更加紧凑，减少多余的空白版面。
-  \keychoice{theorem}{\fbox{true},false}
-  是否提供定理功能支持。选项开启时定理模块生效，此时会载入 \pkg*{amsthm} 和 \pkg*{thmtools} 宏包。
+  \keychoice{theorem}{\fbox{thmtools},keytheorems,false}\newtagv[Changed]{2024ea}%
+  是否提供定理功能支持，定理模块的介绍可见\ref{subsec:theorem}。选项 \code{thmtools} 会载入 \pkg*{amsthm} 和 \pkg*{thmtools} 宏包，选项 \code{keytheorems} 会载入 \pkg*{keytheorems} 宏包，选项 \code{false} 不载入定理功能宏包。
 \end{cnltxlist}
 
 \subsection{配置字体}
@@ -546,10 +546,10 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 
 \subsection[定理]{定理\smodule{thmt}}
 \label{subsec:theorem}
-定理模块 \module*{thmt} 由 \pkg*{thmtools} 宏包提供支持，主要提供了定理环境和样式声明两个命令。定理环境声明命令 \cs{declaretheorem} 使用的定理样式由样式声明命令 \cs{declaretheoremstyle} 提供。文档类未预声明任何定理环境，如果声明定理环境时不指定样式，则使用默认定理样式 \code{default}，可以对它重新定义。
+定理模块 \module*{thmt} 根据全局选项 \option{theorem} 的设置可以由 \pkg*{thmtools} 或 \pkg*{keytheorems} 宏包提供支持。\pkg*{keytheorems} 宏包使用 \hologo{LaTeX3} 编写，它的定理功能更完善并且提供了 \pkg*{thmtools} 宏包大部分的功能，但发布日期较新（2024年9月）还未被广泛使用，下面主要介绍传统的 \pkg*{thmtools} 宏包的功能。\pkg*{thmtools} 提供了定理环境和样式声明两个命令，文档类未预声明任何定理环境，如果声明定理环境时不指定样式，则使用默认定理样式 \code{default}，可以对它重新定义。
 \begin{cnltxlist}
   \command{declaretheorem}[\oarg{键值列表1}\marg{环境名}\oarg{键值列表2}]
-  定理环境声明命令。可选参数的 \meta{键值列表1} 与 \meta{键值列表2} 等效，其中常用的选项如下：
+  \pkg*{thmtools} 的定理环境声明命令。可选参数的 \meta{键值列表1} 与 \meta{键值列表2} 等效，常用的选项如下：
   \keyval{name}{定理名}
   定理环境的标题名称，默认为英文首字母大写的环境名。
   \keychoice{numbered}{no,\fbox{yes},unless unique}
@@ -570,7 +570,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \tcolorboxenvironment{lemma}{tc-easyboxi}
   \end{ctexexam}
   \command{declaretheoremstyle}[\oarg{键值列表1}\marg{定理样式}\oarg{键值列表2}]
-  定理样式声明命令，键值列表支持自身以及定理声明命令 \cs{declaretheorem} 的所有选项。可选参数的 \meta{键值列表1} 与 \meta{键值列表2} 等效，其中支持的选项如下：
+  \pkg*{thmtools} 的定理样式声明命令，键值列表支持自身以及定理声明命令 \cs{declaretheorem} 的所有选项。可选参数的 \meta{键值列表1} 与 \meta{键值列表2} 等效，常用的选项如下：
   \keyval{headfont}{字体命令}\Default{\cs*{sffamily}}
   定理标题部分（包括题注）的字体，包括字体族、字体系列、字体尺寸和字体形状命令。
   \keyval{notefont}{字体命令}\Default{\cs*{sffamily}}
@@ -590,9 +590,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \kvsplit-{notebraces}{\marg{左括号}\marg{右括号}}\Default{\Marg{(}\Marg{)}}
   设置定理题注两边的括号，两个必选参数分别代表左括号和右括号。
   \keyval{headformat}{标题排列}
-  定理标题各组成元素的位置排列和格式。定理标题由定理名、编号和题注组成，\meta{标题排列} 中命令 \cs*{NAME}、\cs*{NUMBER} 和 \cs*{NOTE} 分别代表定理名、编号和题注。
-  \command{theoremstyle}[\marg{定理样式}]
-  设置其后由 \cs{declaretheorem} 命令声明的定理环境的样式。
+  定理标题各组成元素的位置排列和格式。定理标题由定理名、编号和题注组成，\meta{标题排列} 中命令 \cs*{NAME}、\cs*{NUMBER} 和 \cs*{NOTE} 分别代表定理名、编号和题注。也可以设置值为 \code{margin} 或 \code{swapnumber}，它们的编号均在定理名前方，其中 \code{margin} 的编号在左页边距中。
 
   下面定义一个名为 \code{fancy} 的定理样式用于 \cs{declaretheorem} 的 \option*{style} 选项：
   \begin{ctexexam}[labelref = exam:new theorem sty]
@@ -608,7 +606,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \end{ctexexam}
   \begin{cnltxlist}[itemsep = 0ex]
   \command{listoftheorems}[\sarg\oarg{键值列表}]\default{}
-  \item\key{listoftheorems}{定理目录标题名}
+  \item\key{listtheoremname}{定理目录标题名}
   \command{settheoremtocline}[\sarg\marg{环境名}\marg{标题定义}]\newtagv{2024bb}%
   对 \pkg*{thmtools} 宏包的定理环境目录命令 \cs{listoftheorems} 进行了适配调整，\ref{subsec:directory command} 和\ref{subsec:contents} 中的选项机制均可用，但标题定义选项 \option{tocline} 较为特殊，需用 \cs{settheoremtocline} 命令单独设置。在 \meta{标题定义} 中有三个命令 \cs{thmtname}、\cs{thmtenvname} 和 \cs{thmtnote} 分别代表定理名、定理环境名和题注用于排版目录条目。
   \end{cnltxlist}
@@ -627,6 +625,16 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
       \listnumberline{lemma}
       \thmtname\thmtifnote{[\thmtnote]}{}
     }
+  \end{ctexexam}
+
+  如果使用 \pkg*{keytheorems} 宏包创建定理环境，它的目录样式同样可以用 \module*{toc} 模块的命令注册后定制，但是 \option{tocline} 需用目录命令自带的 \option{format-code} 选项修改：
+  \begin{ctexexam}
+  \newkeytheorem{corollary}[name = 推论]
+  \contentsuse{corollary}{thlist}
+  \RegisterTocName{corollary}
+  \begin{document}
+  \keytheoremlistset{format-code = \numberline{#2}#1#3}
+  \listofkeytheorems % 在正文中输出定理目录
   \end{ctexexam}
 \end{cnltxlist}
 
@@ -937,6 +945,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
     name      = 算法
     ]{algorithm}
   \DeclareFloatList{algorithm}{loa}
+  \begin{document}
   \listofalgorithms[multoc] % 在正文中输出双栏算法目录
   \end{ctexexam}
   \command{AssignCaptionExt}[\marg{条目名}\marg{扩展名}]
@@ -985,8 +994,6 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   将目录页码装进一个右对齐的水平盒子里。这样可以使目录引导线右端对齐并与页码保持一定间距，否则会与页码相连。
   \keyval{pagenumwd}{刚性长度}\Default{1.55em}
   设置开启 \option{dotalign} 选项时页码水平盒子的宽度。
-  \keychoice{fileopen}{\fbox{once},odd}
-  编译文档时打开目录文件进行写入操作的方式，这个选项影响重复使用目录命令时的输出行为。默认只在第一次编译时打开文件，选择 \code{odd} 将仅在奇数次编译时打开文件。
   \keyval{tocafter-every}{距离命令}\Default{\cs*{hspace}\Marg{1em}}
   统一设置所有类型条目编号与标题间的代码。
   \keyval{tocindent-every}{刚性长度}
@@ -1122,7 +1129,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \end{cnltxlist}
 
 \subsection{双语章节标题和新建标题}
-双语目录标题命令目前设置了常用的三个级别，它们将中文标题正常输出，并使中英文标题加入双语目录。类似于标准文档类，这三个标题命令分别具有独立的计数器\footnote{默认情况下与普通标题命令共享使用计数器。}，并对应 \cs*{the}\meta{计数器} 的值，可以用于 \option{number} 选项更改英文目录中标题的编号格式。这个功能是为国内一些高校的学位论文模板的要求设计，在一般情况和英文模式下\textbf{不需要使用}。
+双语目录标题命令将中文标题正常输出，并使中英文标题加入双语目录。目前设置了常用的三个级别，这个功能是为国内一些高校的学位论文模板的要求设计。类似于标准文档类，这三个标题命令分别具有独立的计数器\footnote{默认情况下与普通标题命令共享使用计数器。}，并对应 \cs*{the}\meta{计数器} 的值，可以用于 \option{number} 选项更改英文目录中标题的编号格式。
 \begin{cnltxlist}
   \command{bichapter}[\sarg\oarg{目录中文标题}\marg{中文标题}\marg{目录英文标题}]
   \code{chapter} 章级别的双语目录标题命令，具有独立的 \code{bichapter} 计数器。
@@ -1131,7 +1138,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{bisubsection}[\sarg\oarg{目录中文标题}\marg{中文标题}\marg{目录英文标题}]
   \code{subsection} 小节级别的双语目录标题命令，具有独立的 \code{bisubsection} 计数器。
 
-  它们的星号变体命令使文中标题不编号，但是仍然加入双语目录，若英文标题参数空置那么仅加入中文目录而不加入英文目录，这一特点与 \cs*{chapter}\sarg{} 等命令的行为不太一样，在一些情况下会用到。可选参数是目录中的中文条目，默认与中文标题一致，正文标题过长时可用它设置在目录中显示的标题。默认情况下双语目录条目的格式是一致的，共享使用 \module*{toc} 模块的设置。提供了两个选项 \option{biname} 和 \option{binumber} 修改英文目录章标题条目的名字及编号：
+  命令的星号参数使正文中的标题不编号，但是仍然加入双语目录，若英文标题为空那么仅加入中文目录，这一特点与 \cs*{chapter}\sarg{} 等命令的行为不太一样，在一些情况下会用到。可选参数是目录中的中文条目，默认与中文标题一致，正文标题过长时可用它设置在目录中显示的标题。默认情况下双语目录条目的格式是一致的，共享使用 \module*{toc} 模块的设置。提供了两个选项 \option{biname} 和 \option{binumber} 修改英文目录章标题条目的名字及编号：
   \optpath{chapter/}\kvsplit+{biname}{英文目录前名字,英文目录后名字}\Default{Chapter\cs*{space}}
   更改英文目录 \code{chapter} 级别的标题条目编号前后名字，类似于 \CTeX 的 \option*{name} 选项。
   \optpath{chapter/}\key{binumber}{英文目录编号输出命令}\Default{\cs*{arabic}\Marg{chapter}}
@@ -1239,9 +1246,10 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \end{cnltxlist}
 
 \subsection{列表}
+列表宏包 \pkg*{enumitem} 为系统预置的三个列表环境提供了灵活的标签以及间距控制。
 \begin{cnltxlist}
   \command{setlist}[\sarg\splitoarg{列表类型,级别}\marg{键值列表}]
-  列表宏包 \pkg*{enumitem} 为系统预置的三个列表环境提供了灵活的标签以及间距控制，这是设置列表环境的通用接口命令。带有星号参数的命令在原有格式上补充。\meta{列表类型} 是排序列表 \code{enumerate}、常规列表 \code{itemize} 和主题列表 \code{description} 三个基本类型，也可以是 \cs{newlist} 新建的定理环境，若不指定则设置所有列表类型的格式。若不指定 \meta{级别} 则设置所有列表级别的格式。
+  设置列表环境的通用接口命令。带有星号参数的命令在原有格式上补充。\meta{列表类型} 是排序列表 \code{enumerate}、常规列表 \code{itemize} 和主题列表 \code{description} 三个基本类型，也可以是 \cs{newlist} 新建的定理环境，若不指定则设置所有列表类型的格式。若不指定 \meta{级别} 则设置所有列表级别的格式。
   \command{newlist}[\marg{列表名}\marg{列表类型}\marg{最大级别}]
   克隆基本的 \meta{列表类型} 在其基础上新建一个名为 \meta{列表名} 的列表环境。不要将 \meta{最大级别} 设置过大以避免创建过多的计数器和相关宏。
   \begin{ctexexam}
@@ -1283,9 +1291,10 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \end{cnltxlist}
 
 \subsection{代码}
+代码抄录宏包 \pkg*{listings} 提供了完善的代码排版功能，并且不需要前端处理器。
 \begin{cnltxlist}
   \command{lstdefinestyle}[\marg{代码风格}\marg{键值列表}]
-  代码抄录宏包 \pkg*{listings} 提供了完善的排版功能，不需要前端处理器。这是它的代码风格定义命令，提供大量选项对代码样式进行高度定制。可以根据需要的代码语言定义多种风格，默认使用的 \meta{代码风格} 为适用于\TeX 语言的 \code{lst-latex}。
+  代码风格定义命令，提供大量选项对代码样式进行高度定制。可以根据需要的代码语言定义多种风格，默认使用的 \meta{代码风格} 为适用于\TeX 语言的 \code{lst-latex}。
   \command{lstinline}[\oarg{键值列表}\marg{行内代码}]
   行内代码抄录命令。较原生的 \cs*{verb} 命令有较大改进，具有代码语言和样式支持。
   \environment{lstlisting}[\oarg{键值列表}]
@@ -1414,9 +1423,10 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \end{cnltxlist}
 
 \subsection{索引}
+\pkg*{imakeidx} 宏包增强了索引的功能，可使用户在制作和排版文档的同时制作一个或多个索引。
 \begin{cnltxlist}
   \command{indexsetup}[\marg{键值列表}]
-  \pkg*{imakeidx} 宏包增强了索引的功能，可使用户在制作和排版文档的同时制作一个或多个索引。这是 \pkg*{imakeidx} 宏包的接口命令，用于设置索引表的整体格式，它的 \option{level} 和 \option{headers} 选项失效。
+  设置索引表整体格式的通用接口命令，它的 \option{level} 和 \option{headers} 选项失效。
   \command{index}[\oarg{索引名}\marg{标签}]
   索引标签命令的可选参数可以用不同的 \meta{索引名} 给多个索引表设置标签。
   \command{makeindex}[\oarg{键值列表}]
@@ -1560,6 +1570,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \end{version}
   \shortversion{v = 2024dq,date = 2024/09/16,changes = 修复脚注重置编号的方式为 \code{page} 时在一些换页情况下失败的问题。}
   \shortversion{v = 2024dt,date = 2024/09/22,changes = 新增用于设置行距的命令 \cs{usestretch} 和环境 \env{usespace}。}
+  \shortversion{v = 2024ea,date = 2024/09/28,changes = 定理模块 \module*{thmt} 支持使用 \pkg*{keytheorems} 宏包。}
 \end{changelog}
 \nocite{*}
 % \AddToHook{cmd/printindex/before}{\clearpage}
