@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024ea,
-    date            = 2024/09/28,
+    version         = v2024eb,
+    date            = 2024/09/30,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -608,7 +608,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{listoftheorems}[\sarg\oarg{键值列表}]\default{}
   \item\key{listtheoremname}{定理目录标题名}
   \command{settheoremtocline}[\sarg\marg{环境名}\marg{标题定义}]\newtagv{2024bb}%
-  对 \pkg*{thmtools} 宏包的定理环境目录命令 \cs{listoftheorems} 进行了适配调整，\ref{subsec:directory command} 和\ref{subsec:contents} 中的选项机制均可用，但标题定义选项 \option{tocline} 较为特殊，需用 \cs{settheoremtocline} 命令单独设置。在 \meta{标题定义} 中有三个命令 \cs{thmtname}、\cs{thmtenvname} 和 \cs{thmtnote} 分别代表定理名、定理环境名和题注用于排版目录条目。
+  对 \pkg*{thmtools} 宏包的定理环境目录命令 \cs{listoftheorems} 进行了适配调整\footnote{也对 \pkg*{keytheorems} 宏包作为兼容提供的这个命令进行了适配。}，\ref{subsec:directory command} 和\ref{subsec:contents} 中的选项机制均可用，但标题定义选项 \option{tocline} 较为特殊，需用 \cs{settheoremtocline} 命令单独设置。在 \meta{标题定义} 中有三个命令 \cs{thmtname}、\cs{thmtenvname} 和 \cs{thmtnote} 分别代表定理名、定理环境名和题注用于排版目录条目。
   \end{cnltxlist}
   \optpath{thmt/}\key{loeskip}{弹性长度}\Default{10pt}
   定理目录中每章第一个条目上方增加的垂直距离。与 \CTeX 的表格和图片目录中每章间的条目距离选项 \option*{lotskip} 和 \option*{lofskip} 类似，在 \cls*{article} 模式中此选项失效。
@@ -627,7 +627,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
     }
   \end{ctexexam}
 
-  如果使用 \pkg*{keytheorems} 宏包创建定理环境，它的目录样式同样可以用 \module*{toc} 模块的命令注册后定制，但是 \option{tocline} 需用目录命令自带的 \option{format-code} 选项修改：
+  如果使用 \pkg*{keytheorems} 宏包创建定理环境，它的目录样式同样可以用 \module*{toc} 模块的命令注册后定制，其中 \option{tocline} 可用目录命令自带的 \option{format-code} 选项设置：
   \begin{ctexexam}
   \newkeytheorem{corollary}[name = 推论]
   \contentsuse{corollary}{thlist}
@@ -904,6 +904,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \newcommand{\seqentry}[2]{#2-#1} % #2为标题内容
   \ctexset{chapter/toclabel = \seqentry{#1}}
   \end{ctexexam}
+  \command{hytoclink}[\marg{目录条目元素}]\newtagv{2024eb}%
+  给目录条目元素增加超链接，主要用于 \option{toclabel} 选项中的标签。使用 \pkg*{titletoc} 宏包时条目标题的标签超链接会缺失，这个命令可修复此问题。
   \keyval{tocafter}{距离命令}\dtag\Default{\cs*{hspace}\Marg{1em}}
   目录条目标签与标题间的代码，默认为插入 \code{1em} 横向距离。
   \keyval{tocbelow}{距离命令}\dtag
@@ -920,7 +922,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
           tocrule       = \tocrule[0.6pc](1.1){.}[\zihao{5}],
           tocline       = \CTEXnumberline{#1}#2
         },
-      section/toclabel  = \contentspush{#1\hspace{0.5em}},
+      section/toclabel  = \contentspush{\hytoclink{#1}\hspace{0.5em}},
       section/tocrule   = \tocrule-{}\makebox[1cm]{\rlap{\thecontentspage}},
       toc/pagenumwd     = 0pt
     }

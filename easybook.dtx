@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/09/28}{2024ea}
+\ProvidesExplClass{easybook}{2024/09/30}{2024eb}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/09/28}{2024ea}
+\ProvidesExplPackage{easybase}{2024/09/30}{2024eb}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1698,6 +1698,7 @@
     \tl_set:cn { ttll@#2 } {#1}
   }
 \contentsuse{lstlisting}{lol}
+\cs_set:Npn \hytoclink #1 { \Hy@toclinkstart #1\Hy@toclinkend }
 \seq_put_left:Nn  \c__ctex_headings_seq { chapter }
 \seq_put_right:Nn \c__ctex_headings_seq { table }
 \seq_put_right:Nn \c__ctex_headings_seq { figure }
@@ -1751,7 +1752,7 @@
             \bool_if:NTF \l__eb_toc_entry_hang_bool
               { \IfBooleanTF{##3}{\use:n}{\contentspush} }
               { \use:n }
-              { ##1\tl_use:c { l__eb_toc_##2_after_tl } }
+              { \hytoclink{##1}\tl_use:c { l__eb_toc_##2_after_tl } }
           },
         tocafter  = \hspace{1em},
         tocsep    = .—,
@@ -2406,7 +2407,11 @@
       }
   }
 \cs_new_protected:Npn \eb_theorem_load_keytheorems:
-  { \RequirePackage{keytheorems} }
+  {
+    \RequirePackage{keytheorems}
+    \DeclareFloatList{theorem}{thlist}
+    \AssignPartialExt{thlist}{ple}
+  }
 \str_case:Vn \l__eb_theorem_support_tl
   {
     { thmtools }
@@ -2840,7 +2845,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/28}{2024ea}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/30}{2024eb}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
