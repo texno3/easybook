@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/09/30}{2024eb}
+\ProvidesExplClass{easybook}{2024/10/01}{2024ec}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/09/30}{2024eb}
+\ProvidesExplPackage{easybase}{2024/10/01}{2024ec}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -803,25 +803,14 @@
 \UseFntSymbsList{empty}
 \cs_set_eq:NN \DefineFntSymbols \SetFntSymbsList
 \cs_set_eq:NN \setfntsymbol \UseFntSymbsList
-\cs_new:Npn \eb_int_type_trans:NN #1
-  {
-    \str_case:nn {#1}
-      {
-        { A } { \int_to_Alph:n }
-        { a } { \int_to_alph:n }
-        { 1 } { \int_to_arabic:n }
-        { I } { \int_to_Roman:n }
-        { i } { \int_to_roman:n }
-        { c } { \exp_args:NV \zhnumber }
-        { s } { \eb_int_to_symbols:n }
-      }
-  }
+\tl_new:N \l__eb_fnmarktext_tmpa_tl
+\tl_new:N \l__eb_fnmarktext_tmpb_tl
 \cs_new_protected:Npn \eb_fnmarktext_normal_label_set:Nn #1#2
   {
-    \tl_set:Nn \l__eb_fnmarktext_number_type_tl {#2}
+    \tl_set:Nn \l__eb_fnmarktext_tmpa_tl {#2}
     \cs_set:Npx #1
       {
-        \str_case:VnT \l__eb_fnmarktext_number_type_tl
+        \str_case:VnT \l__eb_fnmarktext_tmpa_tl
           {
             { plain }
             { \exp_not:N \int_use:N }
@@ -839,18 +828,33 @@
     \cs_set_eq:NN \thedownfootnote \thefootnote
   }
 \cs_generate_variant:Nn \msg_warning:nnnn { nnnV }
+\cs_new:Npn \eb_footnote_int_trans:n #1
+  {
+    \prop_item:Nn \l__eb_int_trans_cmds_prop {#1}
+    \exp_not:N \c@footnote
+  }
+\prop_set_from_keyval:Nn \l__eb_int_trans_cmds_prop
+  {
+    A = \exp_not:N \int_to_Alph:n,
+    a = \exp_not:N \int_to_alph:n,
+    1 = \exp_not:N \int_to_arabic:n,
+    I = \exp_not:N \int_to_Roman:n,
+    i = \exp_not:N \int_to_roman:n,
+    c = \exp_not:n { \exp_args:NV \zhnumber },
+    s = \exp_not:N \eb_int_to_symbols:n
+  }
 \cs_new_protected:Npn \eb_fnmarktext_short_label_set:Nn #1#2
   {
-    \tl_set:Nn \l__eb_fnmarktext_short_tokens_tl {#2}
+    \tl_set:Nn \l__eb_fnmarktext_tmpb_tl {#2}
     \clist_map_inline:nn
       { A,a,1,I,i,c,s }
       {
         \regex_match:nnTF {##1} {#2}
           {
             \regex_replace_once:nnN {##1}
-              { \c{eb_int_type_trans:NN} ##1 \c{c@footnote} }
-              \l__eb_fnmarktext_short_tokens_tl
-            \cs_set_eq:NN #1 \l__eb_fnmarktext_short_tokens_tl
+              { \c{eb_footnote_int_trans:n}\0 }
+              \l__eb_fnmarktext_tmpb_tl
+            \cs_set:Npx #1 { \l__eb_fnmarktext_tmpb_tl }
             \clist_map_break:
           }
           {
@@ -2373,7 +2377,6 @@
       bodyfont      = \normalfont,
       postheadspace = 1em
       ]
-    \cs_undefine:N \proof
     \DeclareFloatList{theorem}{loe}
     \AssignPartialExt{loe}{ple}
     \eb_preto_cmd:nn { listoftheorems }
@@ -2412,13 +2415,14 @@
     \DeclareFloatList{theorem}{thlist}
     \AssignPartialExt{thlist}{ple}
   }
-\str_case:Vn \l__eb_theorem_support_tl
+\str_case:VnT \l__eb_theorem_support_tl
   {
     { thmtools }
     { \eb_theorem_load_thmtools: }
     { keytheorems }
     { \eb_theorem_load_keytheorems: }
   }
+  { \cs_undefine:N \proof }
 \setchemformula
   {
     math-scripts      = false,
@@ -2845,7 +2849,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/09/30}{2024eb}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/01}{2024ec}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
