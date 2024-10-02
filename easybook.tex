@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024ec,
-    date            = 2024/10/01,
+    version         = v2024ed,
+    date            = 2024/10/02,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -548,8 +548,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \label{subsec:theorem}
 定理模块 \module*{thmt} 根据全局选项 \option{theorem} 的设置可以由 \pkg*{thmtools} 或 \pkg*{keytheorems} 宏包提供支持。\pkg*{keytheorems} 宏包使用 \hologo{LaTeX3} 编写，它的定理功能更完善并且提供了 \pkg*{thmtools} 宏包大部分的功能，但发布日期较新（2024年9月）还未被广泛使用，下面主要介绍传统的 \pkg*{thmtools} 宏包的功能。\pkg*{thmtools} 提供了定理环境和样式声明两个命令，文档类未预声明任何定理环境，如果声明定理环境时不指定样式，则使用默认定理样式 \code{default}，可以对它重新定义。
 \begin{cnltxlist}
-  \command{declaretheorem}[\oarg{键值列表1}\marg{环境名}\oarg{键值列表2}]
-  \pkg*{thmtools} 的定理环境声明命令。可选参数的 \meta{键值列表1} 与 \meta{键值列表2} 等效，常用的选项如下：
+  \command{declaretheorem}[\oarg{键值列表1}\marg{环境名列表}\oarg{键值列表2}]
+  \pkg*{thmtools} 的定理环境声明命令。\pkg*{thmtools} 宏包中此命令实际相当于 \cs{newtheorem}，无法强制创建定理环境，这里修复了这个问题。可选参数的 \meta{键值列表1} 与 \meta{键值列表2} 等效，常用的选项如下：
   \keyval{name}{定理名}
   定理环境的标题名称，默认为英文首字母大写的环境名。
   \keychoice{numbered}{no,\fbox{yes},unless unique}
@@ -570,7 +570,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \tcolorboxenvironment{lemma}{tc-easyboxi}
   \end{ctexexam}
   \command{declaretheoremstyle}[\oarg{键值列表1}\marg{定理样式}\oarg{键值列表2}]
-  \pkg*{thmtools} 的定理样式声明命令，键值列表支持自身以及定理声明命令 \cs{declaretheorem} 的所有选项。可选参数的 \meta{键值列表1} 与 \meta{键值列表2} 等效，常用的选项如下：
+  \pkg*{thmtools} 的定理样式声明命令，键值列表支持自身以及定理声明命令 \cs{declaretheorem} 的所有选项。为命令增加了可选参数 \meta{键值列表2}，与 \meta{键值列表1} 等效，常用的选项如下：
   \keyval{headfont}{字体命令}\Default{\cs*{sffamily}}
   定理标题部分（包括题注）的字体，包括字体族、字体系列、字体尺寸和字体形状命令。
   \keyval{notefont}{字体命令}\Default{\cs*{sffamily}}
@@ -1396,11 +1396,15 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \end{cnltxlist}
 
 \subsection{计数器}
-\begin{cnltxlist}[itemsep = 0ex]
-  \command{newcounter}[\marg{计数器}\oarg{父计数器}]\default{}
-  \command{setcounter}[\marg{计数器}\marg{整数}]\default{}
+\begin{cnltxlist}
+  \command{newcounter}[\marg{计数器}\oarg{父计数器}]
+  创建一个初始值为0的计数器。若 \meta{计数器} 已经存在则报错，若指定 \meta{父计数器} 则将它加入 \meta{父计数器} 的递增归零清单。
+  \command{declarecounter}[\marg{计数器}\oarg{父计数器}]\newtagv{2024ed}%
+  创建一个初始值为0的计数器，与 \cs{newcounter} 的区别是若 \meta{计数器} 已经存在仍会强制创建。
+  \command{setcounter}[\marg{计数器}\marg{整数}]
+  将计数器的值设定为指定值。
   \command{stepcounter}[\marg{计数器}]
-  常用的计数器设置命令。命令 \cs{newcounter} 创建一个初始值为0的新计数器。命令 \cs{setcounter} 将计数器的值设定为指定值。命令 \cs{stepcounter} 使计数器的值递增1。
+  使计数器的值递增1，同时它的递增归零清单中的子计数器值归零。
   \command{counterwithin}[\sarg\oarg{格式}\marg{计数器}\oarg{连字符}\marg{父计数器}]
   对计数器进行绑定的命令。将 \meta{计数器} 绑定于 \meta{父计数器}，即 \meta{父计数器} 的值递增时 \meta{计数器} 的值会归零。输出格式 \cs*{the}\meta{计数器} 被定义为 \cs*{the}\meta{父计数器}\meta{连字符}\meta{格式}\marg{计数器}。\meta{格式} 一般为更改计数器编号形式的命令，默认为 \cs*{arabic}。带有星号参数的命令仅进行绑定不更改输出格式。
   \command{counterwithout}[\sarg\oarg{格式}\marg{计数器}\marg{父计数器}]
