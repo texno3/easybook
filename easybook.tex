@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024ed,
-    date            = 2024/10/02,
+    version         = v2024ee,
+    date            = 2024/10/03,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -659,6 +659,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \end{ctexexam}
 
   \pkg*{geometry} 宏包支持在文档中部改变页面尺寸，提供了新建和保存页面布局的命令。需要注意的是，\pkg*{fancyhdr} 宏包配置页面标记是以文档开始的页面尺寸为参考，若中途更改页面布局后需用标记偏移命令 \cs{fancyhfoffset} 重置参考的尺寸，以确保标记位置正确。
+  \begin{cnltxlist}
   \command{newgeometry}[\marg{键值列表}]
   在正文中更改页面布局，\meta{键值列表} 为 \pkg*{geometry} 宏包通用接口的各种页面尺寸选项。
   \command{restoregeometry}
@@ -680,6 +681,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \fancyhfoffset{0pt}
     L2 (loaded)
   \end{ctexexam}
+  \end{cnltxlist}
 \end{cnltxlist}
 
 \subsection[图表题注]{图表题注\smodule{cap}}
@@ -741,7 +743,6 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   页眉横线默认的粗细，使用 \option{headrule} 选项绘制横线后失效。
   \keyval{footnoterulewd}{刚性长度}\Default{0.5pt}
   脚注横线默认的粗细，使用 \option{footnoterule} 选项绘制横线后失效。
-  \begin{cnltxlist}[itemsep = 0ex]
   \command{fancypagestyle}[\marg{风格名}\oarg{基础风格}\marg{风格定义}]
   定义名为 \meta{风格名} 的页面风格。\meta{风格定义} 中可包含设置页眉页脚不同位置格式的命令，如果为空则等于 \code{fancy} 风格。如果存在 \meta{基础风格}，则在它的基础上进行定义。
   \begin{ctexexam}
@@ -754,6 +755,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \end{ctexexam}
   \command{pagestyle}[\marg{风格名}]\Default{fancy}
   设置 \meta{风格名} 为当前及之后页的页面风格。
+  \begin{cnltxlist}[itemsep = 0ex]
   \command{fancyhead}[\oarg{位置}\marg{内容}]\default{}
   \command{fancyfoot}[\oarg{位置}\marg{内容}]
   为了确保页面显示正确，使用 \cs{fancyhead} 和 \cs{fancyfoot} 等命令设置页眉页脚时需要在页边距的命令之后。默认设置的是一个名为 \code{fancy} 的页面风格。\pkg*{fancyhdr} 将页眉页脚分成了左中右和奇数页（odd）、偶数页（even）共12个部分，可选参数中 \code{E} 和 \code{O} 代表偶数和奇数，\code{L}、\code{C} 和 \code{R} 代表左、中和右部分。单面打印时，含有偶数位置的命令无效。
