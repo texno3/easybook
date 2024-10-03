@@ -2348,8 +2348,10 @@
   {
     \cs_undefine:c { c@#1 }
     \cs_undefine:c { the#1 }
+    \group_begin:
     \exp_args:Nc \providecommand { c@@ckpt }{}
     \@removefromreset{#1}{@ckpt}
+    \group_end:
   }
 \ProvideDocumentCommand{\declarecounter}{mo}
   {
