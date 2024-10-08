@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024ee,
-    date            = 2024/10/03,
+    version         = v2024ef,
+    date            = 2024/10/08,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -253,13 +253,14 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   cell{5}{2}    = PaleTurquoise,
   cell{5}{1}    = GreenYellow,
   cell{1}{2}    = GreenYellow,
-  cell{3}{1,4}  = GreenYellow
+  cell{3}{1,4}  = GreenYellow,
+  cell{4}{2}    = GreenYellow
   }
   amsthm & bicaption & ctex & caption & chemformula \\
   enumitem & etoolbox & fancyhdr & geometry & hyperref \\
   imakeidx & listings & marginnote & mathtools & multicol \\
   pifont & pdfpages & siunitx & spbmark & thmtools \\
-  tcolorbox & titletoc & tabularray & &
+  tcolorbox & titletoc & tabularray & xcolor & graphicx
 \end{longtblr}
 
 \section{全局选项}
@@ -284,6 +285,14 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   开启这个选项后浮动环境 \env{table} 和 \env{figure} 的比例参数会使用默认值。关闭它则尽可能避免出现浮动页，使图表环境与正文段落更加紧凑，减少多余的空白版面。
   \keychoice{theorem}{\fbox{thmtools},keytheorems,false}\newtagv[Changed]{2024ea}%
   是否提供定理功能支持，定理模块的介绍可见\ref{subsec:theorem}。选项 \code{thmtools} 会载入 \pkg*{amsthm} 和 \pkg*{thmtools} 宏包，选项 \code{keytheorems} 会载入 \pkg*{keytheorems} 宏包，选项 \code{false} 不载入定理功能宏包。
+  \keychoice{chem}{\fbox{chemformula},mhchem,false}\newtagv{2024ef}%
+  是否提供化学式功能支持。选项 \code{chemformula} 会载入 \pkg*{chemformula} 宏包，选项 \code{mhchem} 会载入 \pkg*{mhchem} 宏包，选项 \code{false} 不载入化学式功能宏包。\pkg*{chemformula} 的工作原理与 \pkg*{mhchem} 非常相似，但对化合物、化学计量数和箭头的输入方式控制更为严格。
+  \command{ch}[\oarg{键值列表}\marg{化学式}]
+  \pkg*{chemformula} 的无机化学式书写命令。化合物表达式中的原子数不需要加下标符号，化学计量数与表达式间隔一个空格。
+  \begin{ctexexam}
+  \ch{[Cu(NH3)4]^2+}
+  \ch{Cu2S + 2 O2 - 2 e^- == 2 Cu^2+ + SO4^2-}
+  \end{ctexexam}
 \end{cnltxlist}
 
 \subsection{配置字体}
@@ -333,7 +342,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \subsection{\textsf{article} 模式}
 \begin{cnltxlist}
   \keychoice{class}{\fbox{book},article}
-  使用 \easybook{} 文档类可以有两种模式，默认为 \cls*{book} 模式。选用 \code{article} 会变为 \code{oneside} 单面排版，同时使文档编号、结构等与标准 \cls*{article} 文档类的特性相似，可用于短篇幅的文章，不需要再使用 \cs*{chapter} 命令。此时\ref{subsec:directory command} 中目录命令的 \option{chapter} 选项会失效，将以 \code{section} 标题级别输出目录。如果使用 \cls*{ctexart} 配合 \pkg*{easybase} 宏包，则选项值 \code{book} 会失效。
+  使用 \easybook{} 文档类可以有两种模式，默认为 \cls*{book} 模式。选用 \code{article} 可用于短篇幅的文章，文档会变为 \code{oneside} 单面排版，同时标题编号和封面等与标准 \cls*{article} 文档类相似，若使用 \cs{chapter} 命令会报错。如果使用 \cls*{ctexart} 配合 \pkg*{easybase} 宏包，则选项值 \code{book} 会失效。
   \opt{book}
   开启 \cls*{book} 书籍模式，与 \keyis*{class}{book} 等效。
   \opt{article}
@@ -901,7 +910,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{tocrule}[\sarg\harg\oarg{引导点间距}\darg{放大因子}\marg{引导点}\oarg{页码格式}]
   生成目录引导线的命令，需要在引导线选项 \option{tocrule} 中使用。带有星号的命令与 \keyis{dotalign}{false} 效果相同。命令带 \harg{} 号参数不输出目录页码，此时无格式的页码被保存在 \cs{thecontentspage} 命令中，可以配合盒子命令设置不同的页码左右间距和对齐方式。\meta{放大因子} 为 \meta{引导点} 的放大倍数。\meta{页码格式} 中最后一个命令可以带有一个参数用于接受页码。
   \keyval{toclabel}{标题标签定义}\dtag\newtagv{2024as}%
-  目录中各类型条目标题标签的定义，可与 \option{tocline} 选项联用设置标题。其中参数 \code{\#1} 代表标签的编号 \cs{thecontentslabel}，参数 \code{\#2} 代表 \meta{条目名}。定义最后的命令可带有一个参数，用于接受标题内容，一些特殊情况例如需要将标题内容放在标签后，可以通过定义命令实现：
+  目录中各类型条目标题标签的定义，可与 \option{tocline} 选项联用设置标题。其中参数 \code{\#1} 代表标签的编号 \cs{thecontentslabel}，参数 \code{\#2} 代表 \meta{条目名}。定义最后的命令可带有一个参数，用于接受标题内容，一些特殊情况例如需要将标题内容放在标签前，可以通过定义命令实现：
   \begin{ctexexam}
   \newcommand{\seqentry}[2]{#2-#1} % #2为标题内容
   \ctexset{chapter/toclabel = \seqentry{#1}}
@@ -1294,34 +1303,27 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   悬挂缩进环境 \env{hangparas} 有两个必选参数，使其中的段落均保持悬挂缩进。每个段落的缩进将以 \meta{缩进长度} 从 \meta{缩进开始行数} 开始。
 \end{cnltxlist}
 
-\subsection{代码}
-代码抄录宏包 \pkg*{listings} 提供了完善的代码排版功能，并且不需要前端处理器。
+\subsection{计数器}
 \begin{cnltxlist}
-  \command{lstdefinestyle}[\marg{代码风格}\marg{键值列表}]
-  代码风格定义命令，提供大量选项对代码样式进行高度定制。可以根据需要的代码语言定义多种风格，默认使用的 \meta{代码风格} 为适用于\TeX 语言的 \code{lst-latex}。
-  \command{lstinline}[\oarg{键值列表}\marg{行内代码}]
-  行内代码抄录命令。较原生的 \cs*{verb} 命令有较大改进，具有代码语言和样式支持。
-  \environment{lstlisting}[\oarg{键值列表}]
-  行间代码抄录环境。支持多种语言库，默认使用 \code{LaTeX} 代码语言，可使用 \meta{键值列表} 局部修改代码样式。另外还提供了 \cs{lstnewenvironment} 命令包装自定义名称的代码环境。
+  \command{newcounter}[\marg{计数器}\oarg{父计数器}]
+  创建一个初始值为0的计数器。若 \meta{计数器} 已经存在则报错，若指定 \meta{父计数器} 则将它加入 \meta{父计数器} 的递增归零清单。
+  \command{declarecounter}[\marg{计数器}\oarg{父计数器}]\newtagv{2024ed}%
+  创建一个初始值为0的计数器，与 \cs{newcounter} 的区别是若 \meta{计数器} 已经存在仍会强制创建。
+  \command{setcounter}[\marg{计数器}\marg{整数}]
+  将计数器的值设定为指定值。
+  \command{stepcounter}[\marg{计数器}]
+  使计数器的值递增1，同时它的递增归零清单中的子计数器值归零。
+  \command{counterwithin}[\sarg\oarg{格式}\marg{计数器}\oarg{连字符}\marg{父计数器}]
+  对计数器进行绑定的命令。将 \meta{计数器} 绑定于 \meta{父计数器}，即 \meta{父计数器} 的值递增时 \meta{计数器} 的值会归零。输出格式 \cs*{the}\meta{计数器} 被定义为 \cs*{the}\meta{父计数器}\meta{连字符}\meta{格式}\marg{计数器}。\meta{格式} 一般为更改计数器编号形式的命令，默认为 \cs*{arabic}。带有星号参数的命令仅进行绑定不更改输出格式。
+  \command{counterwithout}[\sarg\oarg{格式}\marg{计数器}\marg{父计数器}]
+  对计数器关系进行解绑的命令。将 \meta{计数器} 解绑于 \meta{父计数器}，同时输出格式被改为 \meta{格式}\marg{计数器}。带有星号参数的命令仅进行解绑不更改输出格式。
   \begin{ctexexam}
-  \lstdefinestyle{lst-pascal}
-    {
-      language        = Pascal,
-      numbers         = left,
-      firstnumber     = last,
-      frame           = shadowbox,
-      backgroundcolor = \color{MistyRose},
-      rulesepcolor    = \color{DarkGray}
-    }
-  \lstnewenvironment{mypascal}[1][]{\lstset{style = lst-pascal,#1}}{}
+  \counterwithin[\Roman]{child}[-]{parent}
+  \counterwithout*{child}{parent}
   \end{ctexexam}
 \end{cnltxlist}
 
-\begin{cnltxlist}[itemsep = 0ex]
-  \keyval{lstlistlistingname}{代码目录标题名}\default{}
-  \keyval{lstlistingname}{代码题注标题名}
-  代码目录名与代码环境题注名选项 \option{lstlistlistingname} 和 \option{lstlistingname} 用法与 \CTeX 使用手册标题汉化一节类似，可以看作对这节的扩展。
-\end{cnltxlist}
+\section{扩展功能}
 
 \subsection{盒子}
 \label{subsec:box}
@@ -1365,7 +1367,33 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   行内盒子命令 \cs{eboxii} 则有直角边缘和四周框线，效果类似带背景色的 \cs*{fbox} 盒子。
 \end{cnltxlist}
 
-\section{扩展功能}
+\subsection{代码}
+代码抄录宏包 \pkg*{listings} 提供了完善的代码排版功能，并且不需要前端处理器。
+\begin{cnltxlist}
+  \command{lstdefinestyle}[\marg{代码风格}\marg{键值列表}]
+  代码风格定义命令，提供大量选项对代码样式进行高度定制。可以根据需要的代码语言定义多种风格，默认使用的 \meta{代码风格} 为适用于\TeX 语言的 \code{lst-latex}。
+  \command{lstinline}[\oarg{键值列表}\marg{行内代码}]
+  行内代码抄录命令。较原生的 \cs*{verb} 命令有较大改进，具有代码语言和样式支持。
+  \environment{lstlisting}[\oarg{键值列表}]
+  行间代码抄录环境。支持多种语言库，默认使用 \code{LaTeX} 代码语言，可使用 \meta{键值列表} 局部修改代码样式。另外还提供了 \cs{lstnewenvironment} 命令包装自定义名称的代码环境。
+  \begin{ctexexam}
+  \lstdefinestyle{lst-pascal}
+    {
+      language        = Pascal,
+      numbers         = left,
+      firstnumber     = last,
+      frame           = shadowbox,
+      backgroundcolor = \color{MistyRose},
+      rulesepcolor    = \color{DarkGray}
+    }
+  \lstnewenvironment{mypascal}[1][]{\lstset{style = lst-pascal,#1}}{}
+  \end{ctexexam}
+  \begin{cnltxlist}[itemsep = 0ex]
+  \keyval{listlstlistingname}{代码目录标题名}\default{}
+  \keyval{lstlistingname}{代码题注标题名}
+  代码目录名与代码环境题注名选项 \option{listlstlistingname} 和 \option{lstlistingname} 用法与 \CTeX 使用手册标题汉化一节类似，可以看作对这节的扩展。
+  \end{cnltxlist}
+\end{cnltxlist}
 
 \subsection{物理量}
 使用 \pkg*{siunitx} 宏包提供国际单位制的物理量支持。\pkg*{siunitx} 宏包旨在为 \hologo{LaTeX} 用户提供一种统一的方法，以便正确、轻松地排版数字和单位。\pkg*{siunitx} 的设计理念是默认遵循约定的规则，但允许通过选项设置进行更改。
@@ -1383,37 +1411,6 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \unit{mL~min^{-1}}
   \qty{5}{\mole}
   \qtyrange[unit-color = green]{1.5}{4}{kg}
-  \end{ctexexam}
-\end{cnltxlist}
-
-\subsection{化学式}
-除了以普通公式的方式，化学式的输出还可用 \pkg*{chemformula} 宏包实现。\pkg*{chemformula} 的工作原理与 \pkg*{mhchem} 非常相似，但对化合物、化学计量数和箭头的输入方式更为严格。同时 \pkg*{chemformula} 提供了多种自定义输出的可能性。
-\begin{cnltxlist}
-  \command{ch}[\oarg{键值列表}\marg{化学式}]
-  无机化学式使用 \cs{ch} 命令书写。化合物表达式中的原子数不需要加下标符号，化学计量数与表达式间隔一个空格。
-  \begin{ctexexam}
-  \ch{[Cu(NH3)4]^2+}
-  \ch{Cu2S + 2 O2 - 2 e^- == 2 Cu^2+ + SO4^2-}
-  \end{ctexexam}
-\end{cnltxlist}
-
-\subsection{计数器}
-\begin{cnltxlist}
-  \command{newcounter}[\marg{计数器}\oarg{父计数器}]
-  创建一个初始值为0的计数器。若 \meta{计数器} 已经存在则报错，若指定 \meta{父计数器} 则将它加入 \meta{父计数器} 的递增归零清单。
-  \command{declarecounter}[\marg{计数器}\oarg{父计数器}]\newtagv{2024ed}%
-  创建一个初始值为0的计数器，与 \cs{newcounter} 的区别是若 \meta{计数器} 已经存在仍会强制创建。
-  \command{setcounter}[\marg{计数器}\marg{整数}]
-  将计数器的值设定为指定值。
-  \command{stepcounter}[\marg{计数器}]
-  使计数器的值递增1，同时它的递增归零清单中的子计数器值归零。
-  \command{counterwithin}[\sarg\oarg{格式}\marg{计数器}\oarg{连字符}\marg{父计数器}]
-  对计数器进行绑定的命令。将 \meta{计数器} 绑定于 \meta{父计数器}，即 \meta{父计数器} 的值递增时 \meta{计数器} 的值会归零。输出格式 \cs*{the}\meta{计数器} 被定义为 \cs*{the}\meta{父计数器}\meta{连字符}\meta{格式}\marg{计数器}。\meta{格式} 一般为更改计数器编号形式的命令，默认为 \cs*{arabic}。带有星号参数的命令仅进行绑定不更改输出格式。
-  \command{counterwithout}[\sarg\oarg{格式}\marg{计数器}\marg{父计数器}]
-  对计数器关系进行解绑的命令。将 \meta{计数器} 解绑于 \meta{父计数器}，同时输出格式被改为 \meta{格式}\marg{计数器}。带有星号参数的命令仅进行解绑不更改输出格式。
-  \begin{ctexexam}
-  \counterwithin[\Roman]{child}[-]{parent}
-  \counterwithout*{child}{parent}
   \end{ctexexam}
 \end{cnltxlist}
 

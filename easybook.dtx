@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/10/03}{2024ee}
+\ProvidesExplClass{easybook}{2024/10/08}{2024ef}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -43,6 +43,7 @@
     class.code:n            = { },
     floatpage.code:n        = { },
     theorem .code:n         = { },
+    chem .code:n            = { },
     unknown .code:n = \clist_gput_right:NV \g__eb_doc_options_clist \CurrentOption
   }
 
@@ -301,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/10/03}{2024ee}
+\ProvidesExplPackage{easybase}{2024/10/08}{2024ef}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -400,10 +401,15 @@
     theorem .choices:nn     =
       { thmtools,keytheorems,false }
       { \tl_set:Nn \l__eb_theorem_support_tl {#1} },
-    theorem .value_required:n = true,
     theorem/true .meta:n    = { theorem = thmtools },
     theorem .default:n      = thmtools,
     theorem .initial:n      = thmtools,
+    chem .choices:nn        =
+      { chemformula,mhchem,false }
+      { \tl_set:Nn \l__eb_chem_support_tl {#1} },
+    chem/true .meta:n       = { chem = chemformula },
+    chem .default:n         = chemformula,
+    chem .initial:n         = chemformula,
     paper .code:n           = \eb_put_geometry:n {#1},
     paper .initial:n        = a4paper,
     class .choice:,
@@ -508,11 +514,10 @@
   {
     [text]{spbmark},
     [{shortlabels,inline}]{enumitem},
-    chemformula,siunitx,pifont,
-    geometry,marginnote,
-    pdfpages,multicol,
+    siunitx,pifont,
+    geometry,marginnote,multicol,
     fancyhdr,titletoc,caption,
-    tabularray,
+    tabularray,graphicx,xcolor,
     listings
   }
 \cs_new_protected:Npn \eb_package_date_check:nn #1#2
@@ -571,7 +576,8 @@
       }
   }
 
-\includepdfset{fitpaper = true}
+\ctex_at_end_package:nn { pdfpages }
+  { \includepdfset{fitpaper = true} }
 \geometry
   {
     vmargin         = 2.54cm,
@@ -2193,7 +2199,6 @@
     \captionsetup[table][bi-second]{name = Table}
   }
 \UseTblrLibrary{booktabs}
-
 \bool_if:NF \l__eb_float_page_bool
   {
     \tl_gset:Nn \textfraction { 0.1 }
@@ -2209,11 +2214,6 @@
 \setcounter{topnumber}{4}
 \setcounter{bottomnumber}{4}
 \setcounter{totalnumber}{8}
-\tl_set:Nn \fontsubfuzz { 0.5pt }
-\dim_zero_new:N \mathindent
-\allowdisplaybreaks[4]
-\everymath{\displaystyle}
-\DeclareGraphicsExtensions{.pdf,.png,.jpg,.eps,.tif}
 
 \dim_new:N \hangwd
 \cs_set_protected:Npn \hangpara #1#2
@@ -2270,7 +2270,7 @@
     width .dim_set:N        = \l__eb_eqsymb_width_dim,
     width .initial:n        = 10pt,
     delim .tl_set:N         = \l__eb_eqsymb_delim_tl,
-    delim .initial:n        = \tl_if_eq:NnTF \l__ctex_scheme_tl { chinese } { —— } { --- },
+    delim .initial:n = \tl_if_eq:NnTF \l__ctex_scheme_tl { chinese } { —— } { --- },
     space .dim_set:N        = \l__eb_eqsymb_space_dim,
     space .initial:n        = 0.25em,
     item-align .tl_set:N    = \l__eb_eqsymb_item_align_tl,
@@ -2447,24 +2447,42 @@
     { \eb_theorem_load_keytheorems: }
   }
   { \cs_undefine:N \proof }
-\setchemformula
+\cs_new_protected:Npn \eb_chem_load_chemformula:
   {
-    math-scripts      = false,
-    charge-hshift     = 0.25em,
-    subscript-vshift  = -0.2ex
-  }
-\IfPackageAtLeastTF{siunitx}{2021/06/22}
-  {
-    \sisetup
+    \RequirePackage{chemformula}
+    \setchemformula
       {
-        number-mode           = match,
-        range-phrase          = \ensuremath{\sim},
-        range-units           = single,
-        print-unity-mantissa  = false,
-        table-alignment-mode  = none,
-        group-digits          = none
+        charge-hshift     = 0pt,
+        subscript-vshift  = -0.2ex
       }
-  }{}
+  }
+\cs_new_protected:Npn \eb_chem_load_mhchem:
+  {
+    \RequirePackage[version = 4]{mhchem}
+    \mhchemoptions{layout = stacked}
+  }
+\str_case:VnF \l__eb_chem_support_tl
+  {
+    { chemformula }
+    { \eb_chem_load_chemformula: }
+    { mhchem }
+    { \eb_chem_load_mhchem: }
+  }
+  { \RequirePackage{amsmath} }
+\tl_set:Nn \fontsubfuzz { 0.5pt }
+\everymath{\displaystyle}
+\dim_zero_new:N \mathindent
+\allowdisplaybreaks[4]
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.eps,.tif}
+\sisetup
+  {
+    number-mode           = match,
+    range-phrase          = \ensuremath{\sim},
+    range-units           = single,
+    print-unity-mantissa  = false,
+    table-alignment-mode  = none,
+    group-digits          = none
+  }
 \ctex_at_end_package:nn { unicode-math }
   { \msg_redirect_module:nnn { unicode-math } { warning } { info } }
 \ctex_at_end_package:nn { tcolorbox }
@@ -2752,7 +2770,7 @@
   }
 \ctex_define:n
   {
-    lstlistlistingname .tl_set:N  = \listlstlistingname,
+    listlstlistingname .tl_set:N  = \listlstlistingname,
     lstlistingname .tl_set:N      = \lstlistingname,
     listtheoremname .tl_set:N     = \listtheoremname
   }
@@ -2763,7 +2781,7 @@
         contentsname        = 目\hspace{1em}录,
         listfigurename      = 插图清单,
         listtablename       = 附表清单,
-        lstlistlistingname  = 代码清单,
+        listlstlistingname  = 代码清单,
         lstlistingname      = 代码,
         listtheoremname     = 定理清单
       }
@@ -2773,7 +2791,7 @@
   {
     \keys_set_known:nn { ctex }
       {
-        lstlistlistingname  = List~of~Codes,
+        listlstlistingname  = List~of~Codes,
         lstlistingname      = Code
       }
   }
@@ -2873,7 +2891,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/03}{2024ee}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/08}{2024ef}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
