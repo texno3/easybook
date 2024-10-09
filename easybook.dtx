@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/10/08}{2024ef}
+\ProvidesExplClass{easybook}{2024/10/08}{2024eh}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -302,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/10/08}{2024ef}
+\ProvidesExplPackage{easybase}{2024/10/08}{2024eh}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1708,7 +1708,12 @@
     \tl_set:cn { ttll@#2 } {#1}
   }
 \contentsuse{lstlisting}{lol}
-\cs_set:Npn \hytoclink #1 { \Hy@toclinkstart #1\Hy@toclinkend }
+\ctex_at_end_package:nn { hyperref }
+  {
+    \cs_if_exist:NTF \Hy@toclinkstart
+      { \cs_set:Npn \hytoclink #1 { \Hy@toclinkstart #1\Hy@toclinkend } }
+      { \cs_set_eq:NN \hytoclink \use:n }
+  }
 \seq_put_left:Nn  \c__ctex_headings_seq { chapter }
 \seq_put_right:Nn \c__ctex_headings_seq { table }
 \seq_put_right:Nn \c__ctex_headings_seq { figure }
@@ -2891,7 +2896,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/08}{2024ef}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/08}{2024eh}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
