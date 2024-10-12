@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024eh,
-    date            = 2024/10/08,
+    version         = v2024em,
+    date            = 2024/10/12,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -342,7 +342,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \subsection{\textsf{article} 模式}
 \begin{cnltxlist}
   \keychoice{class}{\fbox{book},article}
-  使用 \easybook{} 文档类可以有两种模式，默认为 \cls*{book} 模式。选用 \code{article} 可用于短篇幅的文章，文档会变为 \code{oneside} 单面排版，同时标题编号和封面等与标准 \cls*{article} 文档类相似，若使用 \cs{chapter} 命令会报错。如果使用 \cls*{ctexart} 配合 \pkg*{easybase} 宏包，则选项值 \code{book} 会失效。
+  使用 \easybook{} 文档类可以有两种模式，默认为 \cls*{book} 模式。选用 \code{article} 可用于短篇幅的文章，文档会变为 \option{oneside} 单面排版，同时标题编号和封面等与标准 \cls*{article} 文档类相似，若使用 \cs{chapter} 命令会报错。如果使用 \cls*{ctexart} 配合 \pkg*{easybase} 宏包，则选项值 \code{book} 会失效。
   \opt{book}
   开启 \cls*{book} 书籍模式，与 \keyis*{class}{book} 等效。
   \opt{article}
@@ -1061,13 +1061,13 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
     }
   \end{ctexexam}
   \command{frontmatter}[\sarg\oarg{编号格式}]\Default{Roman}
-  前言区命令。使部分和章标题不编号，带有星号的变体命令不使用 \cs{cleardoublepage} 命令。页码 \meta{编号格式} 可设置为 \code{arabic}、\code{Alph}、\code{alph}、\code{Roman}、\code{roman} 和 \code{chinese} 形式。
+  前言区命令。使部分和章标题不编号。带有星号参数不使用清双页命令 \cs{cleardoublepage}，但在双面排版时可能产生连续的奇数页。页码 \meta{编号格式} 可设置为 \code{arabic}、\code{Alph}、\code{alph}、\code{Roman}、\code{roman} 和 \code{chinese} 形式。
   \command{mainmatter}[\sarg]
-  主文区命令。章标题正常编号且页码为从1开始计数的阿拉伯数字，带有星号的变体命令不使用 \cs{cleardoublepage} 清双页命令。
+  主文区命令。章标题正常编号且页码为从1开始计数的阿拉伯数字。带有星号参数不使用清双页命令 \cs{cleardoublepage}，但在双面排版时可能产生连续的奇数页。
   \command{backmatter}
   后记区命令。页码格式与编号保持不变，章标题不编号。
   \command{cleardoublepage}[\oarg{页面风格}]\Default{empty}
-  清双页命令可以确保下一页文本总在奇数页开始，在奇数页使用它会产生空白偶数页。文区命令 \cs{frontmatter} 和 \cs{mainmatter} 会用到清双页命令，在启用文类选项 \option*{openright} 时标题命令 \cs*{part} 和 \cs*{chapter} 也会默认用到清双页命令。
+  在 \option{twoside} 双面排版时，清双页命令可以确保下一页文本总在奇数页开始，在奇数页使用它会产生空白偶数页。文区命令 \cs{frontmatter} 和 \cs{mainmatter} 会用到清双页命令，在启用文类选项 \option*{openright} 时标题命令 \cs*{part} 和 \cs*{chapter} 也会默认用到清双页命令。
   \command{blankpagestyle}[\marg{页面风格}]
   多出空白页的 \meta{页面风格} 用空白页面风格命令 \cs{blankpagestyle} 全局指定，或使用清双页命令的可选参数局部指定。空白页默认的风格为 \code{empty}，即空的页眉页脚。
 \end{cnltxlist}
