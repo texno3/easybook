@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/10/12}{2024em}
+\ProvidesExplClass{easybook}{2024/10/13}{2024en}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -302,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/10/12}{2024em}
+\ProvidesExplPackage{easybase}{2024/10/13}{2024en}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -387,6 +387,7 @@
 \clist_new:N \g__eb_ctex_options_clist
 \cs_new_protected:Npn \eb_put_geometry:n #1
   { \PassOptionsToPackage{#1}{geometry} }
+\providebool{@openright}
 
 \keys_define:nn { easybase }
   {
@@ -426,11 +427,16 @@
         \bool_set_false:N \l__eb_class_mode_book_bool
         \eb_put_geometry:n { twoside = false }
         \boolfalse{@titlepage}
-        \boolfalse{@openright}
       },
-    class .initial:x        = \ifbool{@titlepage}{book}{article},
+    class .initial:x = \cs_if_exist:NTF \chapter { book } { article },
     book .meta:n            = { class = book },
     article .meta:n         = { class = article },
+    twoside .code:n         = \eb_put_geometry:n { twoside },
+    oneside .code:n         = \eb_put_geometry:n { twoside = false },
+    titlepage .code:n       = \booltrue{@titlepage},
+    notitlepage .code:n     = \boolfalse{@titlepage},
+    openright .code:n       = \booltrue{@openright},
+    openany .code:n         = \boolfalse{@openright},
     unknown .code:n = \clist_gput_right:NV \g__eb_ctex_options_clist \CurrentOption
   }
 
@@ -2351,7 +2357,7 @@
   }
 \cs_new:Npn \eb_tl_exist_noempty:cT #1#2
   { \tl_if_exist:cT {#1} { \tl_if_empty:cF {#1} {#2} } }
-\cs_new:Npn \eb_undefine_counter:n #1
+\cs_new_protected:Npn \undefinecounter #1
   {
     \cs_undefine:c { c@#1 }
     \cs_undefine:c { the#1 }
@@ -2362,7 +2368,7 @@
   }
 \ProvideDocumentCommand{\declarecounter}{mo}
   {
-    \eb_undefine_counter:n {#1}
+    \undefinecounter{#1}
     \IfValueTF{#2}{\newcounter{#1}[#2]}{\newcounter{#1}}
   }
 \cs_new_protected:Npn \eb_theorem_load_thmtools:
@@ -2375,7 +2381,7 @@
     \RenewDocumentCommand{\declaretheorem}{+O{}m+O{}}
       {
         \cs_undefine:c {##2}
-        \eb_undefine_counter:n {##2}
+        \undefinecounter{##2}
         \eb_tl_exist_noempty:cT { g__eb_thmt_##2_parent_tl }
           {
             \exp_args:Nnv \@removefromreset {##2}
@@ -2898,7 +2904,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/12}{2024em}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/13}{2024en}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
