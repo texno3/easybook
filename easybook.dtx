@@ -1170,6 +1170,7 @@
 \cs_set_protected:Npn \footref #1
   {
     \group_begin:
+    \unrestored@protected@xdef\@thefnmark{\ref{#1}}
     \unrestored@protected@xdef\@the@up@fnmark{\ref{#1}}
     \group_end:
     \H@@footnotemark
@@ -1211,6 +1212,7 @@
       { \@xfootnotemark }
       {
         \stepcounter{footnote}
+        \protected@xdef\@thefnmark{\thefootnote}
         \protected@xdef\@the@up@fnmark{\theupfootnote}
         \@footnotemark
       }
@@ -1220,7 +1222,8 @@
     \cs_set:Npn \@xfootnotemark [#1]
       {
         \group_begin:
-        \setcounter{footnote}{#1}
+        \int_set:Nn \c@footnote {#1}
+        \protected@xdef\@thefnmark{\thefootnote}
         \unrestored@protected@xdef\@the@up@fnmark{\theupfootnote}
         \group_end:
         \H@@footnotemark
@@ -1289,8 +1292,8 @@
     \tl_if_empty:oF {#2}
       {
         \group_begin:
-        \unrestored@protected@xdef\@the@up@fnmark{#1}
         \unrestored@protected@xdef\@thefnmark{#2}
+        \unrestored@protected@xdef\@the@up@fnmark{#1}
         \group_end:
       }
   }
