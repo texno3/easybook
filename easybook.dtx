@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/10/13}{2024en}
+\ProvidesExplClass{easybook}{2024/10/16}{2024eo}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -302,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/10/13}{2024en}
+\ProvidesExplPackage{easybase}{2024/10/16}{2024eo}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1243,6 +1243,8 @@
 \bool_set_true:N \l__eb_normal_footnote_bool
 \bool_new:N \l__eb_fnmarktext_format_match_bool
 \bool_new:N \l__eb_fncustom_format_match_bool
+\cs_new_protected:Npn \ifnormalfnt #1#2
+  { \bool_if:NTF \l__eb_normal_footnote_bool {#1} {#2} }
 \cs_new:Npn \eb_fnmarktext_format_clear:n #1
   {
     \bool_if:cTF { l__eb_fn#1_format_match_bool }
@@ -2904,7 +2906,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/13}{2024en}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/16}{2024eo}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

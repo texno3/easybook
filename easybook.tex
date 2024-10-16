@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024en,
-    date            = 2024/10/13,
+    version         = v2024eo,
+    date            = 2024/10/16,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -767,11 +767,11 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \begin{cnltxlist}[itemsep = 0ex]
   \command{fancyhead}[\oarg{位置}\marg{内容}]\default{}
   \command{fancyfoot}[\oarg{位置}\marg{内容}]
-  为了确保页面显示正确，使用 \cs{fancyhead} 和 \cs{fancyfoot} 等命令设置页眉页脚时需要在页边距的命令之后。默认设置的是一个名为 \code{fancy} 的页面风格。\pkg*{fancyhdr} 将页眉页脚分成了左中右和奇数页（odd）、偶数页（even）共12个部分，可选参数中 \code{E} 和 \code{O} 代表偶数和奇数，\code{L}、\code{C} 和 \code{R} 代表左、中和右部分。单面打印时，含有偶数位置的命令无效。
+  为了确保页面显示正确，使用 \cs{fancyhead} 和 \cs{fancyfoot} 等命令设置页眉页脚时需要在页边距的命令之后。默认设置的是一个名为 \code{fancy} 的页面风格。\pkg*{fancyhdr} 将页眉页脚分成了左中右和奇数页（odd）、偶数页（even）共12个部分，可选参数中 \code{E} 和 \code{O} 代表偶数和奇数，\code{L}、\code{C} 和 \code{R} 代表左、中和右部分。单面排版时，含有偶数位置的命令无效。
   \command{markboth}[\marg{左页标题标记}\marg{右页标题标记}]\default{}
   \command{markright}[\marg{右页标题标记}]\default{}
   \command{markdouble}[\marg{双页标题标记}]
-  这三个命令用于手动设置当前页标题标记，特殊情况下可以使用它们定义与标题不同的页眉页脚标记。其中 \cs{markdouble} 根据是否是双面打印设置相应标记。如果是单面打印，则 \meta{左页标题标记} 无效。标题标记选项 \meta{级别}\option*{-mark} 定义的是它们的参数，左右页标记规则已经进行了优化调整，若需更改可以重定义 \code{\textbackslash}\meta{级别}\code{\textcolor{cs}{mark}} 命令。
+  这三个命令用于手动设置当前页标题标记，特殊情况下可以使用它们定义与标题不同的页眉页脚标记。其中 \cs{markdouble} 根据是否是双面排版设置相应标记。如果是单面排版，则 \meta{左页标题标记} 无效。标题标记选项 \meta{级别}\option*{-mark} 定义的是它们的参数，左右页标记规则已经进行了优化调整，若需更改可以重定义 \code{\textbackslash}\meta{级别}\code{\textcolor{cs}{mark}} 命令。
   \begin{ctexexam}
   \makeatletter
   \renewcommand{\sectionmark}[1]{\markright{\eb@mark@section@whole{#1}}}
@@ -789,7 +789,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \end{cnltxlist}
 
 \subsection[脚注]{脚注\smodule{hdr}}
-模块 \module*{hdr} 还可以灵活调整脚注编号和内容的格式。格式主要包括脚注标记的编号类型、字体、附加符号和对齐方式等，以及脚注内容的首行缩进、行距和字体等。基本思想是提供常规和自定义标记（\code{fncustom}）两种脚注，常规脚注的标记分为正文（\code{fnmark}）和内容（\code{fntext}）标记两种，且两者编号类型分离，自定义脚注的标记与其共享格式。目前脚注模块基本兼容 \pkg*{footmisc} 宏包。
+模块 \module*{hdr} 还可以灵活调整脚注编号和内容的格式。格式主要包括脚注标记的编号类型、字体、附加符号和对齐方式等，以及脚注内容的首行缩进、行距和字体等。基本思想是提供常规和自定义（\code{fncustom}）两种脚注标记，常规脚注的标记分为正文（\code{fnmark}）和内容（\code{fntext}）标记两种，且两者编号类型分离，自定义脚注的标记默认与其共享格式。目前脚注模块基本兼容 \pkg*{footmisc} 宏包。
 \begin{cnltxlist}
   \keychoice{footnotetype}{plain,\fbox{hang},flush,bottom}
   脚注的类型。悬挂缩进 \code{hang} 是默认值，\code{plain} 是原始的类型，\code{flush} 使脚注内容标记位于脚注首行边缘外侧并右对齐。当存在浮动环境排版时，脚注可能位于页面中间，\code{bottom} 使脚注始终位于页面底端。其中 \code{bottom} 是复合选项，可以与前三种类型重复或复合使用：
@@ -858,6 +858,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   定义脚注段落文本的格式的命令。脚注段落文本由脚注内容标记和文本两部分组成，段落格式定义中参数 \code{\#1} 代表内容文本。
   \command{notminipage}[\marg{普通页内容}\marg{迷你页内容}]
   用于在定义脚注标记的命令中判断当前脚注是否处于迷你页而输出不同的内容。
+  \command{ifnormalfnt}[\marg{常规标记内容}\marg{自定义标记内容}]\newtagv{2024eo}%
+  用于在定义脚注标记的命令中判断当前是否为常规标记而输出不同的内容。
   \command{theupfootnote}
   保存正文标记编号类型选项 \option{fnmark-num} 指定的正文标记。
   \command{thedownfootnote}
