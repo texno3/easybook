@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024eo,
-    date            = 2024/10/16,
+    version         = v2024ep,
+    date            = 2024/10/18,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -253,7 +253,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   cell{5}{2}    = PaleTurquoise,
   cell{5}{1}    = GreenYellow,
   cell{1}{2}    = GreenYellow,
-  cell{3}{1,4}  = GreenYellow,
+  cell{3}{1}    = GreenYellow,
   cell{4}{2}    = GreenYellow
   }
   amsthm & bicaption & ctex & caption & chemformula \\
@@ -1419,7 +1419,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \subsection{标签引用}
 \begin{cnltxlist}
   \command{labelformat}[\marg{计数器}\marg{标签引用格式}]
-  标签格式命令 \cs{labelformat} 可以设置标签引用格式。\meta{标签引用格式} 中 \code{\#1} 代表 \cs*{the}\meta{计数器}，可以设置引用序号的前缀和后缀。也可以使用 \pkg*{cleveref} 宏包提供更强大的标签功能。
+  标签格式命令 \cs{labelformat} 可以设置标签引用格式。\meta{标签引用格式} 中 \code{\#1} 代表 \cs*{the}\meta{计数器}，可以设置引用序号的前缀和后缀。也可以使用 \pkg*{cleveref} 宏包或 \code{ltproperties} 机制，它们充分扩展了 \cs{label} 和 \cs{ref} 命令，提供了更强的标签功能。
   \command{AtEndPreamble}[\marg{格式代码}]
   导言区末尾的钩子命令。为了保证兼容性 \pkg*{hyperref} 宏包被设计在导言区末尾载入，一些情况下需要钩子命令在 \pkg*{hyperref} 宏包后方执行 \meta{格式代码}，例如载入 \pkg*{cleveref} 宏包。
   \begin{ctexexam}

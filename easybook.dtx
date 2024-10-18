@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/10/16}{2024eo}
+\ProvidesExplClass{easybook}{2024/10/18}{2024ep}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -302,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/10/16}{2024eo}
+\ProvidesExplPackage{easybase}{2024/10/18}{2024ep}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -849,13 +849,13 @@
   }
 \prop_set_from_keyval:Nn \l__eb_int_trans_cmds_prop
   {
-    A = \exp_not:N \int_to_Alph:n,
-    a = \exp_not:N \int_to_alph:n,
-    1 = \exp_not:N \int_to_arabic:n,
-    I = \exp_not:N \int_to_Roman:n,
-    i = \exp_not:N \int_to_roman:n,
-    c = \exp_not:n { \exp_args:NV \zhnumber },
-    s = \exp_not:N \eb_int_to_symbols:n
+    A = \int_to_Alph:n,
+    a = \int_to_alph:n,
+    1 = \int_to_arabic:n,
+    I = \int_to_Roman:n,
+    i = \int_to_roman:n,
+    c = \exp_args:NV \zhnumber,
+    s = \eb_int_to_symbols:n
   }
 \cs_new_protected:Npn \eb_fnmarktext_short_label_set:Nn #1#2
   {
@@ -1780,7 +1780,14 @@
             \bool_if:NTF \l__eb_toc_entry_hang_bool
               { \IfBooleanTF{##3}{\use:n}{\contentspush} }
               { \use:n }
-              { \hytoclink{##1}\tl_use:c { l__eb_toc_##2_after_tl } }
+              {
+                \bool_lazy_or:nnTF
+                  { \str_if_eq_p:Vn \Hy@linktoc { 1 } }
+                  { \str_if_eq_p:Vn \Hy@linktoc { 3 } }
+                  { \hytoclink{##1} }
+                  {##1}
+                \tl_use:c { l__eb_toc_##2_after_tl }
+              }
           },
         tocafter  = \hspace{1em},
         tocsep    = .—,
@@ -2909,7 +2916,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/16}{2024eo}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/18}{2024ep}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
