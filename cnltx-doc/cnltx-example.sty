@@ -1,0 +1,265 @@
+% --------------------------------------------------------------------------
+% the CNLTX bundle
+%
+%   LaTeX source code and output
+%
+% --------------------------------------------------------------------------
+% Clemens Niederberger
+% Web:    https://github.com/cgnieder/cnltx/
+% E-Mail: contact@mychemistry.eu
+% --------------------------------------------------------------------------
+% Copyright 2013--2019 Clemens Niederberger
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Clemens Niederberger.
+% --------------------------------------------------------------------------
+% If you have any ideas, questions, suggestions or bugs to report, please
+% feel free to contact me.
+% --------------------------------------------------------------------------
+\RequirePackage{cnltx-base}
+\ProvidesPackage{cnltx-example}[\cnltx@@date\space \cnltx@@version\space \cnltx@@info]
+\cnltx@load@modules{translations}
+
+\cnltx@create@bundle@message{example}{Error}
+\cnltx@create@bundle@message{example}{Warning}
+\cnltx@create@bundle@message{example}{WarningNoLine}
+\cnltx@create@bundle@message{example}{Info}
+
+
+\RequirePackage{graphicx}
+\RequirePackage{idxcmds}
+\RequirePackage{textcomp}
+ 
+
+% --------------------------------------------------------------------------
+% \code
+\newrobustcmd*\code[1]{\begingroup\codefont#1\endgroup}
+\newcommand*\verbcode{\lstinline[style=cnltx-inline]}
+\newcommand*\codefont{\ttfamily}
+\pgfkeys{
+  cnltx/.cd,
+    code-font/.code = \def\codefont{#1} ,
+}
+
+% --------------------------------------------------------------------------
+% command descriptions:
+% \cs
+\newidxcmd\cs{\code{\textbackslash\textcolor{cs}{#1}}}
+
+% \env
+\newidxcmd\env{\code{\textcolor{env}{#1}}}[\ (\GetTranslation{cnltx-environment})]
+
+% \begin, \end
+\newidxcmd\beginend{\code{\textbackslash\textcolor{beginend}{#1}}}
+\def\beginenv{\@ifstar{\beginend*{begin}}{\beginend{begin}}}
+\def\endenv{\@ifstar{\beginend*{end}}{\beginend{end}}}
+
+% --------------------------------------------------------------------------
+% option descriptions:
+\def\cnltx@isvalue{%
+  \nobreak\hskip.3333em plus .1667em =\hskip.3333em plus .1667em }
+
+% \option
+\newidxcmd\option{\code{\textcolor{option}{#1}}}
+\newidxcmd\module{\code{\textcolor{module}{#1}}}
+
+\newrobustcmd*\key{\@ifstar{\cnltx@key@star}{\cnltx@key@nostar}}
+
+\newrobustcmd*\cnltx@key@star{%
+  \cnltx@ifdash
+    {\cnltx@key@aux*\meta}
+    {\cnltx@key@aux*\marg}%
+}
+\newrobustcmd*\cnltx@key@nostar{%
+  \cnltx@ifdash
+    {\cnltx@key@aux{}\meta}
+    {\cnltx@key@aux{}\marg}%
+}
+\newcommand*\cnltx@key@aux[4]{%
+  \code{\option#1{#3}\cnltx@isvalue#2{#4}}%
+}
+
+\newrobustcmd*\keyis{%
+  \@ifstar
+    {\cnltx@keyis*}
+    {\cnltx@keyis{}}%
+}
+\newrobustcmd*\cnltx@keyis[1]{%
+  \cnltx@ifdash
+    {\cnltx@key@aux{#1}\@firstofone}
+    {\cnltx@key@aux{#1}\Marg}%
+}
+
+\newlength\cnltx@choice@sep@stretch
+\setlength\cnltx@choice@sep@stretch{\z@\@plus.5em}
+% \DeclareListParser*\cnltx@choices{|}
+\newrobustcmd*\choices[1]{%
+  \def\cnltx@choice@sep{%
+    \def\cnltx@choice@sep{%
+      \hskip\cnltx@choice@sep@stretch|\hskip\cnltx@choice@sep@stretch
+    }%
+  }%
+  \forcsvlist{\cnltx@choice@sep\code}{#1}%
+}
+
+\RequirePackage[normalem]{ulem}
+\newrobustcmd*\default[1]{\uline{#1}}
+
+\pgfkeys{
+  cnltx/.cd,
+    default-value/.code = \def\default##1{#1{##1}}
+}
+
+\newrobustcmd*\choicekey{%
+  \@ifstar
+    {\cnltx@choicekey@star}
+    {\cnltx@choicekey@nostar}%
+}
+\def\cnltx@choicekey@star#1#2{%
+  \code{\option*{#1}\cnltx@isvalue\choices{#2}}}
+\def\cnltx@choicekey@nostar#1#2{%
+  \code{\option{#1}\cnltx@isvalue\choices{#2}}}
+
+\newcommand*\boolkey{%
+  \@ifstar
+    {\cnltx@boolkey@star}
+    {\cnltx@boolkey@nostar}%
+}
+
+\def\cnltx@boolkey@star#1{\choicekey*{#1}{\default{true},false}}
+\def\cnltx@boolkey@nostar#1{\choicekey{#1}{\default{true},false}}
+
+% --------------------------------------------------------------------------
+% argument descriptions:
+% \meta
+\newcommand*\meta[1]{%
+  $\langle$%
+    \textcolor{meta}{{\argumentformat#1}}%
+  $\rangle$%
+}
+
+% arguments:
+\newcommand*\argumentformat{\normalfont\itshape}
+
+\pgfkeys{
+  cnltx/.cd,
+    arg-format/.code = \renewcommand*\argumentformat{#1} ,
+}
+
+\newcommand*\newarg[4][\meta]{%
+  \newcommand*#2[1]{%
+    \code{\textcolor{argument}{%
+      #3\textnormal{\ifblank{##1}{}{#1{##1}}}#4}}%
+  }%
+}
+
+\newarg\marg{\{}{\}}
+\newarg[\code]\Marg{\{}{\}}
+\newarg\oarg{[}{]}
+\newarg[\code]\Oarg{[}{]}
+\newarg\darg{(}{)}
+\newarg[\code]\Darg{(}{)}
+\newcommand*\sarg{\textcolor{argument}{\code{*}}}
+\newcommand*\parg{\textcolor{argument}{\code{+}}}
+
+% --------------------------------------------------------------------------
+% packages and classes:
+\newcommand*\packageformat{\sffamily}
+\newcommand*\classformat{\sffamily}
+\newcommand*\bundleformat{\sffamily}
+
+\newidxcmd\pkg{{\packageformat#1}}[\ (\GetTranslation{cnltx-package})]
+\newidxcmd\cls{{\classformat#1}}[\ (\GetTranslation{cnltx-class})]
+\newidxcmd\bnd{{\bundleformat#1}}[\ (\GetTranslation{cnltx-bundle})]
+
+\pgfkeys{
+  cnltx/.cd,
+    pkg-format/.code = \renewcommand*\packageformat{#1} ,
+    cls-format/.code = \renewcommand*\classformat{#1}
+}
+
+% disable indexing commands in PDF strings:
+\AtBeginDocument{%
+  \providecommand\pdfstringdefDisableCommands[1]{}%
+  \pdfstringdefDisableCommands{%
+    \def\code#1{#1}%
+    \def\cs*#1{\textbackslash#1}%
+    \def\env*{}%
+    \def\option*{}%
+    \def\pkg*{}%
+    \def\cls*{}%
+    \def\bnd*{}%
+    \def\key*#1#2{#1 = #2}%
+  }%
+}
+
+\endinput
+
+% --------------------------------------------------------------------------
+HISTORY:
+
+2013/09/08 v0.1   - first working version
+2013/09/10 v0.2   - added \keyis
+                  - lot's of improvements on the source code example
+                    environments
+                  - disable indexing commands in PDF strings
+                  - added hooks to the source example environments
+                  - added possibility for internationalization
+                  - new macro \verbcode
+                  - added optional argument to \newarg
+                  - new macros \Marg, \Oarg, \Darg
+                  - option for formatting the \default command
+2013/09/12 v0.3   - added \module
+                  - added \newsourcecodeenv and \newinputsourcefilecmd
+                  - added \inputexample, \inputsidebyside and \inputsourcecode
+                  - renamed `example*' into `sidebyside'
+2013/09/15 v0.4   - new listings style `cnltx-bibtex'
+2013/09/20 v0.5   - new command \implementation
+                  - fixed wrong indexing behaviour: keywords in the silent
+                    lists are now correctly indexed if added with `add-cmds'
+                    or `add-envs'
+2013/09/30 v0.7   - added listings style `cnltx-makeindex'
+2013/10/04 v0.7a  - new command \cnltx@treat@lst@index
+                  - changed \envidx in listings into \indexenv
+                  - added \bnd for package bundles
+2013/11/22 v0.9   - new option `compile' that allows to compile source code
+                    examples (which need to be complete, of course) with
+                    pdflatex and include the documents afterwards
+                  - new options `max-pages' that determines the maximum number
+                    of pages before a line break if documents are included
+                    with `compile'
+                  - new option `graphics'
+                  - new option `runs' that specifies the number of compilation
+                    runs of the included example
+                  - new options `program' and `exe-with'
+                  - new option `float', `float-pos' and `caption'
+2014/01/05 v0.10  - sometimes there is a spurious `undefined control sequence
+                    \lst@gtexcs3' error: added hack to fix this => find out
+                    where this comes from!
+                  - new option `add-frame' for `compile'd examples
+                  - new command \parg for an optional + argument
+                  - new option `outside' for non-`compiled' examples
+                  - new option `float-env'
+2014/03/11 v0.11  - \cnltx@load@modules
+2014/04/09 v0.12  - improvements on the sidebyside examples
+2015/08/29 v0.13a - enable \choices list to stretch
+2016/03/16 v0.13b - `program' may now be a csv list of programs to be
+                    executed
+2017/02/04 v0.14  - exchange literate={`}{\`{}}{1}{'}{\textquotesingle}{1} for
+                    listings' upquote option
+                  - new sourcecode environment `bash'
+2019/11/01 v0.15  - fix `undefined control sequence \lst@gtexcs3' error
+                  - fix `undefined control sequence \lst@gkeyword3' error
+                  - fix `undefined control sequence \lst@gkeyword3' error
+TODO:
+
+
