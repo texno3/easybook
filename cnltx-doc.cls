@@ -132,7 +132,6 @@
   UprightFont    = *-regular]
 \setmathfont{LibertinusMath-Regular.otf}
 
-\lstset{basicstyle=\small\ttfamily}
 \ifbool{cnltx@layout}{
   \renewcommand*\sectionformat{%
     \textcolor{cnltx}{\thesection\autodot}\enskip
@@ -419,30 +418,12 @@
     }%
 }
 
-\newcommand*\cmltx@list@setup{%
-  \leftmargin=0pt
-  \labelwidth=2em
-  \labelsep=0pt
-  \itemindent=-1em
-}
 
-\pgfkeys{
-  cnltx/.cd,
-    list-setup/.code = \def\cmltx@list@setup{#1}
-}
 
-\newenvironment{cnltxlist}
-  {\list{}{\cmltx@list@setup}}
-  {\endlist}
+\newenvironment{cnltxlist}{}{}
 
 \cnltx@deflistitem{\cnltx@command}{\cs}
   
-\newenvironment{commands}
-  {%
-    \let\command\cnltx@command
-    \cnltxlist
-  }
-  {\endcnltxlist}
 
 % --------------------------------------------------------------------------
 % option descriptions:
@@ -479,16 +460,6 @@
   \cnltx@checkdefault{\hfill\newline}%
 }
 
-\newenvironment{options}
-  {%
-    \def\opt{\@cnltx@option@item\option}%
-    \def\keyval{\@cnltx@option@item\key}%
-    \def\keylit{\@cnltx@option@item\keyis}%
-    \def\keychoice{\@cnltx@option@item\choicekey}%
-    \def\keybool{\@cnltx@option@item\boolkey}%
-    \cnltxlist
-  }
-  {\endcnltxlist}
 
 % --------------------------------------------------------------------------
 % environment descriptions:
@@ -522,13 +493,6 @@
     {\item\beginenv*\code{\{}\env{#1}\code{\}}#2}%
   \cnltx@checkdefault{\hfill\newline}%
 }
-
-\newenvironment{environments}
-  {%
-    \let\environment\cnltx@environment
-    \cnltxlist
-  }
-  {\endcnltxlist}
 
 % --------------------------------------------------------------------------
 % default values:
