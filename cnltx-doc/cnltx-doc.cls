@@ -669,7 +669,7 @@
         \ifbool{cnltx@package@title}
           {\cnltx@package@title}
           {\cnltx@package@name}%
-      \end{minipage}
+      \end{minipage}%
     }%
     \par\vskip.5cm\relax
     \large
