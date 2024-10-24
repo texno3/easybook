@@ -100,7 +100,7 @@
 }
 
 
-\cnltx@load@modules{tools,names,example,listings,translations}
+\cnltx@load@modules{tools,example,translations}
 
 \newcommand*\cnltx@caption@font{\normalfont\small\sffamily}
 \newcommand*\cnltx@captionlabel@font{\cnltx@caption@font\scshape}
