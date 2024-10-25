@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024eq,
-    date            = 2024/10/22,
+    version         = v2024es,
+    date            = 2024/10/25,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -1092,8 +1092,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   输出代码目录命令。带有星号参数的命令不输出目录标题。
 
   如果需要局部而不是全文范围的目录或其它类型的目录，可以查看\ref{subsec:contents} 和 \pkg*{titletoc} 宏包的相关示例。如果需要双语图表目录，可以查看 \pkg*{bicaption} 宏包的相关示例。上面目录命令的可选参数改进了原本单一的功能，也提供了配置命令 \cs{SetTocOuter} 在目录命令外设置选项默认值。
-  \command{SetTocOuter}[\marg{键值列表}]
-  统一设置上述所有目录可选参数的默认值\footnote{由于目录命令通常只在文中使用一次，因此不设计为可以分别指定不同目录的参数。}，其中 \meta{键值列表} 的选项如下：
+  \command{SetTocOuter}[\oarg{扩展名}\marg{键值列表}]\newtagv[Changed]{2024es}%
+  设置上述不同类型目录可选参数的默认值。若不指定目录文件的 \meta{扩展名}，则除了 \option{title} 和章节标题目录的 \option{level} 选项外对所有目录生效。其中 \meta{键值列表} 的选项如下：
   \keyval{level}{标题命令}
   设定输出目录标题的命令。如果使用 \option{title} 选项设置了双语标题则需要配合双语标题命令。
   \begin{ctexexam}
@@ -1109,7 +1109,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \keyval{multoc}{整数}\Default{2}
   设置目录的排版栏数。\meta{整数} 代表目录栏数，不指定栏数的值则默认为双栏。
   \kvsplit{title}{中文目录标题,英文目录标题}
-  用于更改目录的双语标题。标题之间用一个英文逗号分开，对主目录来说前部分为中文目录标题，后部分为英文目录标题，对图表和代码目录来说后部分则是加入英文目录的条目。也可以只有一部分，表示中文目录的标题。
+  用于更改目录的双语标题。标题之间用一个英文逗号分开，对章节标题目录来说前部分为中文目录标题，后部分为英文目录标题，对图表和代码目录来说后部分则是加入英文目录的条目。也可以只有一部分，表示中文目录的标题。
   \keychoice{bilist}{mix,\fbox{new}}
   确定章节标题目录中双语标题条目的输出排列方式。选项 \code{mix} 使每个英文标题条目在中文目录中跟随对应的中文标题输出，\code{new} 则在新建的英文目录中输出英文标题，此新目录的扩展名为 \code{tec}。这是个全局选项，在所有目录的可选参数中使用均可生效，但推荐在章节标题目录中使用。
   \command{ebifbitoc}[\marg{英文目录代码}\marg{中文目录代码}]

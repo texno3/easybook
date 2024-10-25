@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/10/22}{2024eq}
+\ProvidesExplClass{easybook}{2024/10/25}{2024es}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -302,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/10/22}{2024eq}
+\ProvidesExplPackage{easybase}{2024/10/25}{2024es}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1495,8 +1495,16 @@
       }
   }
 
-\cs_new_protected:Npn \SetTocOuter #1
-  { \keys_set:nn { eb/tocouter } {#1} }
+\NewDocumentCommand{\SetTocOuter}{om}
+  {
+    \IfNoValueTF{#1}
+      {\keys_set:nn { eb/tocouter } {#2}}
+      {
+        \clist_if_exist:cF { l__eb_toc_outer_kv_#1_clist }
+          { \clist_clear_new:c { l__eb_toc_outer_kv_#1_clist } }
+        \clist_put_right:cn { l__eb_toc_outer_kv_#1_clist } {#2}
+      }
+  }
 \tl_new:N \eb@bitoc@title
 \bool_new:N \l__eb_toc_notitle_bool
 \newbool{bitoc}
@@ -1630,10 +1638,17 @@
           { \par }
       }
   }
+\cs_generate_variant:Nn \keys_set:nn { nv }
+\cs_new_protected:Npn \eb_toc_outer_kv_initial:n #1
+  {
+    \clist_if_exist:cT { l__eb_toc_outer_kv_#1_clist }
+      { \keys_set:nv { eb/tocouter } { l__eb_toc_outer_kv_#1_clist } }
+  }
 \cs_new_protected:Npn \eb_toc_list_struct_parse:nnnnn #1#2#3#4#5
   {
     \group_begin:
     \tl_set_eq:Nc \eb@toc@title { list#4name }
+    \eb_toc_outer_kv_initial:n {#5}
     \IfValueT{#3}{\keys_set:nn { eb/tocouter } {#3}}
     \eb_toc_title_level_cmd:n {#1}
     \eb_toc_if_title_between_hook:nn {#1} {#4}
@@ -1695,6 +1710,7 @@
               { \section* }
           }
       }
+    \eb_toc_outer_kv_initial:n { toc }
     \IfValueT{#3}{\keys_set:nn { eb/tocouter } {#3}}
     \bool_if:NT \l__eb_toc_plan_cn_bool
       {
@@ -2916,7 +2932,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/22}{2024eq}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/25}{2024es}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
