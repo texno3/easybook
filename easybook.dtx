@@ -660,10 +660,10 @@
   }
 \cs_new_protected:Npn \eb@register@hdr@mark #1
   {
-    \exp_args:Nc \NewDocumentCommand { eb@mark@#1@label@layout }
+    \exp_args:Nc \DeclareDocumentCommand { eb@mark@#1@label@layout }
       {O{\use:c { CTEXthe#1 }}m}
       {\tl_set:cn { eb@mark@#1@label } {##1##2}}
-    \cs_new_protected:cpn { eb_mark_#1_name_parse:n } ##1
+    \cs_set_protected:cpn { eb_mark_#1_name_parse:n } ##1
       {
         \regex_match:nnTF { ^\[.*\] } {##1}
           { \use:c { eb@mark@#1@label@layout }##1 }
@@ -677,7 +677,7 @@
             \CTEXifname{\use:c { eb@mark@#1@label }}{}
             \eb_mark_uppercase_case_init:n {##1}
           },
-        #1-label .code:n    = \use:c { eb_mark_#1_name_parse:n } {##1},
+        #1-label .code:n    = \use:c { eb_mark_#1_name_parse:n } {##1}
       }
   }
 \cs_new_protected:Npn \RegisterHdrMark #1
@@ -1387,7 +1387,7 @@
   }
 \cs_new_protected:Npn \eb@register@bititle #1
   {
-    \exp_args:Nc \NewDocumentCommand { bi#1 }{sO{##3}mm}
+    \exp_args:Nc \DeclareDocumentCommand { bi#1 }{sO{##3}mm}
       {
         \IfBooleanTF{##1}
           {
