@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/10/25}{2024es}
+\ProvidesExplClass{easybook}{2024/10/26}{2024et}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -302,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/10/25}{2024es}
+\ProvidesExplPackage{easybase}{2024/10/26}{2024et}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1759,7 +1759,7 @@
         #1/tocformat* .tl_set:c = l__eb_toc_#1_entry_nolabel_tl,
         #1/tocindent .tl_set:c  = l__eb_toc_#1_indent_tl,
         #1/toclabel .cs_set:cp  = { eb_toc_entry_#1:nnn } ##1##2##3,
-        #1/tocrule .tl_set:c    = l__eb_toc_#1_rule_tl,
+        #1/tocrule .cs_set:cp   = { eb_toc_rule_#1:n } ##1,
         #1/tocafter .tl_set:c   = l__eb_toc_#1_after_tl,
         #1/tocbelow .tl_set:c   = l__eb_toc_#1_below_tl,
         #1/tocbegin .meta:n     = { #1/tocbelow = {##1} },
@@ -1781,7 +1781,7 @@
             {\tl_use:c { l__eb_toc_#2_format_tl }}
             {\use:c { eb_toc_entry_#2:nnn } { \thecontentslabel } {#2} {#1}}
             {\tl_use:c { l__eb_toc_#2_entry_nolabel_tl }}
-            {\tl_use:c { l__eb_toc_#2_rule_tl }}
+            {\use:c { eb_toc_rule_#2:n } { \thecontentspage }}
             [\tl_use:c { l__eb_toc_#2_below_tl }]
           }
         \exp_not:o { \l__eb_toc_tmpb_tl }
@@ -1790,7 +1790,7 @@
       {
         tocformat = \IfBooleanT{#1}{\contentsmargin{0pt}},
         tocindent = 0pt,
-        tocrule   = \IfBooleanTF{#1}{,~\thecontentspage}{\cdottocrule},
+        tocrule   = \IfBooleanTF{#1}{,~##1}{\cdottocrule},
         toclabel  =
           {
             \bool_if:NTF \l__eb_toc_entry_hang_bool
@@ -2932,7 +2932,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/25}{2024es}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/26}{2024et}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

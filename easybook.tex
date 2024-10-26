@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024es,
-    date            = 2024/10/25,
+    version         = v2024et,
+    date            = 2024/10/26,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -907,10 +907,10 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   没有编号/名字标题的附加格式代码。目录中判断标题是否有编号/名字的依据为：如果在 \option{tocline} 选项中使用了 \cs{numberline} 命令输出标签，则判定为有编号/名字。格式最后的命令可带有一个参数，用于接受标题内容。
   \keyval{tocindent}{刚性长度}\dtag
   目录条目左边的缩进距离，通常标题级别越低缩进越大。如果是段落型目录，仅在当前条目级别为段落中最高时有效。
-  \keyval{tocrule}{引导线命令}\dtag
-  目录条目的引导线和页码。引导线可以使用基于 \cs*{xleaders} 命令的 \cs{tocrule} 绘制（同时输出页码），如果是一般不需要引导线的段落型目录，可以使用 \cs{thecontentspage} 命令输出页码。
+  \keyval{tocrule}{引导线定义}\dtag\newtagv[Changed]{2024et}%
+  目录条目引导线和页码的定义。其中引导线可以使用基于 \cs*{xleaders} 命令的 \cs{tocrule} 绘制（同时输出页码），参数 \code{\#1} 代表页码 \cs{thecontentspage}。如果是一般不需要引导线的段落型目录，则可以使用参数 \code{\#1} 输出页码。
   \command{tocrule}[\sarg\harg\oarg{引导点间距}\darg{放大因子}\marg{引导点}\oarg{页码格式}]
-  生成目录引导线的命令，需要在引导线选项 \option{tocrule} 中使用。带有星号的命令与 \keyis{dotalign}{false} 效果相同。命令带 \harg{} 号参数不输出目录页码，此时无格式的页码被保存在 \cs{thecontentspage} 命令中，可以配合盒子命令设置不同的页码左右间距和对齐方式。\meta{放大因子} 为 \meta{引导点} 的放大倍数。\meta{页码格式} 中最后一个命令可以带有一个参数用于接受页码。
+  生成目录引导线的命令，需要在 \option{tocrule} 选项中使用。带有星号的命令与 \keyis{dotalign}{false} 效果相同。命令带 \harg{} 号参数不输出目录页码，此时无格式的页码被保存在 \option{tocrule} 选项的参数 \code{\#1} 中，可以配合盒子命令设置不同的页码左右间距和对齐方式。\meta{放大因子} 为 \meta{引导点} 的放大倍数。\meta{页码格式} 中最后一个命令可以带有一个参数用于接受页码。
   \keyval{toclabel}{标题标签定义}\dtag\newtagv{2024as}%
   目录中各类型条目标题标签的定义，可与 \option{tocline} 选项联用设置标题。其中参数 \code{\#1} 代表标签的编号 \cs{thecontentslabel}，参数 \code{\#2} 代表 \meta{条目名}。定义最后的命令可带有一个参数，用于接受标题内容，一些特殊情况例如需要将标题内容放在标签前，可以通过定义命令实现：
   \begin{ctexexam}
@@ -936,7 +936,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
           tocline       = \CTEXnumberline{#1}#2
         },
       section/toclabel  = \contentspush{\hytoclink{#1}\hspace{0.5em}},
-      section/tocrule   = \tocrule-{}\makebox[1cm]{\rlap{\thecontentspage}},
+      section/tocrule   = \tocrule-{}\makebox[1cm]{\rlap{#1}},
       toc/pagenumwd     = 0pt
     }
   \end{ctexexam}
@@ -1081,7 +1081,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{tableofcontents}[\sarg\oarg{键值列表}\darg{代码钩子}]
   章节标题目录命令，支持中英文双语标题目录输出。带有星号参数不输出目录条目上方的标题。\meta{代码钩子} 是当输出方案 \keyis{plan}{both} 时中文与英文目录之间执行的代码，可以插入设置目录样式和换页等命令。
   \keychoice{plan}{\fbox{cn},bi,both}
-  章节标题目录的输出方案。\code{cn} 只输出中文目录，\code{bi} 只输出英文目录。\code{both} 同时连续输出中文和英文目录，需要与双语目录标题命令 \cs{bichapter} 等或双语标题选项 \option{title} 配合使用。
+  章节标题目录的输出方案。\code{cn} 只输出中文目录，\code{bi} 只输出英文目录。\code{both} 同时连续输出中文和英文目录，可以与标题命令选项 \option{level} 和双语标题选项 \option{title} 配合使用。
   \keyval{bicontentsname}{英文目录标题}\Default{Contents}
   英文目录的标题，为通用接口命令 \cs{ctexset} 的选项。
   \command{listoffigures}[\sarg\oarg{键值列表}]
