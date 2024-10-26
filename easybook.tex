@@ -963,7 +963,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \begin{document}
   \listofalgorithms[multoc] % 在正文中输出双栏算法目录
   \end{ctexexam}
-  \command{AssignCaptionExt}[\marg{条目名}\marg{扩展名}]
+  \command{AssignCaptionExt}[\marg{条目名列表}\marg{扩展名}]
   给条目类型名称为 \meta{条目名} 的标题分配目录文件 \meta{扩展名}，注意 \meta{扩展名} 需要被定义在 \cs*{ext@}\meta{条目名} 命令中才有效（\pkg*{caption} 宏包的默认定义形式）。可以使不同的 \meta{条目名} 共享一个目录：
   \begin{ctexexam}
   \AssignCaptionExt{table}{lof}
@@ -978,9 +978,9 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \stoplist[fancy]{loa}
   \printlist[fancy]{loa}{}{}
   \end{ctexexam}
-  \command{SetTocStyle}[\marg{条目名}\marg{风格名}\marg{键值列表}]
+  \command{SetTocStyle}[\marg{条目名列表}\marg{风格名}\marg{键值列表}]
   定义条目类型名称为 \meta{风格名} 的目录风格。使用 \cs{ctexset} 命令设置目录样式时，除了条目标题定义选项 \option{tocline}，其它选项只有在目录输出命令前设置才有效，定义完目录风格后用 \cs{UseTocStyle} 命令可以在正文中任意位置生效。如果是没有\hface 符号的选项，\meta{条目名} 设置为 \module*{toc}。
-  \command{UseTocStyle}[\marg{条目名}\marg{风格名}\marg{扩展名}]
+  \command{UseTocStyle}[\marg{条目名列表}\marg{风格名}\marg{扩展名}]
   使用对应条目类型名称为 \meta{风格名} 的目录风格，随后标题在目录中的格式会改变。本命令导言区和正文区均可使用，第三个必选参数还需要指定条目标题加入目录文件的 \meta{扩展名}。
   \begin{ctexexam}
   \SetTocStyle{chapter}{fancy}{tocformat = \color{red}\zihao{3}}
