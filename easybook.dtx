@@ -1730,11 +1730,21 @@
     \group_end:
   }
 
-\cs_set_eq:NN \eb@contentsuse@save \contentsuse
 \RenewDocumentCommand{\contentsuse}{O{-1000}mm}
   {
-    \eb@contentsuse@save{#2}{#3}
+    \clist_map_inline:nn {#2}
+      { \eb@contents@use{#1}{##1}{#3} }
+  }
+\cs_new_protected:Npn \eb@contents@use #1#2#3
+  {
+    \tl_set:cn { ttlx@#2 } {#3}
     \tl_set:cn { ttll@#2 } {#1}
+    \tl_if_exist:cF { l__eb_contents_use_#2_#3_tl }
+      {
+        \tl_put_right:Nn \ttl@finishall
+          { \@writefile{#3}{\contentsfinish} }
+      }
+    \tl_set:cn { l__eb_contents_use_#2_#3_tl } { used }
   }
 \contentsuse{lstlisting}{lol}
 \ctex_at_end_package:nn { hyperref }
