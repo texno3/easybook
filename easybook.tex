@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024et,
-    date            = 2024/10/26,
+    version         = v2024eu,
+    date            = 2024/10/28,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -147,6 +147,7 @@
 \newcommand{\smodule}[1]{{\normalsize\cnltx@module@text*{#1}}}
 \renewcommand{\cnltx@package@abstract@width}{0.85\linewidth}
 \renewcommand{\cnltx@write@lastname}{}
+\newcommand{\cstext}[1]{\code{\textcolor{cs}{#1}}}
 \newcounter{ctexexam}
 \define@key{FV}{labelref}{\def\ctexexamlabelref{\label{#1}}}
 \let\ctexexamlabelref\empty
@@ -367,7 +368,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   thmt & geo & hdr & toc & cap
   \end{longtblr}
 
-  \ref{exam:kv setting} 使用\ref{subsec:tools} 介绍的工具模块 \module*{tools} 举例三种键值列表设置方式：1. 各 \meta{模块名} 是统一接口 \cs{ctexset} 的键路径。2. 不同模块还具有单独的接口命令 \cs*{eb}\meta{模块名}\code{\textcolor{cs}{set}}。3. \meta{模块名} 也可以使用 \cs{ctexset} 命令的可选参数设置。路径名与所属下级选项之间可以 \code{/} 或 \code{=} 号分开，斜线 \code{/} 后不能有空格或者换行。
+  \ref{exam:kv setting} 使用\ref{subsec:tools} 介绍的工具模块 \module*{tools} 举例三种键值列表设置方式：1. 各 \meta{模块名} 是统一接口 \cs{ctexset} 的键路径。2. 不同模块还具有单独的接口命令 \cs*{eb}\meta{模块名}\cstext{set}。3. \meta{模块名} 也可以使用 \cs{ctexset} 命令的可选参数设置。路径名与所属下级选项之间可以 \code{/} 或 \code{=} 号分开，斜线 \code{/} 后不能有空格或者换行。
   \begin{ctexexam}[labelref = exam:kv setting]
   \ctexset
     {
@@ -391,10 +392,10 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \begin{cnltxlist}
   \keychoice{color}{\fbox{none},seaside,energy,cyberpunk}
   \easybook{} 预置了四种颜色主题，默认主题 \code{none} 为黑白页面，颜色主题不包括超链接。
-  \command{DeclareThemeColor}[\splitmarg{风格名称,颜色1,颜色2,颜色3}]
-  声明新的颜色主题命令。它的参数以英文逗号分隔，第一部分为颜色风格名称，后面三部分为 \code{HTML} 颜色代码，构成主题颜色列表。其中 \meta{颜色1} 为标题标签，\meta{颜色2} 为列表编号、定理标签和公式编号括号，\meta{颜色3} 为代码抄录。类似地更改超链接颜色见\ref{subsec:hyperlinks}。
+  \command{DeclareThemeColor}[\marg{风格名称}\splitmarg{颜色1,颜色2,颜色3}]\newtagv[Changed]{202eu}%
+  声明新的颜色主题命令。颜色参数的三个部分为 \code{HTML} 颜色代码，构成主题颜色列表，其中 \meta{颜色1} 为标题标签，\meta{颜色2} 为列表编号、定理标签和公式编号括号，\meta{颜色3} 为代码抄录。类似地更改超链接颜色见\ref{subsec:hyperlinks}。
   \begin{ctexexam}
-  \DeclareThemeColor{fancy,2acb25,60aacc,ebc01c}
+  \DeclareThemeColor{fancy}{2acb25,60aacc,ebc01c}
   \ctexset{tools/color = fancy}
   \end{ctexexam}
   \keyval{color-every}{HTML颜色代码}
@@ -441,8 +442,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   超链接类型。\code{edge} 使超链接形式为边框，\code{colors} 使超链接字体为彩色，\code{none} 关闭超链接边框与颜色，此时 \option{linkcolor} 选项无效。
   \keychoice{linkcolor}{fresh,cutepink,\fbox{navyblue},crimson}
   当超链接类型为 \code{colors} 时文本的颜色样式。预置了四种超链接颜色风格，默认为海军蓝 \code{navyblue}。
-  \command{DeclareLinkColor}[\splitmarg{风格名称,颜色1,颜色2,颜色3}]
-  声明新的超链接颜色样式命令。它的参数以英文逗号分隔，第一部分为颜色风格名称，后面三部分为 \code{HTML} 颜色代码，构成超链接颜色列表。其中 \meta{颜色1} 为普通链接，\meta{颜色2} 为网址，\meta{颜色3} 为参考文献引用。
+  \command{DeclareLinkColor}[\marg{风格名称}\splitmarg{颜色1,颜色2,颜色3}]\newtagv[Changed]{202eu}%
+  声明新的超链接颜色样式命令。颜色参数的三个部分为 \code{HTML} 颜色代码，构成超链接颜色列表，其中 \meta{颜色1} 为普通链接，\meta{颜色2} 为网址，\meta{颜色3} 为参考文献引用。
   \keyval{linkcolor-every}{HTML颜色代码}
   统一设置超链接的各部分颜色。参数是6个十六进制数字组成的 \code{HTML} 颜色代码，任意颜色的代码可以在常见的图片处理工具拾色器中查看。
   \keychoice{linktoc}{none,section,page,\fbox{all}}
@@ -614,8 +615,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
     ]
   \end{ctexexam}
   \begin{cnltxlist}[itemsep = 0ex]
-  \command{listoftheorems}[\sarg\oarg{键值列表}]\default{}
-  \item\key{listtheoremname}{定理目录标题名}
+  \command{listoftheorems}[\sarg\oarg{键值列表}]\nonl
+  \keyval{listtheoremname}{定理目录标题名}\nonl
   \command{settheoremtocline}[\sarg\marg{环境名}\marg{标题定义}]\newtagv{2024bb}%
   对 \pkg*{thmtools} 宏包的定理环境目录命令 \cs{listoftheorems} 进行了适配调整\footnote{也对 \pkg*{keytheorems} 宏包作为兼容提供的这个命令进行了适配。}，\ref{subsec:directory command} 和\ref{subsec:contents} 中的选项机制均可用，但标题定义选项 \option{tocline} 较为特殊，需用 \cs{settheoremtocline} 命令单独设置。在 \meta{标题定义} 中有三个命令 \cs{thmtname}、\cs{thmtenvname} 和 \cs{thmtnote} 分别代表定理名、定理环境名和题注用于排版目录条目。
   \end{cnltxlist}
@@ -653,10 +654,10 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \begin{cnltxlist}[itemsep = 0ex]
   \keyval{headruleskip}{页眉线间距}\dtag\Default*{0pt}
   \keyval{footruleskip}{页脚线间距}\dtag\Default*{3.5pt}
-  \kvsplit{hdivide}{左边距,版心宽度,右边距}\default{}
-  \kvsplit{hmargin}{左边距,右边距}\default{}
-  \keyval{textheight}{版心高度}\default{}
-  \keychoice{nofoot}{true,\fbox{false}}\default{}
+  \kvsplit{hdivide}{左边距,版心宽度,右边距}\nonl
+  \kvsplit{hmargin}{左边距,右边距}\nonl
+  \keyval{textheight}{版心高度}\nonl
+  \keychoice{nofoot}{true,\fbox{false}}\nonl
   \begin{ctexexam}
   \ctexset[geo]
     {
@@ -697,9 +698,9 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \label{subsec:caption}
 模块 \module*{cap} 用于设置图表等浮动体的题注格式。题注主要由三部分组成：标题标签即图表名与题注编号的组合，标题文本本身通常是内容的简短描述，以及将文本与标签分开的题注分隔符。可以在导言区设置整体格式，也可以在正文使用局部更改格式。模块 \module*{cap} 由 \pkg*{caption} 宏包提供支持，接口选项与 \pkg*{caption} 宏包完全一致，但写法为 \meta{条目名}\code{/}\meta{选项}。\pkg*{caption} 宏包提供了多种方法来定制浮动环境（例如 \env{figure} 和 \env{table}）中的题注，并可与许多其它宏包配合使用。功能包括旋转题注、侧向题注和连续题注等。下面列举几个题注选项的用法，\ref{exam:caption set} 中两种设置题注的方法是等效的，更多选项和创建方法可查看宏包文档：
 \begin{cnltxlist}[itemsep = 0ex]
-  \keyval{table/labelsep}{标签分隔符}\default{}
-  \keyval{figure/format}{题注格式}\default{}
-  \keyval{lstlisting/font}{题注字体}\default{}
+  \keyval{table/labelsep}{标签分隔符}\nonl
+  \keyval{figure/format}{题注格式}\nonl
+  \keyval{lstlisting/font}{题注字体}\nonl
   \begin{ctexexam}[labelref = exam:caption set]
   \ctexset[cap]
     {
@@ -713,8 +714,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{RegisterCapOptions}[\marg{条目名列表}]
   给模块 \module*{cap} 注册题注类型为 \meta{条目名} 的 \pkg*{caption} 接口选项。已预注册 \module*{figure}、\module*{table} 和 \module*{lstlisting} 三种类型的题注选项。可以搭配 \pkg*{newfloat} 宏包创建更多类型的浮动环境并设置相应题注。
   \end{cnltxlist}
-  \command{caption}[\sarg\oarg{目录标题}\marg{标题}]\default{}
-  \command{captionof}[\sarg\marg{条目名}\oarg{目录标题}\marg{标题}]\default{}
+  \command{caption}[\sarg\oarg{目录标题}\marg{标题}]\nonl
+  \command{captionof}[\sarg\marg{条目名}\oarg{目录标题}\marg{标题}]\nonl
   \command{bicaption}[\sarg\oarg{目录中文标题}\marg{中文标题}\oarg{目录英文标题}\marg{英文标题}]
   题注命令 \cs{caption} 用于在图表上下方插入题注，需要在浮动环境 \env*{figure} 和 \env*{table} 中使用。在浮动环境外可以使用 \cs{captionof} 命令，第一个参数指定条目名。\cs{bicaption} 命令可以实现中英文双语题注，需要在导言区载入 \pkg*{bicaption} 宏包，具体用法见宏包文档。
 \end{cnltxlist}
@@ -765,13 +766,15 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{pagestyle}[\marg{风格名}]\Default{fancy}
   设置 \meta{风格名} 为当前及之后页的页面风格。
   \begin{cnltxlist}[itemsep = 0ex]
-  \command{fancyhead}[\oarg{位置}\marg{内容}]\default{}
+  \command{fancyhead}[\oarg{位置}\marg{内容}]\nonl
   \command{fancyfoot}[\oarg{位置}\marg{内容}]
   为了确保页面显示正确，使用 \cs{fancyhead} 和 \cs{fancyfoot} 等命令设置页眉页脚时需要在页边距的命令之后。默认设置的是一个名为 \code{fancy} 的页面风格。\pkg*{fancyhdr} 将页眉页脚分成了左中右和奇数页（odd）、偶数页（even）共12个部分，可选参数中 \code{E} 和 \code{O} 代表偶数和奇数，\code{L}、\code{C} 和 \code{R} 代表左、中和右部分。单面排版时，含有偶数位置的命令无效。
-  \command{markboth}[\marg{左页标题标记}\marg{右页标题标记}]\default{}
-  \command{markright}[\marg{右页标题标记}]\default{}
+  \end{cnltxlist}
+  \begin{cnltxlist}[itemsep = 0ex]
+  \command{markboth}[\marg{左页标题标记}\marg{右页标题标记}]\nonl
+  \command{markright}[\marg{右页标题标记}]\nonl
   \command{markdouble}[\marg{双页标题标记}]
-  这三个命令用于手动设置当前页标题标记，特殊情况下可以使用它们定义与标题不同的页眉页脚标记。其中 \cs{markdouble} 根据是否是双面排版设置相应标记。如果是单面排版，则 \meta{左页标题标记} 无效。标题标记选项 \meta{级别}\option*{-mark} 定义的是它们的参数，左右页标记规则已经进行了优化调整，若需更改可以重定义 \code{\textbackslash}\meta{级别}\code{\textcolor{cs}{mark}} 命令。
+  这三个命令用于手动设置当前页标题标记，特殊情况下可以使用它们定义与标题不同的页眉页脚标记。其中 \cs{markdouble} 根据是否是双面排版设置相应标记。如果是单面排版，则 \meta{左页标题标记} 无效。标题标记选项 \meta{级别}\option*{-mark} 定义的是它们的参数，左右页标记规则已经进行了优化调整，若需更改可以重定义 \code{\textbackslash}\meta{级别}\cstext{mark} 命令。
   \begin{ctexexam}
   \makeatletter
   \renewcommand{\sectionmark}[1]{\markright{\eb@mark@section@whole{#1}}}
@@ -820,7 +823,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \ebhdrset{fnmark-num = (a)}
   \end{ctexexam}
   \begin{cnltxlist}[itemsep = 0ex]
-  \command{SetFntSymbsList}[\marg{符号表名}\marg{符号数量}\marg{符号列表}]\default{}
+  \command{SetFntSymbsList}[\marg{符号表名}\marg{符号数量}\marg{符号列表}]\nonl
   \command{UseFntSymbsList}[\marg{符号表名}]
   这两个命令用于在脚注短编号标记为 \code{s} 自定义符号型时设置符号列表。\cs{SetFntSymbsList} 命令用于定义名为 \meta{符号表名} 的符号列表，\cs{UseFntSymbsList} 命令用于启用已定义的符号列表。默认的脚注符号列表是空的，注意使用符号型标记的脚注时计数器 \code{footnote} 的值仍然递增，以及定义新列表时 \meta{符号列表} 的写法和命令顺序：
   \begin{ctexexam}
@@ -872,8 +875,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \keychoice{fncustom-format}{\optpath*{format code},match}
   单独设定自定义脚注标记的格式，选项 \code{match} 可以匹配 \option{spcmd} 全局的值。自定义脚注内容和正文标记的命令与用法可以见下方和\ref{exam:custom footnote markers} 的介绍。
   \begin{cnltxlist}[itemsep = 0ex]
-  \command{Footnote}[\oarg{内容标记}\marg{正文标记}\marg{脚注文本}]\default{}
-  \command{Footnotetext}[\marg{内容标记}\marg{脚注文本}]\default{}
+  \command{Footnote}[\oarg{内容标记}\marg{正文标记}\marg{脚注文本}]\nonl
+  \command{Footnotetext}[\marg{内容标记}\marg{脚注文本}]\nonl
   \command{Footnotemark}[\marg{正文标记}]
   这些是自定义标记且不影响正常编号的脚注命令，用法与它们对应首字母小写的命令类似。\meta{内容标记} 默认与 \meta{正文标记} 一致，这也是最常见的情况，也可以定义为不同符号或格式。如果当前标记为空，那么将会使用上一个脚注标记。
   \begin{ctexexam}[labelref = exam:custom footnote markers]
@@ -951,7 +954,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{contentsuse}[\oarg{目录层次}\marg{条目名列表}\marg{扩展名}]\newtagv[Changed]{2024et}%
   激活条目类型为 \meta{条目名} 的目录定制功能，目录文件后缀为 \meta{扩展名}，若 \meta{扩展名} 为 \code{toc} 则条目会自动激活。可选参数 \meta{目录层次} 为条目在目录中的层次深度，默认值为 \code{-1000}，当它大于目录深度计数器 \code{tocdepth} 时不显示。图表等标题的目录条目无深度因此为默认值，章节标题 \module*{part}$\longrightarrow$\module*{subparagraph} 的深度则从 \code{-1} 到 \code{5} 依次递增。需要在激活条目后再使用命令 \cs{RegisterTocName} 注册选项。
   \command{DeclareFloatList}[\marg{条目名}\marg{扩展名}]
-  声明一种条目类型的目录命令 \cs*{listof}\meta{条目名}\code{\textcolor{cs}{s}}，并且支持\ref{subsec:directory command} 中图表目录命令的机制。使用这个命令要确保将条目加入目录的机制已经存在，例如搭配 \pkg*{newfloat} 宏包创建新的浮动环境。选项前有实心符号\sface（仍包含空心符号\hface 选项的性质）表示在声明后可用。下面举一个声明算法环境和对应题注目录的例子：
+  声明一种条目类型的目录命令 \cs*{listof}\meta{条目名}\cstext{s}，并且支持\ref{subsec:directory command} 中图表目录命令的机制。使用这个命令要确保将条目加入目录的机制已经存在，例如搭配 \pkg*{newfloat} 宏包创建新的浮动环境。选项前有实心符号\sface（仍包含空心符号\hface 选项的性质）表示在声明后可用。下面举一个声明算法环境和对应题注目录的例子：
   \begin{ctexexam}
   \usepackage{newfloat}
   \DeclareFloatingEnvironment[
@@ -1124,7 +1127,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \tableofcontents[bilist = mix]
   \end{ctexexam}
 
-  除了上述选项还支持 \CTeX 键值列表所有路径的章节标题样式选项，下面仅列举几个选项例子。需要注意的是标题样式选项根据 \option{level} 选项中的\textbf{最后}一个标题命令判断键路径，所以这个标题命令名必须存在于 \CTeX 键值列表路径中，或带有 \code{\textcolor{cs}{bi}} 前缀表示双语标题。
+  除了上述选项还支持 \CTeX 键值列表所有路径的章节标题样式选项，下面仅列举几个选项例子。需要注意的是标题样式选项根据 \option{level} 选项中的\textbf{最后}一个标题命令判断键路径，所以这个标题命令名必须存在于 \CTeX 键值列表路径中，或带有 \cstext{bi} 前缀表示双语标题。
   \keyval{format}{目录标题格式}
   设置目录标题的格式。
   \begin{ctexexam}
@@ -1170,10 +1173,12 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \BeforeAddtoBitoc{\ctexset{section/name = Section\space}}
   \bisection{中文标题}{English title}
   \end{ctexexam}
+  \command{RegisterBititle}[\marg{条目名列表}]
+  根据已有章节标题命令注册一个双语标题命令 \cs*{bi}\meta{条目名}。\meta{条目名} 应当是 \module*{part}$\longrightarrow$\module*{subparagraph} 等已经存在的标题命令名，或是用 \cs{NewTitleCommand} 创建的标题命令名。
   \command{NewTitleCommand}[\oarg{基础标题}\marg{条目名}\marg{章节层次}]\newtagv{2024aw}%
-  创建一个命令名为 \meta{条目名} 新章节标题，并且支持 \CTeX 中的标题样式选项机制。指定可选参数后标题格式除了编号/名字会与 \meta{基础标题} 相同，否则默认为空。同时创建一个名为 \meta{条目名} 的计数器和标记命令 \code{\textbackslash}\meta{条目名}\code{\textcolor{cs}{mark}}。同时还需指定标题的 \meta{章节层次}，例如标准文档类中 \code{chapter} 级别为 \code{0}。
+  创建一个命令名为 \meta{条目名} 新章节标题，并且支持 \CTeX 中的标题样式选项机制。指定可选参数后标题格式除了编号/名字会与 \meta{基础标题} 相同，否则默认为空。同时创建一个名为 \meta{条目名} 的计数器和标记命令 \code{\textbackslash}\meta{条目名}\cstext{mark}。同时还需指定标题的 \meta{章节层次}，例如标准文档类中 \code{chapter} 级别为 \code{0}。
   \command{NewTitleEntryCommand}[\oarg{扩展名}\marg{条目名}]\newtagv{2024aw}%
-  创建一个命令 \code{\textbackslash}\meta{条目名}\code{\textcolor{cs}{entry}}\marg{标题}，仅将 \meta{标题} 加入文件扩展名为 \meta{扩展名} 的目录中，而不在正文中输出标题，默认扩展名为 \code{toc}。
+  创建一个命令 \code{\textbackslash}\meta{条目名}\cstext{entry}\marg{标题}，仅将 \meta{标题} 加入文件扩展名为 \meta{扩展名} 的目录中，而不在正文中输出标题，默认扩展名为 \code{toc}。
   \begin{ctexexam}
   \NewTitleCommand[chapter]{lchapter}{0}
   \NewTitleEntryCommand{lchapter}
@@ -1228,16 +1233,16 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 
 \subsection{公式}
 \begin{cnltxlist}[itemsep = 0ex]
-  \environment{equation}\default{}
-  \environment{multline}\default{}
-  \environment{gather}\default{}
+  \environment{equation}\nonl
+  \environment{multline}\nonl
+  \environment{gather}\nonl
   \environment{align}
   \pkg*{amsmath} 宏包提供了一系列行间数学环境，它们可以排布各种对齐或不对齐的公式组。\env{multline} 环境用于一行无法放下的长公式，\env{gather} 环境用于每行居中的公式组，\env{align} 环境用于多列对齐的公式组。还有例如 \pkg*{mathtools} 等对数学功能进行扩展的宏包，提供了更全面的数学命令与环境。
 \end{cnltxlist}
 
 \subsection{表格}
 \begin{cnltxlist}[itemsep = 0ex]
-  \environment{tabular}[\marg{列格式}]\default{}
+  \environment{tabular}[\marg{列格式}]\nonl
   \environment{tblr}[\marg{键值列表}]
   \pkg*{tabularray} 是一个强大且全面的表格宏包，不依赖其它表格宏包所以同时使用不会产生冲突。不仅提供了各种传统表格宏包的功能，还实现了用键值列表方式简便地设置表格样式。具体用法可见宏包的说明文档，下面演示一个 \env{tblr} 表格的用法：
   \begin{ctexexam}
@@ -1278,8 +1283,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \end{cnltxlist}
 
 \begin{cnltxlist}[itemsep = 0ex]
-  \environment{enumerate}[\oarg{键值列表}]\default{}
-  \environment{itemize}[\oarg{键值列表}]\default{}
+  \environment{enumerate}[\oarg{键值列表}]\nonl
+  \environment{itemize}[\oarg{键值列表}]\nonl
   \environment{description}[\oarg{键值列表}]
   已为三种列表各自预置了三个级别。同种列表或不同种列表间的不同级别可相互嵌套，可以使用短编号的形式，带有星号的环境为行内列表。默认列表标签与标准文档类一致，下面举几个更改列表标签以及其它格式的例子：
   \begin{ctexexam}
@@ -1306,11 +1311,14 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \end{cnltxlist}
 
 \subsection{计数器}
+\begin{cnltxlist}[itemsep = 0ex]
+  \command{newcounter}[\marg{计数器}\oarg{父计数器}]\nonl
+  \command{renewcounter}[\marg{计数器}\oarg{父计数器}]\nonl
+  \command{providecounter}[\marg{计数器}\oarg{父计数器}]\nonl
+  \command{declarecounter}[\marg{计数器}\oarg{父计数器}]\newtagv[Changed]{2024eu}%
+  创建一个初始值为0的计数器，若指定 \meta{父计数器} 则将它加入 \meta{父计数器} 的递增归零清单。不同命令前缀之间的区别是若计数器已存在 \cstext{new} 会报错，若计数器不存在 \cstext{renew} 会报错，若计数器不存在 \cstext{provide} 才会创建计数器，无论计数器是否存在 \cstext{declare} 均会强制创建。需要注意的是，重复创建计数器时已存在的计数器绑定关系并不会重置。
+\end{cnltxlist}
 \begin{cnltxlist}
-  \command{newcounter}[\marg{计数器}\oarg{父计数器}]
-  创建一个初始值为0的计数器。若 \meta{计数器} 已经存在则报错，若指定 \meta{父计数器} 则将它加入 \meta{父计数器} 的递增归零清单。
-  \command{declarecounter}[\marg{计数器}\oarg{父计数器}]\newtagv{2024ed}%
-  创建一个初始值为0的计数器，与 \cs{newcounter} 的区别是若 \meta{计数器} 已经存在仍会强制创建。
   \command{setcounter}[\marg{计数器}\marg{整数}]
   将计数器的值设定为指定值。
   \command{stepcounter}[\marg{计数器}]
@@ -1391,7 +1399,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \lstnewenvironment{mypascal}[1][]{\lstset{style = lst-pascal,#1}}{}
   \end{ctexexam}
   \begin{cnltxlist}[itemsep = 0ex]
-  \keyval{listlstlistingname}{代码目录标题名}\default{}
+  \keyval{listlstlistingname}{代码目录标题名}\nonl
   \keyval{lstlistingname}{代码题注标题名}
   代码目录名与代码环境题注名选项 \option{listlstlistingname} 和 \option{lstlistingname} 用法与 \CTeX 使用手册标题汉化一节类似，可以看作对这节的扩展。
   \end{cnltxlist}

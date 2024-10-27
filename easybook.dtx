@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/10/26}{2024et}
+\ProvidesExplClass{easybook}{2024/10/28}{2024eu}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -302,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/10/26}{2024et}
+\ProvidesExplPackage{easybase}{2024/10/28}{2024eu}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -541,49 +541,6 @@
     Please~update~your~macro~package~from~CTAN.
   }
 
-\NewDocumentCommand{\eb_assign_tagform:n}
-  {>{\SplitArgument{1}{,}}m}
-  {\eb_assign_tagform_pos:nn #1}
-\cs_new_protected:Npn \eb_assign_tagform_pos:nn #1#2
-  {
-    \tl_set:Nn \eb@tag@brackets@left {#1}
-    \tl_set:Nn \eb@tag@brackets@right {#2}
-  }
-\cs_gset:Npn \tagform@ #1
-  {
-    \maketag@@@
-      {
-        \color{ctex@emph}
-        \ignorespaces
-        \eb@tag@brackets@left{#1}
-        \unskip\@@italiccorr
-        \eb@tag@brackets@right
-      }
-  }
-\ctex_define:nn { tools }
-  {
-    multoc .int_set:N     = \l__eb_toc_columns_int,
-    multoc .default:n     = 2,
-    withpart .bool_set:N  = \l__eb_chap_counter_withpart_bool,
-    withpart .default:n   = true,
-    withpart .initial:n   = false,
-    uppercase .tl_set:N   = \l__eb_mark_uppercase_value_tl,
-    uppercase .default:n  = all,
-    uppercase .initial:n  = all,
-    tagform .code:n       = \eb_assign_tagform:n {#1},
-    tagform .initial:n    = { (,) },
-    brackets .meta:n      = { tagform = {#1} },
-    figurepath .code:n    =
-      {
-        \tl_if_blank:nF {#1}
-          {
-            \regex_match:nnTF { \cB. } {#1}
-              { \graphicspath{#1} }
-              { \graphicspath{{#1}} }
-          }
-      }
-  }
-
 \ctex_at_end_package:nn { pdfpages }
   { \includepdfset{fitpaper = true} }
 \geometry
@@ -677,7 +634,8 @@
             \CTEXifname{\use:c { eb@mark@#1@label }}{}
             \eb_mark_uppercase_case_init:n {##1}
           },
-        #1-label .code:n    = \use:c { eb_mark_#1_name_parse:n } {##1}
+        #1-label .code:n    = \use:c { eb_mark_#1_name_parse:n } {##1},
+        #1-label .initial:n = \hspace{0.5em}
       }
   }
 \cs_new_protected:Npn \RegisterHdrMark #1
@@ -686,13 +644,7 @@
       \eb@register@hdr@mark
   }
 \RegisterHdrMark{chapter,section,subsection}
-
-\ctex_set:nn { hdr }
-  {
-    chapter-label     = \hspace{1em},
-    section-label     = \hspace{0.5em},
-    subsection-label  = \hspace{0.5em}
-  }
+\ctex_set:nn { hdr } { chapter-label = \hspace{1em} }
 \ctex_define:nn { hdr }
   {
     chap-mark .meta:n         = { chapter-mark = {#1} },
@@ -1355,6 +1307,31 @@
           }
       }
   }
+\cs_new_protected:Npn \undefinecounter #1
+  {
+    \cs_undefine:c { c@#1 }
+    \cs_undefine:c { the#1 }
+    \group_begin:
+    \exp_args:Nc \providecommand { c@@ckpt }{}
+    \@removefromreset{#1}{@ckpt}
+    \group_end:
+  }
+\ProvideDocumentCommand{\declarecounter}{mo}
+  {
+    \undefinecounter{#1}
+    \IfValueTF{#2}{\newcounter{#1}[#2]}{\newcounter{#1}}
+  }
+\ProvideDocumentCommand{\renewcounter}{mo}
+  {
+    \cs_if_exist:cTF { c@#1 }
+      { \IfValueTF{#2}{\declarecounter{#1}[#2]}{\declarecounter{#1}} }
+      { \exp_args:Nc \renewcommand { c@#1 }{} }
+  }
+\ProvideDocumentCommand{\providecounter}{mo}
+  {
+    \cs_if_exist:cF { c@#1 }
+      { \IfValueTF{#2}{\newcounter{#1}[#2]}{\newcounter{#1}} }
+  }
 \cs_new:Npn \eb_section_counter_prefix:n #1
   {
     \int_compare:nNnT { \c@chapter } > { 0 } { \use:c { the#1chapter }. }
@@ -1387,6 +1364,7 @@
   }
 \cs_new_protected:Npn \eb@register@bititle #1
   {
+    \providecounter{bi#1}
     \exp_args:Nc \DeclareDocumentCommand { bi#1 }{sO{##3}mm}
       {
         \IfBooleanTF{##1}
@@ -2408,22 +2386,9 @@
     \tl_clear:N \l__eb_eqsymb_intro_tl
     \ignorespaces
   }
+
 \cs_new:Npn \eb_tl_exist_noempty:cT #1#2
   { \tl_if_exist:cT {#1} { \tl_if_empty:cF {#1} {#2} } }
-\cs_new_protected:Npn \undefinecounter #1
-  {
-    \cs_undefine:c { c@#1 }
-    \cs_undefine:c { the#1 }
-    \group_begin:
-    \exp_args:Nc \providecommand { c@@ckpt }{}
-    \@removefromreset{#1}{@ckpt}
-    \group_end:
-  }
-\ProvideDocumentCommand{\declarecounter}{mo}
-  {
-    \undefinecounter{#1}
-    \IfValueTF{#2}{\newcounter{#1}[#2]}{\newcounter{#1}}
-  }
 \cs_new_protected:Npn \eb_theorem_load_thmtools:
   {
     \RequirePackage{amsthm,thmtools}
@@ -2553,6 +2518,51 @@
   { \msg_redirect_module:nnn { unicode-math } { warning } { info } }
 \ctex_at_end_package:nn { tcolorbox }
   { \file_if_exist_input:n { eb-tcolorbox.cfg } }
+
+\NewDocumentCommand{\eb_assign_tagform:n}
+  {>{\SplitArgument{1}{,}}m}
+  {
+    \eb_assign_tagform_pos:nn #1
+    \cs_gset:Npn \tagform@ ##1
+      {
+        \maketag@@@
+          {
+            \color{ctex@emph}
+            \ignorespaces
+            \eb@tag@brackets@left{##1}
+            \unskip\@@italiccorr
+            \eb@tag@brackets@right
+          }
+      }
+  }
+\cs_new_protected:Npn \eb_assign_tagform_pos:nn #1#2
+  {
+    \tl_set:Nn \eb@tag@brackets@left {#1}
+    \tl_set:Nn \eb@tag@brackets@right {#2}
+  }
+\ctex_define:nn { tools }
+  {
+    multoc .int_set:N     = \l__eb_toc_columns_int,
+    multoc .default:n     = 2,
+    withpart .bool_set:N  = \l__eb_chap_counter_withpart_bool,
+    withpart .default:n   = true,
+    withpart .initial:n   = false,
+    uppercase .tl_set:N   = \l__eb_mark_uppercase_value_tl,
+    uppercase .default:n  = all,
+    uppercase .initial:n  = all,
+    tagform .code:n       = \eb_assign_tagform:n {#1},
+    tagform .initial:n    = { (,) },
+    brackets .meta:n      = { tagform = {#1} },
+    figurepath .code:n    =
+      {
+        \tl_if_blank:nF {#1}
+          {
+            \regex_match:nnTF { \cB. } {#1}
+              { \graphicspath{#1} }
+              { \graphicspath{{#1}} }
+          }
+      }
+  }
 
 \bool_set_true:N \l__eb_backend_bibtex_bool
 \ctex_define:nn { bib }
@@ -2697,21 +2707,21 @@
   { \definecolorset{HTML}{ctex@}{}{link,#1;url,#1;cite,#1} }
 \cs_new_protected:Npn \eb_define_theme_color:n #1
   { \definecolorset{HTML}{ctex@}{}{frame,#1;emph,#1;verb,#1} }
-\cs_new_protected:Npn \DeclareLinkColor #1
-  { \ctex_define:nx { ref } { \eb_link_color_set:n {#1} } }
-\cs_new_protected:Npn \DeclareThemeColor #1
-  { \ctex_define:nx { tools } { \eb_theme_color_set:n {#1} } }
+\cs_new_protected:Npn \DeclareLinkColor #1#2
+  { \ctex_define:nx { ref } { \eb_link_color_set:nn {#1} {#2} } }
+\cs_new_protected:Npn \DeclareThemeColor #1#2
+  { \ctex_define:nx { tools } { \eb_theme_color_set:nn {#1} {#2} } }
 \cs_new_protected:Npn \eb_color_assign_cmd_set:nn #1#2
   {
-    \cs_new:cpn { eb_#2_color_set:n } ##1
+    \cs_new:cpn { eb_#2_color_set:nn } ##1##2
       {
-        #1/\clist_item:nn {##1} { 1 } .code:n =
+        #1/##1 .code:n =
           {
             \use:c { eb_define_#2_color:nnn }
-              { \clist_item:nn {##1} { 2 } }
-              { \clist_item:nn {##1} { 3 } }
-              { \clist_item:nn {##1} { 4 } }
-          },
+              { \clist_item:nn {##2} { 1 } }
+              { \clist_item:nn {##2} { 2 } }
+              { \clist_item:nn {##2} { 3 } }
+          }
       }
   }
 \clist_map_inline:nn
@@ -2720,35 +2730,35 @@
     { color } { theme }
   }
   { \eb_color_assign_cmd_set:nn #1 }
-\ctex_define:nx { ref }
+\clist_map_inline:nn
+  {
+    { fresh    } { 62d71f,0000b2,005752 },
+    { cutepink } { ea4492,ad3ccc,57b5e5 },
+    { navyblue } { 000080,4ec9ea,eb6877 },
+    { crimson  } { dc143c,00c1c9,afcd20 }
+  }
+  { \DeclareLinkColor #1 }
+\ctex_define:nn { ref }
   {
     linkcolor .choice:,
     linkcolor .value_required:n = true,
-    \clist_map_function:nN
-      {
-        { fresh,    62d71f,0000b2,005752 },
-        { cutepink, ea4492,ad3ccc,57b5e5 },
-        { navyblue, 000080,4ec9ea,eb6877 },
-        { crimson,  dc143c,00c1c9,afcd20 }
-      }
-      \eb_link_color_set:n
     linkcolor .initial:n    = navyblue,
-    linkcolor-every .code:n = \eb_define_link_color:n { \exp_not:n {#1} }
+    linkcolor-every .code:n = \eb_define_link_color:n {#1}
   }
-\ctex_define:nx { tools }
+\clist_map_inline:nn
+  {
+    { none      } { 000000,000000,000000 },
+    { seaside   } { 333fb2,9932cc,09cc00 },
+    { energy    } { f39800,00a0e9,893895 },
+    { cyberpunk } { 601986,eb6877,a4005b }
+  }
+  { \DeclareThemeColor #1 }
+\ctex_define:nn { tools }
   {
     color .choice:,
     color .value_required:n = true,
-    \clist_map_function:nN
-      {
-        { none,      000000,000000,000000 },
-        { seaside,   333fb2,9932cc,09cc00 },
-        { energy,    f39800,00a0e9,893895 },
-        { cyberpunk, 601986,eb6877,a4005b }
-      }
-      \eb_theme_color_set:n
     color .initial:n        = none,
-    color-every .code:n     = \eb_define_theme_color:n { \exp_not:n {#1} }
+    color-every .code:n     = \eb_define_theme_color:n {#1}
   }
 
 \cs_new_protected:Npn \eb_link_border_set:n #1
@@ -2957,7 +2967,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/26}{2024et}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/28}{2024eu}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
