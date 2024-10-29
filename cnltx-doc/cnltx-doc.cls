@@ -402,6 +402,7 @@
   }%
 }
 
+\newcommand{\nonl}{}
 \newcommand\cnltx@checkdefault[1]{%
   \@ifnextchar\Module
     {}
@@ -409,9 +410,9 @@
       \@ifnextchar\Default
         {}
         {%
-          \@ifnextchar\default
+          \@ifnextchar\nonl
             {}
-            {
+            {%
               \@ifnextchar\dtag{}{#1}
             }%
         }%
