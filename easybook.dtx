@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/10/28}{2024eu}
+\ProvidesExplClass{easybook}{2024/10/31}{2024ex}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -302,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/10/28}{2024eu}
+\ProvidesExplPackage{easybase}{2024/10/31}{2024ex}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1341,12 +1341,12 @@
 \cs_set:Npn \thebisection { \eb_section_counter_prefix:n { bi } }
 \cs_set:Npn \thebisubsection { \thebisection.\@arabic\c@bisubsection }
 \cs_set:Npn \thesection { \eb_section_counter_prefix:n { } }
-\tl_new:N \eb@before@bitocline@hook
+\NewHook{bitocline/before}
+\DeclareHookRule{bitocline/before}{chapter}{<}{code}
 \NewDocumentCommand{\BeforeAddtoBitoc}{sm}
   {
-    \IfBooleanTF{#1}
-      {\tl_gset:Nn \eb@before@bitocline@hook {#2}}
-      {\tl_gput_right:Nn \eb@before@bitocline@hook {#2}}
+    \IfBooleanT{#1}{\RemoveFromHook{bitocline/before}[code]}
+    \AddToHook{bitocline/before}[code]{#2}
   }
 \cs_set_eq:NN \BeforeAddBitoc \BeforeAddtoBitoc
 \cs_new_protected:Npn \CTEX@addbitocline #1#2
@@ -1355,7 +1355,7 @@
     \def\CTEX@prechapter{\CTEX@prebichapter}
     \def\CTEX@thechapter{\CTEX@bichapter@number}
     \def\CTEX@postchapter{\CTEX@postbichapter}
-    \eb@before@bitocline@hook
+    \UseHook{bitocline/before}
     \tl_if_eq:NnTF \g__eb_bilist_permute_value_tl { mix }
       { \addcontentsline{toc}{#1} }
       { \addcontentsline{tec}{#1} }
@@ -2049,7 +2049,7 @@
     \ctex_assign_heading_name:nn { biappendix } {#1}
     \bool_if:NTF \l__eb_class_mode_book_bool
       {
-        \eb_preto_cmd:nn { eb@before@bitocline@hook }
+        \AddToHook{bitocline/before}[chapter]
           {
             \def\CTEX@prechapter{\CTEX@prebiappendix}
             \def\CTEX@thechapter{#2}
@@ -2967,7 +2967,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/28}{2024eu}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/31}{2024ex}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
