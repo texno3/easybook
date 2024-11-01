@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/10/31}{2024ex}
+\ProvidesExplClass{easybook}{2024/11/01}{2024ez}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -302,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/10/31}{2024ex}
+\ProvidesExplPackage{easybase}{2024/11/01}{2024ez}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -596,14 +596,16 @@
     \pagenumbering{arabic}
   }
 \NewDocumentCommand{\markrule}
-  {O{\textwidth}D(){ctex@frame}m>{\SplitArgument{1}{|}}O{}}
-  {\eb_draw_markrule:nnnnn {#1} {#2} {#3} #4}
-\cs_new_protected:Npn \eb_draw_markrule:nnnnn #1#2#3#4#5
+  {O{\textwidth}D(){ctex@frame}mO{0pt}}
   {
     \group_begin:
-    \tl_if_blank:nF {#4} { \vspace*{#4} }
-    \color{#2}\hrule\@width #1\@height #3
-    \tl_if_novalue:nF {#5} { \vspace*{#5} }
+    \color{#2}
+    \exp_last_unbraced:Nx \hrule
+      {
+        \@width \dim_eval:n {#1}
+        \@height \dim_eval:n {#3}
+        \@depth \dim_eval:n {#4}
+      }
     \group_end:
   }
 \cs_new:Npn \eb_mark_uppercase_case_init:n
@@ -662,7 +664,11 @@
     footrule .tl_gset:N       = \footrule,
     footrule .initial:n       = { },
     footnoterule .tl_gset:N   = \footnoterule,
-    footnoterule .initial:n = \markrule[0.35\textwidth]{\eb@footnote@rule@wd}[|3pt]
+    footnoterule .initial:n   =
+      {
+        \markrule[0.35\textwidth]{\eb@footnote@rule@wd}
+        \vspace*{3pt}
+      }
   }
 
 \cs_set:Npn \markdouble #1 { \markboth{#1}{\ifbool{@twoside}{#1}{}} }
@@ -2967,7 +2973,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/10/31}{2024ex}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/11/01}{2024ez}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

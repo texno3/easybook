@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024ex,
-    date            = 2024/10/31,
+    version         = v2024ez,
+    date            = 2024/11/01,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -781,10 +781,10 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \makeatother
   \end{ctexexam}
   \end{cnltxlist}
-  \command{markrule}[\oarg{长度}\darg{颜色名}\marg{线宽}\baroarg{上间距,下间距}]
-  实线命令 \cs{markrule} 既可在 \meta{横线命令} 中用于绘制页眉页脚横线，也可以在正文中使用。\meta{长度} 默认为版心的宽度，上下间距为横线与上下方部件的间距，带有长度单位，上下间距之间用符号 \code{|} 分开，若只有一部分则表示 \meta{上间距}。下面举一个设置页眉内容的例子：
+  \command{markrule}[\oarg{长度}\darg{颜色名}\marg{高度}\oarg{深度}]
+  实线命令 \cs{markrule} 既可在 \meta{横线命令} 中用于绘制页眉页脚横线，也可以在正文中使用。实线的 \meta{长度} 默认为版心的宽度，\meta{高度} 为线向上的粗细需要指定，\meta{深度} 为线向下的粗细默认为 \code{0pt}。它们均为刚性长度且可以为负值，支持数学表达式，通过控制 \meta{高度} 和 \meta{深度} 的正负值可以决定实线上下偏移量。下面举一个设置页眉内容的例子：
   \begin{ctexexam}[labelref = exam:markrule]
-  \ebhdrset{headrule = \markrule(DarkOrchid){0.5pt}[2pt|2pt]}
+  \ebhdrset{headrule = \markrule(DarkOrchid){2pt + 1pt}[-2pt]}
   \fancyhead[ER]{\FirstMark{2e-left}} % 来自ltmarks的标记机制
   \fancyhead[OL]{\rightmark}
   \fancyhead[EL,OR]{\textbf{\thepage}}
