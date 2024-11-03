@@ -74,4 +74,21 @@
 \ctex_define:nn { chapter }
   { binmuber .meta:n = {binumber = {#1}} }
 }{}
+\IfPackageAtLeastTF{easybase}{2024/10/28}{
+  % v2024ez
+\RenewDocumentCommand{\markrule}
+  {O{\textwidth}D(){ctex@frame}m>{\SplitArgument{1}{|}}O{0pt}}
+  {\eb_draw_markrule:nnnnn {#1} {#2} {#3} #4}
+\cs_new_protected:Npn \eb_draw_markrule:nnnnn #1#2#3#4#5
+  {
+    \group_begin:
+    \exp_last_unbraced:Nx \hrule
+      {
+      \@width \dim_eval:n {#1}
+      \@height \dim_eval:n {#3}
+      \@depth \dim_eval:n {#4}
+      }
+    \group_end:
+  }
+}{}
 \ExplSyntaxOff\makeatother
