@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024ez,
-    date            = 2024/11/01,
+    version         = v2024ha,
+    date            = 2024/11/05,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -915,13 +915,13 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{tocrule}[\sarg\harg\oarg{引导点间距}\darg{放大因子}\marg{引导点}\oarg{页码格式}]
   生成目录引导线的命令，需要在 \option{tocrule} 选项中使用。带有星号的命令与 \keyis{dotalign}{false} 效果相同。命令带 \harg{} 号参数不输出目录页码，此时无格式的页码被保存在 \option{tocrule} 选项的参数 \code{\#1} 中，可以配合盒子命令设置不同的页码左右间距和对齐方式。\meta{放大因子} 为 \meta{引导点} 的放大倍数。\meta{页码格式} 中最后一个命令可以带有一个参数用于接受页码。
   \keyval{toclabel}{标题标签定义}\dtag\newtagv{2024as}%
-  目录中各类型条目标题标签的定义，可与 \option{tocline} 选项联用设置标题。其中参数 \code{\#1} 代表标签的编号 \cs{thecontentslabel}，参数 \code{\#2} 代表 \meta{条目名}。定义最后的命令可带有一个参数，用于接受标题内容，一些特殊情况例如需要将标题内容放在标签前，可以通过定义命令实现：
+  目录中各类型标题条目标签的定义，可与 \option{tocline} 选项联用设置标题。其中参数 \code{\#1} 代表标签的编号 \cs{thecontentslabel}，参数 \code{\#2} 代表 \meta{条目名}。定义最后的命令可带有一个参数，用于接受标题内容，一些特殊情况例如需要将标题内容放在标签前，可以通过定义命令实现：
   \begin{ctexexam}
   \newcommand{\seqentry}[2]{#2-#1} % #2为标题内容
   \ctexset{chapter/toclabel = \seqentry{#1}}
   \end{ctexexam}
   \command{hytoclink}[\marg{目录条目元素}]\newtagv{2024eb}%
-  给目录条目元素增加超链接，主要用于 \option{toclabel} 选项中的标签。使用 \pkg*{titletoc} 宏包时条目标题的标签超链接会缺失，这个命令可修复此问题。
+  给目录条目元素增加超链接，主要用于 \option{toclabel} 选项中的标签。使用 \pkg*{titletoc} 宏包时标题条目的标签超链接会缺失，这个命令可修复此问题。
   \keyval{tocafter}{距离命令}\dtag\Default{\cs*{hspace}\Marg{1em}}
   目录条目标签与标题间的代码，默认为插入 \code{1em} 横向距离。
   \keyval{tocbelow}{距离命令}\dtag
@@ -982,9 +982,9 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \printlist[fancy]{loa}{}{}
   \end{ctexexam}
   \command{SetTocStyle}[\marg{条目名列表}\marg{风格名}\marg{键值列表}]
-  定义条目类型名称为 \meta{风格名} 的目录风格。使用 \cs{ctexset} 命令设置目录样式时，除了条目标题定义选项 \option{tocline}，其它选项只有在目录输出命令前设置才有效，定义完目录风格后用 \cs{UseTocStyle} 命令可以在正文中任意位置生效。如果是没有\hface 符号的选项，\meta{条目名} 设置为 \module*{toc}。
+  定义条目类型名称为 \meta{风格名} 的目录风格。使用 \cs{ctexset} 命令设置目录样式时，除了标题条目定义选项 \option{tocline}，其它选项只有在目录输出命令前设置才有效，定义完目录风格后用 \cs{UseTocStyle} 命令可以在正文中任意位置生效。如果是没有\hface 符号的选项，\meta{条目名} 设置为 \module*{toc}。
   \command{UseTocStyle}[\marg{条目名列表}\marg{风格名}\marg{扩展名}]
-  使用对应条目类型名称为 \meta{风格名} 的目录风格，随后标题在目录中的格式会改变。本命令导言区和正文区均可使用，第三个必选参数还需要指定条目标题加入目录文件的 \meta{扩展名}。
+  使用对应条目类型名称为 \meta{风格名} 的目录风格，随后标题在目录中的格式会改变。本命令导言区和正文区均可使用，第三个必选参数还需要指定标题条目加入目录文件的 \meta{扩展名}。
   \begin{ctexexam}
   \SetTocStyle{chapter}{fancy}{tocformat = \color{red}\zihao{3}}
   \UseTocStyle{chapter}{fancy}{toc}
@@ -1001,7 +1001,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{contentsmargin}[\oarg{修正距离}\marg{右边距}]
   设置目录中引导线到版心右边的距离，用于条目页码的精细调整。当设计条目页码对齐方式或数字较大时，可以设置适当的 \meta{右边距}。\meta{修正距离} 是在过长而换行的标题右侧 \meta{右边距} 基础上附加的距离。此命令可在导言区全局使用或在 \option{tocformat} 选项给特定条目类型单独使用。
   \keychoice{hang}{\fbox{true},false}
-  悬挂缩进选项 \option{hang} 使目录条目为悬挂缩进形式。缩进距离为条目标签及其与标题内容间距的长度和。通常情况下会统一设置条目标题是否悬挂缩进，因此这个选项被设计为对所有类型条目生效。
+  悬挂缩进选项 \option{hang} 使目录条目为悬挂缩进形式。缩进距离为条目标签及其与标题内容间距的长度和。通常情况下会统一设置标题条目是否悬挂缩进，因此这个选项被设计为对所有类型条目生效。
   \keyval{lolskip}{弹性长度}\Default{10pt}
   代码目录中每章第一个条目上方增加的垂直距离。与 \CTeX 的表格和图片目录中每章间的条目距离选项 \option*{lotskip} 和 \option*{lofskip} 类似，在 \cls*{article} 模式中此选项失效。
   \keyval{between}{格式代码}\dtag[\sface]
@@ -1166,9 +1166,9 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \BeforeAddtoBitoc{\ctexset{chapter/nmuber = \arabic{chapter}}}
   \end{ctexexam}
   \command{appendix}[\splitoarg{前名字,后名字}\darg{编号输出命令}]
-  附录起始命令，其后的章节标题变为附录形式。\meta{前名字} 为英文目录中附录标题的前名字，同理 \meta{后名字} 为英文目录中附录标题的后名字。前后名字之间用一个半角逗号分开，也可以只有一部分，表示英文目录中附录标题前名字。\meta{编号输出命令} 为附录标题计数器在英文目录中的编号命令。注意这两个参数仅对 \code{chapter} 级别的标题生效。
+  附录起始命令，其后的章节标题变为附录形式。\meta{前名字} 和 \meta{后名字} 分别为英文目录中附录标题条目的前和后名字，前后名字之间用一个半角逗号分开，也可以只有一部分，表示英文目录中附录标题前名字。\meta{编号输出命令} 为附录标题计数器在英文目录中的编号命令。注意这两个参数仅对 \code{chapter} 级别的标题生效。
   \command{BeforeAddtoBitoc}[\sarg\marg{格式代码}]
-  英文目录中标题条目的格式钩子，\meta{格式代码} 在英文标题加入目录前执行，作用范围为局部。可以插入条目标题定义等命令临时改变英文目录中条目的格式，带有星号参数的命令会重置之前的代码。这个命令设置英文目录条目的标题格式具有最高优先级，放置在导言区或 \cs{bichapter} 等双语标题命令前生效。举一个在英文目录节标题条目编号前添加 \code{Section} 字符串的例子：
+  英文目录中标题条目的格式钩子，\meta{格式代码} 在英文标题加入目录前执行，作用范围为局部。可以插入设置标题名字或编号等命令临时改变英文目录中条目的格式，带有星号参数的命令会重置之前的代码。这个命令设置英文目录中标题条目的格式具有最高优先级，放置在导言区或 \cs{bichapter} 等双语标题命令前生效。举一个在英文目录节标题条目编号前添加 \code{Section} 字符串的例子：
   \begin{ctexexam}
   \BeforeAddtoBitoc{\ctexset{section/name = Section\space}}
   \bisection{中文标题}{English title}
@@ -1552,7 +1552,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \changed
   \item 目录条目样式注册命令 \cs{RegisterTocName} 增加星号参数，支持设置段落型目录。
   \added
-  \item 新增目录条目标题标签定义的选项 \option{toclabel}。
+  \item 新增目录标题条目标签定义的选项 \option{toclabel}。
   \item 新增段落型目录条目附加代码的选项 \option{tocbegin}、\option{tocsep} 和 \option{tocend}。
   \end{version}
   \shortversion{v = 2024aw,date = 2024/04/22,changes = 新增新建章节标题命令 \cs{NewTitleCommand} 和 \cs{NewTitleEntryCommand}。}
