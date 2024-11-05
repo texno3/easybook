@@ -984,7 +984,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{SetTocStyle}[\marg{条目名列表}\marg{风格名}\marg{键值列表}]
   定义条目类型名称为 \meta{风格名} 的目录风格。使用 \cs{ctexset} 命令设置目录样式时，除了标题条目定义选项 \option{tocline}，其它选项只有在目录输出命令前设置才有效，定义完目录风格后用 \cs{UseTocStyle} 命令可以在正文中任意位置生效。如果是没有\hface 符号的选项，\meta{条目名} 设置为 \module*{toc}。
   \command{UseTocStyle}[\marg{条目名列表}\marg{风格名}\marg{扩展名}]
-  使用对应条目类型名称为 \meta{风格名} 的目录风格，随后标题在目录中的格式会改变。本命令导言区和正文区均可使用，第三个必选参数还需要指定标题条目加入目录文件的 \meta{扩展名}。
+  使用对应条目类型名称为 \meta{风格名} 的目录风格，随后标题在目录中的格式会改变。本命令导言区和正文区均可使用，第三个必选参数还需要指定标题条目加入目录文件的 \meta{扩展名}。此命令仅对涉及目录条目排版格式的选项有效。
   \begin{ctexexam}
   \SetTocStyle{chapter}{fancy}{tocformat = \color{red}\zihao{3}}
   \UseTocStyle{chapter}{fancy}{toc}
