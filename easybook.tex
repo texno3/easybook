@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024ha,
-    date            = 2024/11/05,
+    version         = v2024hc,
+    date            = 2024/11/08,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -792,7 +792,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \end{cnltxlist}
 
 \subsection[脚注]{脚注\smodule{hdr}}
-模块 \module*{hdr} 还可以灵活调整脚注编号和内容的格式。格式主要包括脚注标记的编号类型、字体、附加符号和对齐方式等，以及脚注内容的首行缩进、行距和字体等。基本思想是提供常规和自定义（\code{fncustom}）两种脚注标记，常规脚注的标记分为正文（\code{fnmark}）和内容（\code{fntext}）标记两种，且两者编号类型分离，自定义脚注的标记默认与其共享格式。目前脚注模块基本兼容 \pkg*{footmisc} 宏包。
+模块 \module*{hdr} 还可以灵活调整脚注编号和内容的格式。格式主要包括脚注标记的编号类型、字体、附加符号和对齐方式等，以及脚注内容的首行缩进、行距和字体等。基本思想是提供常规（\code{fnnormal}）和自定义（\code{fncustom}）两种脚注标记，常规脚注标记又分为正文（\code{fnmark}）和内容（\code{fntext}）标记，默认情况下正文和内容标记编号类型分离但格式一致，自定义标记与常规标记格式一致。目前脚注模块基本兼容 \pkg*{footmisc} 宏包。
 \begin{cnltxlist}
   \keychoice{footnotetype}{plain,\fbox{hang},flush,bottom}
   脚注的类型。悬挂缩进 \code{hang} 是默认值，\code{plain} 是原始的类型，\code{flush} 使脚注内容标记位于脚注首行边缘外侧并右对齐。当存在浮动环境排版时，脚注可能位于页面中间，\code{bottom} 使脚注始终位于页面底端。其中 \code{bottom} 是复合选项，可以与前三种类型重复或复合使用：
@@ -834,7 +834,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \end{cnltxlist}
   \keychoice{fntext-num}{\fbox{plain},pifont,pifont*,pisans,pisans*,\optpath*{short num}}
   脚注内容标记编号的类型。用法与 \option{fnmark-num} 一样，所以脚注内容与正文标记编号类型\textbf{可以不同}。
-  \keychoice{fnmarktext-num}{\fbox{plain},pifont,pifont*,pisans,pisans*,\optpath*{short num}}
+  \keychoice{fnnormal-num}{\fbox{plain},pifont,pifont*,pisans,pisans*,\optpath*{short num}}
   同时设定脚注正文标记编号 \option{fnmark-num} 与脚注内容标记编号 \option{fntext-num} 的类型。目前脚注编号类型选项对于迷你页环境 \env*{minipage} 无效，其中的脚注保持默认英文字母的编号类型。
   \keychoice{fnmark-vmove}{\optpath*{fixed length},match}\Default{0pt}
   脚注正文标记的垂直偏移。可以设为刚性长度，或用 \code{match} 匹配 \option{spvmove} 全局的值。
@@ -842,15 +842,15 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   脚注正文标记的水平偏移。可以设为刚性长度，或用 \code{match} 匹配 \option{sphmove} 全局的值。
   \keychoice{fntext-vmove}{\optpath*{fixed length},match}\Default{0pt}
   脚注内容标记的垂直偏移。可以设为刚性长度，或用 \code{match} 匹配 \option{spvmove} 全局的值。
-  \keychoice{fnmarktext-format}{\optpath*{format code},match}
-  默认脚注标记的格式，选项 \code{match} 可以匹配 \option{spcmd} 全局的值。一般配合 \keyis{fnmarktext-num}{plain} 原生编号形式使用，例如用 \pkg*{circledtext} 宏包的带圈字符命令 \cs{circledtext} 给脚注标记添加圆圈：
+  \keychoice{fnnormal-format}{\optpath*{format code},match}
+  常规脚注标记的格式，选项 \code{match} 可以匹配 \option{spcmd} 全局的值。一般配合 \keyis{fnnormal-num}{plain} 原生编号形式使用，例如用 \pkg*{circledtext} 宏包的带圈字符命令 \cs{circledtext} 给脚注标记添加圆圈：
   \begin{ctexexam}
   \usepackage{circledtext}
   \circledtextset{resize = real,width = 0.5em}
   \ebhdrset
     {
-      fntext-pos        = normal,
-      fnmarktext-format = \circledtext
+      fntext-pos      = normal,
+      fnnormal-format = \circledtext
     }
   \end{ctexexam}
   \command{defupfntmark}[\marg{正文标记格式}]
@@ -884,7 +884,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \end{ctexexam}
   \end{cnltxlist}
   \keychoice{fnboth-format}{\optpath*{format code},match}
-  同时设定默认脚注标记 \option{fnmarktext-format} 和自定义脚注标记 \option{fncustom-format} 的格式。两种脚注标记匹配上标格式 \option{spcmd} 的值是独立的，使用 \code{match} 则可以同时匹配。会覆盖 \module*{font} 模块脚注字体选项 \option{footnote} 相同类型的命令，最后一个格式命令可以带有一个参数接受脚注标记。
+  同时设定常规脚注标记 \option{fnnormal-format} 和自定义脚注标记 \option{fncustom-format} 的格式。两种脚注标记匹配上标格式 \option{spcmd} 的值是独立的，使用 \code{match} 则可以同时匹配。会覆盖 \module*{font} 模块脚注字体选项 \option{footnote} 相同类型的命令，最后一个格式命令可以带有一个参数接受脚注标记。
   \keyval{fnpara-format}{格式代码}
   脚注内容文本的格式。会覆盖 \module*{font} 模块脚注字体选项 \option{footnote} 相同类型的命令，最后一个格式命令可以带有一个参数接受脚注内容文本。
   \kvsplit{fntext-code}{前代码,后代码}
