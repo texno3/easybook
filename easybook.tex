@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024hc,
-    date            = 2024/11/08,
+    version         = v2024hm,
+    date            = 2024/11/18,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -259,9 +259,9 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   }
   amsthm & bicaption & ctex & caption & chemformula \\
   enumitem & etoolbox & fancyhdr & geometry & hyperref \\
-  imakeidx & listings & marginnote & mathtools & multicol \\
+  imakeidx & listings & marginnote & graphicx & multicol \\
   pifont & pdfpages & siunitx & spbmark & thmtools \\
-  tcolorbox & titletoc & tabularray & xcolor & graphicx
+  tcolorbox & titletoc & tabularray & xcolor
 \end{longtblr}
 
 \section{全局选项}
@@ -271,7 +271,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \subsection{基本选项}
 \begin{cnltxlist}
   \opt{draft}
-  开启草稿模式会加快编译速度，表现有显示页面边框、行溢出的地方显示黑色方块、图片变成占位方框、显示当前日期和关闭超链接渲染。不使用绘图宏包及依赖 \pkg*{tcolorbox} 宏包的盒子环境也会增快编译速度，详情见\ref{subsec:box}。
+  开启草稿模式会加快编译速度，表现有显示页面边框、行溢出的地方显示黑色方块、图片变成占位方框、行间代码隐藏、显示当前日期和关闭超链接渲染。不使用绘图宏包及依赖 \pkg*{tcolorbox} 宏包的盒子环境也会增快编译速度，详情见\ref{subsec:box}。
   \opt{newline}\dtag
   部分和章标题的样式为另起一行，符合一般英文书籍的习惯。
   \keychoice{scheme}{\fbox{chinese},plain}\dtag
@@ -617,7 +617,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \begin{cnltxlist}[itemsep = 0ex]
   \command{listoftheorems}[\sarg\oarg{键值列表}]\nonl
   \keyval{listtheoremname}{定理目录标题名}\nonl
-  \command{settheoremtocline}[\sarg\marg{环境名}\marg{标题定义}]\newtagv{2024bb}%
+  \command{settheoremtocline}[\sarg\marg{环境名列表}\marg{标题定义}]\newtagv{2024bb}%
   对 \pkg*{thmtools} 宏包的定理环境目录命令 \cs{listoftheorems} 进行了适配调整\footnote{也对 \pkg*{keytheorems} 宏包作为兼容提供的这个命令进行了适配。}，\ref{subsec:directory command} 和\ref{subsec:contents} 中的选项机制均可用，但标题定义选项 \option{tocline} 较为特殊，需用 \cs{settheoremtocline} 命令单独设置。在 \meta{标题定义} 中有三个命令 \cs{thmtname}、\cs{thmtenvname} 和 \cs{thmtnote} 分别代表定理名、定理环境名和题注用于排版目录条目。
   \end{cnltxlist}
   \optpath{thmt/}\key{loeskip}{弹性长度}\Default{10pt}
@@ -632,7 +632,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \setlisttheoremstyle{ignoreall,show = lemma}
   \settheoremtocline{lemma}
     {
-      \listnumberline{lemma}
+      \listnumberline{\thmtenvname}
       \thmtname\thmtifnote{[\thmtnote]}{}
     }
   \end{ctexexam}
@@ -792,7 +792,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \end{cnltxlist}
 
 \subsection[脚注]{脚注\smodule{hdr}}
-模块 \module*{hdr} 还可以灵活调整脚注编号和内容的格式。格式主要包括脚注标记的编号类型、字体、附加符号和对齐方式等，以及脚注内容的首行缩进、行距和字体等。基本思想是提供常规（\code{fnnormal}）和自定义（\code{fncustom}）两种脚注标记，常规脚注标记又分为正文（\code{fnmark}）和内容（\code{fntext}）标记，默认情况下正文和内容标记编号类型分离但格式一致，自定义标记与常规标记格式一致。目前脚注模块基本兼容 \pkg*{footmisc} 宏包。
+模块 \module*{hdr} 还可以灵活调整脚注编号和内容的格式。格式主要包括脚注标记的编号类型、字体、附加符号和对齐方式等，以及脚注内容的首行缩进、行距和字体等。基本思想是提供常规（\code{fnnormal}）和自定义（\code{fncustom}）两种脚注标记，常规脚注标记又分为正文（\code{fnmark}）和内容（\code{fntext}）标记，默认情况下正文和内容标记编号类型分离但格式一致，自定义标记与常规标记格式分离。目前脚注模块基本兼容 \pkg*{footmisc} 宏包。
 \begin{cnltxlist}
   \keychoice{footnotetype}{plain,\fbox{hang},flush,bottom}
   脚注的类型。悬挂缩进 \code{hang} 是默认值，\code{plain} 是原始的类型，\code{flush} 使脚注内容标记位于脚注首行边缘外侧并右对齐。当存在浮动环境排版时，脚注可能位于页面中间，\code{bottom} 使脚注始终位于页面底端。其中 \code{bottom} 是复合选项，可以与前三种类型重复或复合使用：
@@ -1005,9 +1005,9 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \keyval{lolskip}{弹性长度}\Default{10pt}
   代码目录中每章第一个条目上方增加的垂直距离。与 \CTeX 的表格和图片目录中每章间的条目距离选项 \option*{lotskip} 和 \option*{lofskip} 类似，在 \cls*{article} 模式中此选项失效。
   \keyval{between}{格式代码}\dtag[\sface]
-  目录标题与条目内容间的局部钩子（作用于标题下方间距之后），如果是 \cls*{book} 模式则默认插入 \code{-10pt} 垂直距离抵消首行目录的额外垂直间距，这是由于图表和 由 \pkg*{newfloat} 宏包所创建环境的目录默认每使用一次章标题在题注目录中插入 \code{10pt} 距离。除了条目名的键路径外，此选项也可用于 \module*{toc} 路径中，表示章节标题目录标题代码钩子，如果是 \cls*{book} 模式则默认插入 \code{-1pc} 垂直距离。
+  目录标题与条目内容间的局部钩子（作用于标题下方间距之后），如果是 \cls*{book} 模式则默认插入 \code{-10pt} 垂直距离抵消首行目录的额外垂直间距，这是由于图表和 由 \pkg*{newfloat} 宏包所创建环境的目录默认每使用一次章标题在题注目录中插入 \code{10pt} 距离。除了条目名的键路径外，此选项也可用于 \module*{toc} 路径中，表示章节标题目录的标题代码钩子，如果是 \cls*{book} 模式则默认插入 \code{-1pc} 垂直距离。
   \keyval{bibetween}{格式代码}
-  与选项 \option{between} 类似，是英文章节标题目录（如果启用）标题代码钩子。
+  与选项 \option{between} 类似，是英文章节标题目录（如果启用）的标题代码钩子。
   \keychoice{dotalign}{\fbox{true},false}
   将目录页码装进一个右对齐的水平盒子里。这样可以使目录引导线右端对齐并与页码保持一定间距，否则会与页码相连。
   \keyval{pagenumwd}{刚性长度}\Default{1.55em}

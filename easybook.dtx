@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/11/08}{2024hc}
+\ProvidesExplClass{easybook}{2024/11/18}{2024hm}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -302,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/11/08}{2024hc}
+\ProvidesExplPackage{easybase}{2024/11/18}{2024hm}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -2466,10 +2466,15 @@
           {##2}
           { \protect\thmtformatoptarg{##1} }
       }
-    \NewDocumentCommand{\settheoremtocline}{smm}
+    \cs_new_protected:Npn \eb@settheoremtocline ##1##2##3
       {
         \IfBooleanT{##1}{\def\thmt@contentslineIgnore{\thmt@contentsline}}
         \cs_set:cpn { ll@##2 } { \@bsphack ##3\@esphack }
+      }
+    \NewDocumentCommand{\settheoremtocline}{smm}
+      {
+        \clist_map_inline:nn {##2}
+          { \eb@settheoremtocline{##1}{####1}{##3} }
       }
   }
 \cs_new_protected:Npn \eb_theorem_load_keytheorems:
@@ -2750,8 +2755,8 @@
   {
     linkcolor .choice:,
     linkcolor .value_required:n = true,
-    linkcolor .initial:n    = navyblue,
-    linkcolor-every .code:n = \eb_define_link_color:n {#1}
+    linkcolor .initial:n        = navyblue,
+    linkcolor-every .code:n     = \eb_define_link_color:n {#1}
   }
 \clist_map_inline:nn
   {
@@ -2975,7 +2980,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/11/08}{2024hc}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/11/18}{2024hm}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
