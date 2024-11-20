@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024hm,
-    date            = 2024/11/18,
+    version         = v2024hn,
+    date            = 2024/11/20,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -1176,7 +1176,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{RegisterBititle}[\marg{条目名列表}]
   根据已有章节标题命令注册一个双语标题命令 \cs*{bi}\meta{条目名}。\meta{条目名} 应当是 \module*{part}$\longrightarrow$\module*{subparagraph} 等已经存在的标题命令名，或是用 \cs{NewTitleCommand} 创建的标题命令名。
   \command{NewTitleCommand}[\oarg{基础标题}\marg{条目名}\marg{章节层次}]\newtagv{2024aw}%
-  创建一个命令名为 \meta{条目名} 新章节标题，并且支持 \CTeX 中的标题样式选项机制。指定可选参数后标题格式除了编号/名字会与 \meta{基础标题} 相同，否则默认为空。同时创建一个名为 \meta{条目名} 的计数器和标记命令 \code{\textbackslash}\meta{条目名}\cstext{mark}。同时还需指定标题的 \meta{章节层次}，例如标准文档类中 \code{chapter} 级别为 \code{0}。
+  新创建一个名为 \meta{条目名} 的章节标题命令，支持 \CTeX 中的标题样式选项机制。指定可选参数后标题格式除了编号/名字会与 \meta{基础标题} 相同，否则默认为空。同时创建一个名为 \meta{条目名} 的计数器和标记命令 \code{\textbackslash}\meta{条目名}\cstext{mark}。同时还需指定标题的 \meta{章节层次}，例如标准文档类中 \code{chapter} 级别为 \code{0}。
   \command{NewTitleEntryCommand}[\oarg{扩展名}\marg{条目名}]\newtagv{2024aw}%
   创建一个命令 \code{\textbackslash}\meta{条目名}\cstext{entry}\marg{标题}，仅将 \meta{标题} 加入文件扩展名为 \meta{扩展名} 的目录中，而不在正文中输出标题，默认扩展名为 \code{toc}。
   \begin{ctexexam}
