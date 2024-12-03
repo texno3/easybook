@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/11/23}{2024ho}
+\ProvidesExplClass{easybook}{2024/12/03}{2024hp}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -302,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/11/23}{2024ho}
+\ProvidesExplPackage{easybase}{2024/12/03}{2024hp}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -978,17 +978,17 @@
       }
   }
 \def\@outputbox@attachfloats{\@combinefloats}
-\NewHook{makecol/footins/before}
-\NewHook{makecol/footins/begin}
+\NewHook{eb/footins/before}
+\NewHook{eb/footins/begin}
 \def\@outputbox@appendfootnotes
   {
     \@if@footnotes@TF
       {
-        \UseHook{makecol/footins/before}
+        \UseHook{eb/footins/before}
         \@outputbox@append
           {
             \vskip\skip\footins
-            \UseHook{makecol/footins/begin}
+            \UseHook{eb/footins/begin}
             \color@begingroup
             \normalcolor
             \footnoterule
@@ -1349,12 +1349,12 @@
 \cs_set:Npn \thebisection { \eb_section_counter_prefix:n { bi } }
 \cs_set:Npn \thebisubsection { \thebisection.\@arabic\c@bisubsection }
 \cs_set:Npn \thesection { \eb_section_counter_prefix:n { } }
-\NewHook{bitocline/before}
-\DeclareHookRule{bitocline/before}{chapter}{<}{code}
+\NewHook{eb/addbitocline/begin}
+\DeclareHookRule{eb/addbitocline/begin}{chapter}{<}{code}
 \NewDocumentCommand{\BeforeAddtoBitoc}{sm}
   {
-    \IfBooleanT{#1}{\RemoveFromHook{bitocline/before}[code]}
-    \AddToHook{bitocline/before}[code]{#2}
+    \IfBooleanT{#1}{\RemoveFromHook{eb/addbitocline/begin}[code]}
+    \AddToHook{eb/addbitocline/begin}[code]{#2}
   }
 \cs_set_eq:NN \BeforeAddBitoc \BeforeAddtoBitoc
 \cs_new_protected:Npn \CTEX@addbitocline #1#2
@@ -1363,7 +1363,7 @@
     \def\CTEX@prechapter{\CTEX@prebichapter}
     \def\CTEX@thechapter{\CTEX@bichapter@number}
     \def\CTEX@postchapter{\CTEX@postbichapter}
-    \UseHook{bitocline/before}
+    \UseHook{eb/addbitocline/begin}
     \tl_if_eq:NnTF \g__eb_bilist_permute_value_tl { mix }
       { \addcontentsline{toc}{#1} }
       { \addcontentsline{tec}{#1} }
@@ -1906,14 +1906,17 @@
     unknown .code:n       = \eb_msg_deprecated_option:n { toc }
   }
 
-\NewHookWithArguments{starttoc/after}{1}
-\AddToHookWithArguments{starttoc/after}[aux]
+\NewHookWithArguments{eb/starttoc/end}{1}
+\AddToHookWithArguments{eb/starttoc/end}[aux]
   {
-    \ifbool{@filesw}
+    \AddToHook{enddocument/afterlastpage}
       {
-        \tl_if_exist:cF { tf@#1 }
-          { \iow_new:c { tf@#1 }\iow_open:cn { tf@#1 } { \jobname.#1 } }
-      }{}
+        \ifbool{@filesw}
+          {
+            \tl_if_exist:cF { tf@#1 }
+              { \iow_new:c { tf@#1 }\iow_open:cn { tf@#1 } { \jobname.#1 } }
+          }{}
+      }
   }
 \cs_set_eq:NN \eb@starttoc \@starttoc
 \cs_set:Npn \@starttoc #1
@@ -1923,8 +1926,7 @@
         \group_begin:
         \makeatletter
         \file_if_exist_input:n { \jobname.#1 }
-        \AddToHook{enddocument/afterlastpage}
-          {\UseHookWithArguments{starttoc/after}{1}{#1}}
+        \UseHookWithArguments{eb/starttoc/end}{1}{#1}
         \boolfalse{@nobreak}
         \group_end:
       }
@@ -2057,7 +2059,7 @@
     \ctex_assign_heading_name:nn { biappendix } {#1}
     \bool_if:NTF \l__eb_class_mode_book_bool
       {
-        \AddToHook{bitocline/before}[chapter]
+        \AddToHook{eb/addbitocline/begin}[chapter]
           {
             \def\CTEX@prechapter{\CTEX@prebiappendix}
             \def\CTEX@thechapter{#2}
@@ -2981,7 +2983,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/11/23}{2024ho}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/12/03}{2024hp}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
