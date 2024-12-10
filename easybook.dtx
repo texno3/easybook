@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/12/03}{2024hp}
+\ProvidesExplClass{easybook}{2024/12/10}{2024hs}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -302,7 +302,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/12/03}{2024hp}
+\ProvidesExplPackage{easybase}{2024/12/10}{2024hs}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -749,7 +749,7 @@
   {
     \quark_if_recursion_tail_stop:n {#1}
     \quark_if_recursion_tail_stop:n {#2}
-    { #1 + \int_use:N \c@footnote } {#2}
+    { #1 + \int_use:N \c@footnote } { \exp_not:n {#2} }
     \eb_fnt_map_symbols_list:nn
   }
 \cs_new_protected:Npn \SetFntSymbsList #1#2#3
@@ -772,6 +772,19 @@
 \msg_new:nnn { easybase } { undefined-fntsymbol }
   { The~list~of~footnote~symbols~'#1'~isn't~defined. }
 \SetFntSymbsList{empty}{1}{}
+\SetFntSymbsList{fnsymbol}{10}
+  {
+    { 1 } { $*$ }
+    { 2 } { $\dagger$ }
+    { 3 } { $\ddagger$ }
+    { 4 } { $\mathsection$ }
+    { 5 } { $\mathparagraph$ }
+    { 6 } { $\|$ }
+    { 7 } { $**$ }
+    { 8 } { $\dagger\dagger$ }
+    { 9 } { $\ddagger\ddagger$ }
+    { 10 } { \@ctrerr }
+  }
 \UseFntSymbsList{empty}
 \cs_set_eq:NN \DefineFntSymbols \SetFntSymbsList
 \cs_set_eq:NN \setfntsymbol \UseFntSymbsList
@@ -2983,7 +2996,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/12/03}{2024hp}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/12/10}{2024hs}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

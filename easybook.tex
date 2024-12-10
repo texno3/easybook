@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024hp,
-    date            = 2024/12/03,
+    version         = v2024hs,
+    date            = 2024/12/10,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -825,11 +825,11 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \begin{cnltxlist}[itemsep = 0ex]
   \command{SetFntSymbsList}[\marg{符号表名}\marg{符号数量}\marg{符号列表}]\nonl
   \command{UseFntSymbsList}[\marg{符号表名}]
-  这两个命令用于在脚注短编号标记为 \code{s} 自定义符号型时设置符号列表。\cs{SetFntSymbsList} 命令用于定义名为 \meta{符号表名} 的符号列表，\cs{UseFntSymbsList} 命令用于启用已定义的符号列表。默认的脚注符号列表是空的，注意使用符号型标记的脚注时计数器 \code{footnote} 的值仍然递增，以及定义新列表时 \meta{符号列表} 的写法和命令顺序：
+  这两个命令用于设置自定义符号型脚注短编号 \code{s} 的符号列表。\cs{SetFntSymbsList} 命令用于定义名为 \meta{符号表名} 的符号列表，\cs{UseFntSymbsList} 命令用于启用已定义的符号列表。预置了一个脚注符号列表 \code{fnsymbol}，与 \hologo{LaTeX} 的数字转换命令 \cs{fnsymbol} 一致，只支持9个编号。注意使用符号型标记的脚注时计数器 \code{footnote} 的值仍然递增，以及定义新列表时 \meta{符号列表} 的写法和命令顺序：
   \begin{ctexexam}
   \SetFntSymbsList{fancy}{2}{{1}{*}{2}{\P}}
   \UseFntSymbsList{fancy}
-  \ebhdrset{fnmark-num = s}
+  \ebhdrset{fnnormal-num = s}
   \end{ctexexam}
   \end{cnltxlist}
   \keychoice{fntext-num}{\fbox{plain},pifont,pifont*,pisans,pisans*,\optpath*{short num}}
