@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024hs,
-    date            = 2024/12/10,
+    version         = v2024ht,
+    date            = 2024/12/12,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -231,10 +231,10 @@
 \end{frameverb}
 
 \subsection{编译方式}
-假设您的 \TeX 源文件名为 \code{easybook-demo.tex}，需要使用参考文献和索引功能，并使用 \hologo{XeLaTeX} 和 \hologo{BibTeX} 引擎编译文档，那么需要在命令行中执行：
+假设您的 \TeX 源文件名为 \code{easybook-demo.tex}，需要使用参考文献和索引功能，并使用 \hologo{XeLaTeX} 和 \hologo{biber} 引擎编译文档，那么需要在命令行中执行：
 \begin{frameverb}
   xelatex -shell-escape easybook-demo
-  bibtex easybook-demo
+  biber easybook-demo
   makeindex easybook-demo
   xelatex -shell-escape easybook-demo
   xelatex -shell-escape easybook-demo
@@ -520,12 +520,12 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \subsection[参考文献]{参考文献\smodule{bib}}
 \label{subsec:reference}
 \begin{cnltxlist}
-  \keychoice{backend}{\fbox{bibtex},biblatex}
+  \keychoice{backend}{bibtex,\fbox{biblatex}}
   参考文献处理后端。选择 \code{bibtex} 时使用传统的 \hologo{BibTeX} 引擎处理参考文献，加载 \pkg*{natbib} 宏包。选择 \code{biblatex} 时使用 \hologo{biber} 引擎，加载 \pkg*{biblatex} 宏包。若自动载入参考文献宏包则位于导言区末尾，但在 \pkg*{hyperref} 宏包之前。
   \keychoice{bibstyle}{\fbox{numerical},authoryear,\optpath*{other sty}}
   参考文献格式使用中国参考文献推荐标准GB/T 7714-2015，对应顺序编码制和著者—出版年制两种风格。若使用其它格式，使用 \hologo{BibTeX} 处理时需确保正确的 \code{bst} 文件，使用 \hologo{biber} 处理可使用 \pkg*{biblatex} 宏包支持的参考文献风格名称。
   \keyval{citestyle}{标注风格}
-  标注参考文献的风格。后端为 \hologo{BibTeX} 时可使用 \option{super}（数字上标标注，默认）或 \option{numbers}（数字标注）等 \pkg*{natbib} 宏包带有的标注风格，后端为 \hologo{biber} 时可使用 \pkg*{biblatex} 宏包支持的标注风格。
+  标注参考文献的风格。后端为 \code{bibtex} 时可使用 \option{super}（数字上标标注，默认）或 \option{numbers}（数字标注）等 \pkg*{natbib} 宏包带有的标注风格，后端为 \code{biblatex} 时可使用 \pkg*{biblatex} 宏包支持的标注风格。
   \keyval{datafile}{数据库列表}
   参考文献数据库的文件名列表，文件列表以花括号包裹并以英文逗号分隔。使用 \hologo{biber} 处理时文件名要带 \code{bib} 扩展名，若参考文献文件不在当前文件夹则文件名需要包含路径，即 \code{path/file.bib}。不设置参考文献数据库名时 \module*{bib} 模块中的选项会失效，即不自动载入 \pkg*{natbib} 或 \pkg*{biblatex} 宏包，此时需要手动载入相关宏包配置参考文献。
   \command{printbibliography}[\oarg{键值列表}]
