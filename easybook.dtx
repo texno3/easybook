@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/12/14}{2024hu}
+\ProvidesExplClass{easybook}{2024/12/22}{2024hx}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -35,16 +35,22 @@
       { \tl_set:Nn \l__eb_font_value_tl {#1} },
     font .value_required:n  = true,
     font .initial:n         = auto,
-    cjkfont .code:n         = \eb_put_ctexbook:n { fontset = #1 },
+    cjkfont .code:n         = \eb_put_ctexbook:n { fontset = {#1} },
     mathfont .tl_set:N      = \l__eb_mathfont_value_tl,
     mathfont .initial:n     = times,
     configs .clist_gset:N   = \g__eb_configs_file_clist,
-    paper .code:n           = { },
-    class.code:n            = { },
-    floatpage.code:n        = { },
-    theorem .code:n         = { },
-    chem .code:n            = { },
     unknown .code:n = \clist_gput_right:NV \g__eb_doc_options_clist \CurrentOption
+  }
+\IfFormatAtLeastTF{2024/06/20}{}
+  {
+    \keys_define:nn { easybook }
+      {
+        paper .code:n     = { },
+        class .code:n     = { },
+        floatpage .code:n = { },
+        theorem .code:n   = { },
+        chem .code:n      = { }
+      }
   }
 
 \cs_if_exist:NTF \ProcessKeyOptions
@@ -302,7 +308,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/12/14}{2024hu}
+\ProvidesExplPackage{easybase}{2024/12/22}{2024hx}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1506,8 +1512,8 @@
   }
 \tl_new:N \eb@bitoc@title
 \bool_new:N \l__eb_toc_notitle_bool
-\newbool{bitoc}
-\cs_new:Npn \ebifbitoc { \ifbool{bitoc} }
+\newbool{@bitoc}
+\cs_new:Npn \ebifbitoc { \ifbool{@bitoc} }
 \seq_new:N \l__eb_level_tmpa_seq
 \tl_new:N \l__eb_level_tmpa_tl
 \cs_generate_variant:Nn \regex_extract_all:nnN { no }
@@ -1580,9 +1586,9 @@
         \str_if_eq:nnTF {#1} { mix }
           {
             \AddToHook{cmd/CTEX@addtocline/before}[bitoc]
-              {\addtocontents{toc}{\boolfalse{bitoc}}}
+              {\addtocontents{toc}{\boolfalse{@bitoc}}}
             \AddToHook{cmd/CTEX@addbitocline/before}[bitoc]
-              {\addtocontents{toc}{\booltrue{bitoc}}}
+              {\addtocontents{toc}{\booltrue{@bitoc}}}
           }
           {
             \IfHookEmptyTF{cmd/CTEX@addtocline/before}{}
@@ -3000,7 +3006,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/12/14}{2024hu}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/12/22}{2024hx}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
