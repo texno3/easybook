@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/12/22}{2024hx}
+\ProvidesExplClass{easybook}{2024/12/23}{2024hz}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -308,7 +308,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/12/22}{2024hx}
+\ProvidesExplPackage{easybase}{2024/12/23}{2024hz}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1614,9 +1614,7 @@
 \cs_new_protected:Npn \eb_toc_assign_title_judge:nn #1#2
   {
     \tl_set:Nn \eb@toc@title {#1}
-    \tl_if_novalue:nTF {#2}
-      { \tl_clear:N \eb@bitoc@title }
-      { \tl_set:Nn \eb@bitoc@title {#2} }
+    \tl_if_novalue:nF {#2} { \tl_set:Nn \eb@bitoc@title {#2} }
   }
 \cs_new_protected:Npn \eb_toc_start_multi_column_ext:n #1
   {
@@ -1649,12 +1647,16 @@
     \clist_if_exist:cT { l__eb_toc_outer_kv_#1_clist }
       { \keys_set:nv { eb/tocouter } { l__eb_toc_outer_kv_#1_clist } }
   }
+\cs_new_protected:Npn \eb_toc_kv_set:nn #1#2
+  {
+    \eb_toc_outer_kv_initial:n {#1}
+    \IfValueT{#2}{\keys_set:nn { eb/tocouter } {#2}}
+  }
 \cs_new_protected:Npn \eb_toc_list_struct_parse:nnnnn #1#2#3#4#5
   {
     \group_begin:
     \tl_set_eq:Nc \eb@toc@title { list#4name }
-    \eb_toc_outer_kv_initial:n {#5}
-    \IfValueT{#3}{\keys_set:nn { eb/tocouter } {#3}}
+    \eb_toc_kv_set:nn {#5} {#3}
     \eb_toc_title_level_cmd:n {#1}
     \eb_toc_if_title_between_hook:nn {#1} {#4}
     \eb_toc_start_multi_column_ext:n {#5}
@@ -1720,18 +1722,18 @@
               { \section* }
           }
       }
-    \eb_toc_outer_kv_initial:n { toc }
-    \IfValueT{#3}{\keys_set:nn { eb/tocouter } {#3}}
     \bool_if:NT \l__eb_toc_plan_cn_bool
       {
+        \eb_toc_kv_set:nn { toc } {#3}
         \IfBooleanF{#1}{\eb@toc@title@level{\eb@toc@title}{}}
         \eb_toc_if_title_between_hook:nn {#1} { title }
-        \eb_toc_start_multi_column_ext:n { toc }#4
+        \eb_toc_start_multi_column_ext:n { toc }
       }
     \bool_if:NT \l__eb_toc_plan_bi_bool
       {
         \tl_if_eq:NnF \g__eb_bilist_permute_value_tl { mix }
           {
+            \eb_toc_kv_set:nn { tec } {#3}#4
             \IfBooleanF{#1}{\eb@toc@title@level{\eb@bitoc@title}{}}
             \eb_toc_if_title_between_hook:nn {#1} { bititle }
             \eb_toc_start_multi_column_ext:n { tec }
@@ -3006,7 +3008,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/12/22}{2024hx}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/12/23}{2024hz}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
