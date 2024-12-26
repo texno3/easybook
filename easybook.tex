@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024hz,
-    date            = 2024/12/23,
+    version         = v2024last,
+    date            = 2024/12/26,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -768,13 +768,13 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \begin{cnltxlist}[itemsep = 0ex]
   \command{fancyhead}[\oarg{位置}\marg{内容}]\nonl
   \command{fancyfoot}[\oarg{位置}\marg{内容}]
-  为了确保页面显示正确，使用 \cs{fancyhead} 和 \cs{fancyfoot} 等命令设置页眉页脚时需要在页边距的命令之后。默认设置的是一个名为 \code{fancy} 的页面风格。\pkg*{fancyhdr} 将页眉页脚分成了左中右和奇数页（odd）、偶数页（even）共12个部分，可选参数中 \code{E} 和 \code{O} 代表偶数和奇数，\code{L}、\code{C} 和 \code{R} 代表左、中和右部分。单面排版时，含有偶数位置的命令无效。
+  为了确保页面显示正确，使用 \cs{fancyhead} 和 \cs{fancyfoot} 等命令设置页眉页脚时需要在页边距的命令之后。默认设置的是一个名为 \code{fancy} 的页面风格。\pkg*{fancyhdr} 将页眉页脚分成了左中右和奇数页（odd）、偶数页（even）共12个部分，可选参数中 \code{E} 和 \code{O} 代表偶数和奇数，\code{L}、\code{C} 和 \code{R} 代表左、中和右部分。单面排版时，可选参数含有偶数位置的命令无效。
   \end{cnltxlist}
   \begin{cnltxlist}[itemsep = 0ex]
   \command{markboth}[\marg{左页标题标记}\marg{右页标题标记}]\nonl
   \command{markright}[\marg{右页标题标记}]\nonl
   \command{markdouble}[\marg{双页标题标记}]
-  这三个命令用于手动设置当前页标题标记，特殊情况下可以使用它们定义与标题不同的页眉页脚标记。其中 \cs{markdouble} 根据是否是双面排版设置相应标记。如果是单面排版，则 \meta{左页标题标记} 无效。标题标记选项 \meta{级别}\option*{-mark} 定义的是它们的参数，左右页标记规则已经进行了优化调整，若需更改可以重定义 \code{\textbackslash}\meta{级别}\cstext{mark} 命令。
+  这三个命令用于手动设置当前页标题标记，特殊情况下可以使用它们定义与标题不同的页眉页脚标记。其中 \cs{markdouble} 根据是否是双面排版设置相应标记，如果是单面排版，则 \meta{右页标题标记} 为空。标题标记选项 \meta{级别}\option*{-mark} 定义的是它们的参数，左右页标记规则已经进行了优化调整，若需更改可以重定义 \code{\textbackslash}\meta{级别}\cstext{mark} 命令。
   \begin{ctexexam}
   \makeatletter
   \renewcommand{\sectionmark}[1]{\markright{\eb@mark@section@whole{#1}}}

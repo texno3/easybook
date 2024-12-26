@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/12/23}{2024hz}
+\ProvidesExplClass{easybook}{2024/12/26}{2024last}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -308,7 +308,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/12/23}{2024hz}
+\ProvidesExplPackage{easybase}{2024/12/26}{2024last}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1560,6 +1560,7 @@
     multoc .int_set:N   = \l__eb_toc_columns_int,
     multoc .default:n   = 2,
     multoc .initial:n   = 1,
+    columns .meta:n     = { multoc = {#1} },
     plan .choice:,
     plan .value_required:n = true,
     plan/cn .code:n     =
@@ -1578,7 +1579,6 @@
         \bool_set_true:N \l__eb_toc_plan_bi_bool
       },
     plan .initial:n     = cn,
-    columns .meta:n     = { multoc = {#1} },
     title .code:n       = \eb_assign_toc_title:n {#1},
     bilist .code:n      =
       {
@@ -3008,7 +3008,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/12/23}{2024hz}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2024/12/26}{2024last}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
