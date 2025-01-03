@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2024last,
-    date            = 2024/12/26,
+    version         = v2025b,
+    date            = 2025/01/03,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -1096,7 +1096,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 
   如果需要局部而不是全文范围的目录或其它类型的目录，可以查看\ref{subsec:contents} 和 \pkg*{titletoc} 宏包的相关示例。如果需要双语图表目录，可以查看 \pkg*{bicaption} 宏包的相关示例。上面目录命令的可选参数改进了原本单一的功能，也提供了配置命令 \cs{SetTocOuter} 在目录命令外设置选项默认值。
   \command{SetTocOuter}[\oarg{扩展名}\marg{键值列表}]\newtagv[Changed]{2024es}%
-  设置上述不同类型目录可选参数的默认值。若不指定目录文件的 \meta{扩展名}，则除了 \option{title} 和章节标题目录的 \option{level} 选项外对所有目录生效。其中 \meta{键值列表} 的选项如下：
+  设置上述不同类型目录可选参数的默认值。若不指定目录文件的 \meta{扩展名}，则除了 \option{title} 和章节标题目录的 \option{level} 选项外对所有目录生效。对于索引和参考文献列表 \meta{扩展名} 分别为 \code{idx} 和 \code{bbl}。必选参数中的 \meta{键值列表} 选项如下：
   \keyval{level}{标题命令}
   设定输出目录标题的命令。如果使用 \option{title} 选项设置了双语标题则需要配合双语标题命令。
   \begin{ctexexam}

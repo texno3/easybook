@@ -1,5 +1,5 @@
 %
-% Copyright (C) 2021-2024 by Qu Yi <toquyi@163.com>
+% Copyright (C) 2021-2025 by Qu Yi <toquyi@163.com>
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2024/12/26}{2024last}
+\ProvidesExplClass{easybook}{2025/01/03}{2025b}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -308,7 +308,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2024/12/26}{2024last}
+\ProvidesExplPackage{easybase}{2025/01/03}{2025b}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -2055,7 +2055,7 @@
         \group_begin:
         \tl_set_eq:NN \eb@toc@title \indexname
         \cs_set_eq:NN \imki@indexlevel \use_none:n
-        \IfValueT{#3}{\keys_set:nn { eb/tocouter } {#3}}
+        \eb_toc_kv_set:nn { idx } {#3}
         \cs_set_protected:Npn \imki@indexheaders
           {
             \eb_toc_title_level_cmd:n {#1}
@@ -2641,7 +2641,7 @@
       {
         \group_begin:
         \tl_set_eq:NN \eb@toc@title \bibname
-        \IfValueT{##3}{ \keys_set:nn { eb/tocouter } {##3} }
+        \eb_toc_kv_set:nn { bbl } {##3}
         \cs_set_protected:Npn \bibsection
           {
             \eb_toc_title_level_cmd:n {##1}
@@ -3008,7 +3008,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2024/12/26}{2024last}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/01/03}{2025b}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
