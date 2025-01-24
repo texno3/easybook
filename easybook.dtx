@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/01/03}{2025b}
+\ProvidesExplClass{easybook}{2025/01/24}{2025d}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -308,7 +308,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/01/03}{2025b}
+\ProvidesExplPackage{easybase}{2025/01/24}{2025d}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1908,6 +1908,7 @@
       }
   }
 \cs_set:Npn \cdottocrule { \tocrule{\textperiodcentered} }
+\bool_new:N \l__eb_toc_dot_align_bool
 \ctex_define:nn { toc }
   {
     lolskip .skip_set:N   = \eb@toc@lol@skip,
@@ -1916,7 +1917,17 @@
     between .initial:n    = \bool_if:NT \l__eb_class_mode_book_bool { \vspace*{-1pc} },
     bibetween .tl_set:N   = \l__eb_toc_bititle_between_hook_tl,
     bibetween .initial:n  = \bool_if:NT \l__eb_class_mode_book_bool { \vspace*{-1pc} },
-    dotalign .bool_set:N  = \l__eb_toc_dot_align_bool,
+    dotalign .choice:,
+    dotalign/true .code:n   =
+      {
+        \bool_set_true:N \l__eb_toc_dot_align_bool
+        \contentsmargin{1.55em}
+      },
+    dotalign/false .code:n  =
+      {
+        \bool_set_false:N \l__eb_toc_dot_align_bool
+        \contentsmargin{0pt}
+      },
     dotalign .default:n   = true,
     dotalign .initial:n   = true,
     hang .bool_set:N      = \l__eb_toc_entry_hang_bool,
@@ -3008,7 +3019,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/01/03}{2025b}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/01/24}{2025d}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
