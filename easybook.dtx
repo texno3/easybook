@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/01/24}{2025d}
+\ProvidesExplClass{easybook}{2025/01/25}{2025e}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -308,7 +308,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/01/24}{2025d}
+\ProvidesExplPackage{easybase}{2025/01/25}{2025e}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1664,12 +1664,18 @@
   }
 \cs_new:Npn \listnumberline #1
   {
-    \protect\numberline
+    \capifname
       {
-        \exp_args:Nnv
-        \use:c { p@#1 } { the#1 }
-      }
+        \protect\numberline
+          {
+            \exp_args:Nnv
+            \use:c { p@#1 } { the#1 }
+          }
+      }{}
   }
+\cs_generate_variant:Nn \tl_if_blank:nTF { f }
+\cs_new:Npn \capifname #1#2
+  { \tl_if_blank:fTF { \caption@labelformat{p1}{p2} } {#2} {#1} }
 \cs_new_protected:Npn \DeclareFloatList #1#2
   {
     \exp_args:Nc \DeclareDocumentCommand { listof#1s }{st++o}
@@ -1982,27 +1988,31 @@
   }
 \AssignPartialExt{lol}{pll}
 
-\cs_new_protected:Npn \RegisterTitleIfname #1
+\cs_generate_variant:Nn \str_if_eq:nnT { x }
+\NewDocumentCommand{\RegisterTitleIfname}{O{\jobname}mm}
   {
-    \clist_map_function:nN {#1}
-      \eb@register@title@ifname
+    \clist_map_inline:nn {#2}
+      { \eb@register@title@ifname{#1}{##1}{#3} }
   }
-\cs_new_protected:Npn \eb@register@title@ifname #1
+\cs_new_protected:Npn \eb@register@title@ifname #1#2#3
   {
-    \AddToHookWithArguments{cmd/addcontentsline/before}[title/ifname/#1]
+    \AddToHookWithArguments{cmd/addcontentsline/before}[title/ifname/#2]
       {
-        \str_if_eq:nnT {##1} {#1}
+        \str_if_eq:xnT {##1} {#2}
           {
             \addtocontents{##1}
-              {\CTEXifname{\CTEX@ifnametrue}{\CTEX@ifnamefalse}}
+              {#3{\CTEX@ifnametrue}{\CTEX@ifnamefalse}}
           }
       }
-    \AddToHook{file/\jobname.#1/before}
+    \AddToHook{file/#1.#2/before}
       {\cs_set_eq:NN \eb@title@ifname@resume \CTEXifname}
-    \AddToHook{file/\jobname.#1/after}
+    \AddToHook{file/#1.#2/after}
       {\cs_set_eq:NN \CTEXifname \eb@title@ifname@resume}
   }
-\RegisterTitleIfname{toc}
+\NewDocumentCommand{\RegisterCapIfname}{O{\jobname}m}
+  {\RegisterTitleIfname[#1]{#2}{\capifname}}
+\RegisterTitleIfname{toc}{\CTEXifname}
+\RegisterCapIfname{lot,lof,lol,loe}
 
 \cs_new_protected:Npn \SetTocStyle #1#2#3
   {
@@ -3019,7 +3029,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/01/24}{2025d}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/01/25}{2025e}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

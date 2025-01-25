@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2025d,
-    date            = 2025/01/24,
+    version         = v2025e,
+    date            = 2025/01/25,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -997,6 +997,17 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
       lstlisting/tocline  = \listnumberline{#1}#2,
       figure/tocline      = \protect\numberline{图\thefigure\hspace{1em}}#2
     }
+  \end{ctexexam}
+  \command{RegisterCapIfname}[\oarg{文件名}\marg{扩展名列表}]\newtagv{2025e}%
+  给 \pkg*{caption} 宏包支持的题注注册目录选项中 \cs{CTEXifname} 命令的编号判断功能，判断的依据是题注标签格式 \option{labelformat} 是否为空。\meta{文件名} 为题注目录文件的名字，默认为 \code{\string\jobname}。
+  \begin{ctexexam}
+  \RegisterCapIfname{loa}
+  \bgroup
+  \captionsetup{labelformat = empty} % 局部取消标签
+  \captionof{algorithm}{算法标题1}
+  \egroup
+  \addtocounter{algorithm}{-1} % 恢复连续编号
+  \captionof{algorithm}{算法标题2}
   \end{ctexexam}
   \command{contentsmargin}[\oarg{修正距离}\marg{右边距}]
   设置目录中引导线到版心右边的距离，用于条目页码的精细调整。当设计条目页码对齐方式或数字较大时，可以设置适当的 \meta{右边距}。\meta{修正距离} 是在过长而换行的标题右侧 \meta{右边距} 基础上附加的距离。此命令可在导言区全局使用或在 \option{tocformat} 选项给特定条目类型单独使用。
