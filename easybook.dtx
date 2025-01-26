@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/01/25}{2025e}
+\ProvidesExplClass{easybook}{2025/01/26}{2025f}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -308,7 +308,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/01/25}{2025e}
+\ProvidesExplPackage{easybase}{2025/01/26}{2025f}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1598,8 +1598,8 @@
               }
           }
       },
-    name .tl_set:N      = \l__eb_print_index_name_tl,
-    name .initial:n     = \imki@jobname,
+    name .tl_set:N      = \eb@index@name,
+    name .initial:n     = \indtl@jobname,
     unknown .code:n     =
       {
         \ctex_set:ox { \l__eb_level_tmpa_tl }
@@ -2069,20 +2069,19 @@
       { tocindent = \bool_if:NTF \l__eb_class_mode_book_bool { 3.8em } { 1.5em } }
   }
 
-\ctex_at_end_package:nn { imakeidx }
+\ctex_at_end_package:nn { indextools }
   {
+    \booltrue{indtl@fancyhdr}
     \RenewDocumentCommand{\printindex}{st++o}
       {
         \group_begin:
         \tl_set_eq:NN \eb@toc@title \indexname
-        \cs_set_eq:NN \imki@indexlevel \use_none:n
         \eb_toc_kv_set:nn { idx } {#3}
-        \cs_set_protected:Npn \imki@indexheaders
-          {
-            \eb_toc_title_level_cmd:n {#1}
-            \cs_set_eq:NN \thispagestyle \use_none:n
-          }
-        \imki@putindex{\l__eb_print_index_name_tl}
+        \cs_set_protected:Npn \indtl@indexlevel ##1
+          { \eb_toc_title_level_cmd:n {#1} }
+        \@ifundefined{\csuse{eb@index@name}@idxfile}
+          {\indtl@error{\eb@index@name}}
+          {\indtl@putindex{\eb@index@name}}
         \group_end:
       }
   }
@@ -3029,7 +3028,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/01/25}{2025e}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/01/26}{2025f}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

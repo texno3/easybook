@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2025e,
-    date            = 2025/01/25,
+    version         = v2025f,
+    date            = 2025/01/26,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -259,7 +259,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   }
   amsthm & bicaption & ctex & caption & chemformula \\
   enumitem & etoolbox & fancyhdr & geometry & hyperref \\
-  imakeidx & listings & marginnote & graphicx & multicol \\
+  indextools & listings & marginnote & graphicx & multicol \\
   pifont & pdfpages & siunitx & spbmark & thmtools \\
   tcolorbox & titletoc & tabularray & xcolor
 \end{longtblr}
@@ -998,7 +998,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
       figure/tocline      = \protect\numberline{图\thefigure\hspace{1em}}#2
     }
   \end{ctexexam}
-  \command{RegisterCapIfname}[\oarg{文件名}\marg{扩展名列表}]\newtagv{2025e}%
+  \command{RegisterCapIfname}[\oarg{文件名}\marg{扩展名列表}]\newtagv{2025f}%
   给 \pkg*{caption} 宏包支持的题注注册目录选项中 \cs{CTEXifname} 命令的编号判断功能，判断的依据是题注标签格式 \option{labelformat} 是否为空。\meta{文件名} 为题注目录文件的名字，默认为 \code{\string\jobname}。
   \begin{ctexexam}
   \RegisterCapIfname{loa}
@@ -1449,7 +1449,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
 \end{cnltxlist}
 
 \subsection{索引}
-\pkg*{imakeidx} 宏包增强了索引的功能，可使用户在制作和排版文档的同时制作一个或多个索引。
+\pkg*{indextools} 宏包增强了索引的功能，可使用户在制作和排版文档的同时制作一个或多个索引。它是在 \pkg*{imakeidx} 基础上进行复刻，并进行了一些改进和问题修复。
 \begin{cnltxlist}
   \command{indexsetup}[\marg{键值列表}]
   设置索引表整体格式的通用接口命令，它的 \option{level} 和 \option{headers} 选项失效。
@@ -1597,6 +1597,10 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \shortversion{v = 2024dq,date = 2024/09/16,changes = 修复脚注重置编号的方式为 \code{page} 时在一些换页情况下失败的问题。}
   \shortversion{v = 2024dt,date = 2024/09/22,changes = 新增用于设置行距的命令 \cs{usestretch} 和环境 \env{usespace}。}
   \shortversion{v = 2024ea,date = 2024/09/28,changes = 定理模块 \module*{thmt} 支持使用 \pkg*{keytheorems} 宏包。}
+  \begin{version}[v = 2025f,date = 2025/01/26,simple]
+  \item 索引功能支持由适配 \pkg*{imakeidx} 宏包改为适配 \pkg*{indextools} 宏包。
+  \item \pkg*{caption} 宏包支持的图表等题注的目录选项支持 \cs{CTEXifname} 编号判断命令。
+  \end{version}
 \end{changelog}
 \nocite{*}
 % \AddToHook{cmd/printindex/before}{\clearpage}
