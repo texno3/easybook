@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2025h,
-    date            = 2025/02/05,
+    version         = v2025n,
+    date            = 2025/02/12,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -1223,7 +1223,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \command{spbifmath}[\marg{数学模式代码}\marg{文本模式代码}]
   根据上下标处于数学还是文本模式分别设置不同的值，应当在格式命令或偏移距离选项中使用。
 
-  上下标命令键值列表中共同的选项如下所示。当下面除 \option{mode} 以外的选项用于 \module*{tools} 模块全局设置时，它们将根据前面最近一个命令的类型设定相应值。
+  上下标命令的可选参数中部分共同的选项如下所示。当下面的选项用 \module*{tools} 模块全局设置时，三个上下标命令对应的标记将被同时设定。
   \keyval{vmove}{刚性长度}\Default{0pt}
   上标或下标的垂直偏移。如果是上下标命令使用则代表上标和上标间的额外垂直距离 \option{vsep}。
   \keyval{hmove}{刚性长度}\Default{0pt}
@@ -1334,6 +1334,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   将计数器的值设定为指定值。
   \command{stepcounter}[\marg{计数器}]
   使计数器的值递增1，同时它的递增归零清单中的子计数器值归零。
+  \command{addtocounter}[\marg{计数器}\marg{整数}]
+  将计数器与 \meta{整数} 的值相加，再将其和赋予计数器。
   \command{counterwithin}[\sarg\oarg{格式}\marg{计数器}\oarg{连字符}\marg{父计数器}]
   对计数器进行绑定的命令。将 \meta{计数器} 绑定于 \meta{父计数器}，即 \meta{父计数器} 的值递增时 \meta{计数器} 的值会归零。输出格式 \cs*{the}\meta{计数器} 被定义为 \cs*{the}\meta{父计数器}\meta{连字符}\meta{格式}\marg{计数器}。\meta{格式} 一般为更改计数器编号形式的命令，默认为 \cs*{arabic}。带有星号参数的命令仅进行绑定不更改输出格式。
   \command{counterwithout}[\sarg\oarg{格式}\marg{计数器}\marg{父计数器}]
@@ -1601,6 +1603,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \item 索引功能支持由适配 \pkg*{imakeidx} 宏包改为适配 \pkg*{indextools} 宏包。
   \item \pkg*{caption} 宏包支持的图表等题注的目录选项支持 \cs{CTEXifname} 编号判断命令。
   \end{version}
+  \shortversion{v = 2025n,date = 2025/02/12,changes = 优化 \module*{ref} 模块，修复选项 \keyis{linktype}{none} 失效的问题。}
 \end{changelog}
 \nocite{*}
 % \AddToHook{cmd/printindex/before}{\clearpage}

@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/02/05}{2025h}
+\ProvidesExplClass{easybook}{2025/02/12}{2025n}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -308,7 +308,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/02/05}{2025h}
+\ProvidesExplPackage{easybase}{2025/02/12}{2025n}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -317,7 +317,6 @@
 \cs_generate_variant:Nn \msg_warning:nnn { nnV }
 \cs_generate_variant:Nn \skip_set:Nn { NV }
 \cs_generate_variant:Nn \ctex_define:nn { nx }
-\cs_generate_variant:Nn \eb_set_hyperref:n { x }
 \cs_generate_variant:Nn \tl_if_novalue:nF { V }
 
 \cs_set_protected:Npn \ctex_define:nn #1
@@ -2752,14 +2751,8 @@
 \lstloadlanguages{C,C++,Java,Python,Matlab}
 
 \clist_new:N \l__eb_hyperref_options_clist
-\cs_new_protected:Npn \eb_set_hyperref:n #1
-  {
-    \IfPackageLoadedTF{hyperref}
-      {\hypersetup}
-      {\eb_put_hyperref:n}{#1}
-  }
-\cs_new_protected:Npn \eb_put_hyperref:n #1
-  { \clist_put_right:Nn \l__eb_hyperref_options_clist {#1} }
+\providecommand{\hypersetup}[1]
+  {\clist_put_right:Nn \l__eb_hyperref_options_clist {#1}}
 \cs_new_protected:Npn \eb_define_link_color:nnn #1#2#3
   { \definecolorset{HTML}{ctex@}{}{link,#1;url,#2;cite,#3} }
 \cs_new_protected:Npn \eb_define_theme_color:nnn #1#2#3
@@ -2824,18 +2817,13 @@
 
 \cs_new_protected:Npn \eb_link_border_set:n #1
   {
-    \ctex_at_end_package:nn { hyperref }
-      {
-        \def\@pdfborder{#1}
-        \def\Hy@colorlink ##1 {\begingroup}
-        \def\Hy@endcolorlink{\endgroup}
-      }
-    \eb_set_hyperref:n { colorlinks = false }
+    \hypersetup{colorlinks = false}
+    \def\@pdfborder{#1}
   }
 \cs_new_protected:Npn \eb_link_colors_set:
-  { \eb_set_hyperref:n { colorlinks } }
+  { \hypersetup{colorlinks} }
 \cs_new_protected:Npn \eb_link_toc_set:n #1
-  { \eb_set_hyperref:n { linktoc = #1 } }
+  { \hypersetup{linktoc = #1} }
 \ctex_define:nn { ref }
   {
     linktype .choice:,
@@ -2849,7 +2837,7 @@
     linktoc .value_required:n   = true,
     linktoc/unknown .code:n     = \eb_link_toc_set:n {#1},
     linktoc .initial:n          = all,
-    unknown .code:n = \eb_set_hyperref:x { \eb_unknown_kv_handle: },
+    unknown .code:n = \exp_args:Nx \hypersetup { \eb_unknown_kv_handle: },
     unknown .default:V          = \c_novalue_tl
   }
 
@@ -2872,13 +2860,13 @@
     \RequirePackage{hyperref}
     \urlstyle{same}
     \eb_allow_url_break:
-    \eb_put_hyperref:n
+    \hypersetup
       {
         linkcolor = ctex@link,linkbordercolor = ctex@link,
         urlcolor  = ctex@url,urlbordercolor   = ctex@url,
-        citecolor = ctex@cite,citebordercolor = ctex@cite
+        citecolor = ctex@cite,citebordercolor = ctex@cite,
+        bookmarksnumbered = true
       }
-    \hypersetup{bookmarksnumbered = true}
     \exp_args:NV \hypersetup \l__eb_hyperref_options_clist
   }
 
@@ -3028,7 +3016,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/02/05}{2025h}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/02/12}{2025n}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
