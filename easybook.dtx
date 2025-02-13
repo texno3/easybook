@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/02/12}{2025n}
+\ProvidesExplClass{easybook}{2025/02/13}{2025o}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -308,7 +308,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/02/12}{2025n}
+\ProvidesExplPackage{easybase}{2025/02/13}{2025o}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1995,18 +1995,22 @@
   }
 \cs_new_protected:Npn \eb@register@title@ifname #1#2#3
   {
-    \AddToHookWithArguments{cmd/addcontentsline/before}[title/ifname/#2]
+    \tl_if_exist:cF { l__eb_title_ifname_#2_tl }
       {
-        \str_if_eq:xnT {##1} {#2}
+        \AddToHookWithArguments{cmd/addcontentsline/before}[title/ifname/#2]
           {
-            \addtocontents{##1}
-              {#3{\CTEX@ifnametrue}{\CTEX@ifnamefalse}}
+            \str_if_eq:xnT {##1} {#2}
+              {
+                \addtocontents{##1}
+                  {#3{\CTEX@ifnametrue}{\CTEX@ifnamefalse}}
+              }
           }
+        \AddToHook{file/#1.#2/before}[title/ifname/#2]
+          {\cs_set_eq:NN \eb@title@ifname@resume \CTEXifname}
+        \AddToHook{file/#1.#2/after}[title/ifname/#2]
+          {\cs_set_eq:NN \CTEXifname \eb@title@ifname@resume}
       }
-    \AddToHook{file/#1.#2/before}
-      {\cs_set_eq:NN \eb@title@ifname@resume \CTEXifname}
-    \AddToHook{file/#1.#2/after}
-      {\cs_set_eq:NN \CTEXifname \eb@title@ifname@resume}
+    \tl_set:cn { l__eb_title_ifname_#2_tl } { registered }
   }
 \NewDocumentCommand{\RegisterCapIfname}{O{\jobname}m}
   {\RegisterTitleIfname[#1]{#2}{\capifname}}
@@ -3016,7 +3020,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/02/12}{2025n}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/02/13}{2025o}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
