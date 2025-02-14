@@ -1581,20 +1581,21 @@
     title .code:n       = \eb_assign_toc_title:n {#1},
     bilist .code:n      =
       {
-        \tl_gset:Nn \g__eb_bilist_permute_value_tl {#1}
         \str_if_eq:nnTF {#1} { mix }
           {
+            \tl_gset:Nn \g__eb_bilist_permute_value_tl {#1}
             \AddToHook{cmd/CTEX@addtocline/before}[bitoc]
               {\addtocontents{toc}{\boolfalse{@bitoc}}}
             \AddToHook{cmd/CTEX@addbitocline/before}[bitoc]
               {\addtocontents{toc}{\booltrue{@bitoc}}}
           }
           {
-            \IfHookEmptyTF{cmd/CTEX@addtocline/before}{}
+            \tl_if_eq:NnT \g__eb_bilist_permute_value_tl { mix }
               {
                 \RemoveFromHook{cmd/CTEX@addtocline/before}[bitoc]
                 \RemoveFromHook{cmd/CTEX@addbitocline/before}[bitoc]
               }
+            \tl_gset:Nn \g__eb_bilist_permute_value_tl {#1}
           }
       },
     name .tl_set:N      = \eb@index@name,
@@ -2054,14 +2055,26 @@
   {
     part          =
       {
-        tocformat = \addvspace{1pc}\sffamily\large,
+        tocformat =
+          {
+            \tl_if_eq:NnTF \g__eb_bilist_permute_value_tl { mix }
+              { \ebifbitoc{}{\addvspace{1pc}} }
+              { \addvspace{1pc} }
+            \sffamily\large
+          },
         tocindent = 0pt,
         tocrule   = \tocrule{}[\bfseries],
         tocline   = \CTEXnumberline{#1}#2
       },
     chapter       =
       {
-        tocformat = \addvspace{1pc}\sffamily,
+        tocformat =
+          {
+            \tl_if_eq:NnTF \g__eb_bilist_permute_value_tl { mix }
+              { \ebifbitoc{}{\addvspace{1pc}} }
+              { \addvspace{1pc} }
+            \sffamily
+          },
         tocindent = 0pt,
         tocrule   = \cdottocrule[\bfseries],
         tocline   = \CTEXnumberline{#1}#2
