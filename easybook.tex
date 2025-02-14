@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2025o,
-    date            = 2025/02/13,
+    version         = v2025p,
+    date            = 2025/02/14,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -998,8 +998,8 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
       figure/tocline      = \protect\numberline{图\thefigure\hspace{1em}}#2
     }
   \end{ctexexam}
-  \command{RegisterCapIfname}[\oarg{文件名}\marg{扩展名列表}]\newtagv{2025f}%
-  给 \pkg*{caption} 宏包支持的题注注册目录选项中 \cs{CTEXifname} 命令的编号判断功能，判断的依据是题注标签格式 \option{labelformat} 是否为空。\meta{文件名} 为题注目录文件的名字，默认为 \code{\string\jobname}。
+  \command{RegisterCapIfname}[\sarg\oarg{文件名}\marg{扩展名列表}]\newtagv[Changed]{2025p}%
+  给 \pkg*{caption} 宏包支持的题注注册目录选项中 \cs{CTEXifname} 命令的编号判断功能，判断的依据是题注标签格式 \option{labelformat} 是否为空。使用星号参数可以避免重复注册。\meta{文件名} 为题注目录文件的名字，默认为 \code{\string\jobname}。
   \begin{ctexexam}
   \RegisterCapIfname{loa}
   \bgroup

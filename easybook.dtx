@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/02/13}{2025o}
+\ProvidesExplClass{easybook}{2025/02/14}{2025p}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -308,7 +308,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/02/13}{2025o}
+\ProvidesExplPackage{easybase}{2025/02/14}{2025p}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1962,7 +1962,7 @@
       {
         \group_begin:
         \makeatletter
-        \file_if_exist_input:n { \jobname.#1 }
+        \InputIfFileExists{\jobname.#1}{}{}
         \UseHookWithArguments{eb/starttoc/end}{1}{#1}
         \boolfalse{@nobreak}
         \group_end:
@@ -1988,32 +1988,41 @@
 \AssignPartialExt{lol}{pll}
 
 \cs_generate_variant:Nn \str_if_eq:nnT { x }
-\NewDocumentCommand{\RegisterTitleIfname}{O{\jobname}mm}
+\NewDocumentCommand{\RegisterTitleIfname}{sO{\jobname}mm}
   {
-    \clist_map_inline:nn {#2}
-      { \eb@register@title@ifname{#1}{##1}{#3} }
+    \clist_map_inline:nn {#3}
+      { \eb@register@title@ifname{#1}{#2}{##1}{#4} }
   }
-\cs_new_protected:Npn \eb@register@title@ifname #1#2#3
+\cs_new_protected:Npn \eb_save_file_name:nnn #1#2#3
+  { \str_set:Nn \@real@jobname {#2} }
+\cs_new_protected:Npn \eb@register@title@ifname #1#2#3#4
   {
-    \tl_if_exist:cF { l__eb_title_ifname_#2_tl }
+    \IfBooleanT{#1}
       {
-        \AddToHookWithArguments{cmd/addcontentsline/before}[title/ifname/#2]
-          {
-            \str_if_eq:xnT {##1} {#2}
-              {
-                \addtocontents{##1}
-                  {#3{\CTEX@ifnametrue}{\CTEX@ifnamefalse}}
-              }
-          }
-        \AddToHook{file/#1.#2/before}[title/ifname/#2]
-          {\cs_set_eq:NN \eb@title@ifname@resume \CTEXifname}
-        \AddToHook{file/#1.#2/after}[title/ifname/#2]
-          {\cs_set_eq:NN \CTEXifname \eb@title@ifname@resume}
+        \RemoveFromHook{cmd/addcontentsline/before}[title/ifname/#3]
+        \RemoveFromHook{file/\@real@jobname.#3/before}[title/ifname/#3]
+        \RemoveFromHook{file/\@real@jobname.#3/after}[title/ifname/#3]
       }
-    \tl_set:cn { l__eb_title_ifname_#2_tl } { registered }
+    \AddToHookWithArguments{cmd/addcontentsline/before}[title/ifname/#3]
+      {
+        \str_if_eq:xnT {##1} {#3}
+          {
+            \addtocontents{##1}
+              {#4{\CTEX@ifnametrue}{\CTEX@ifnamefalse}}
+          }
+      }
+    \file_parse_full_name_apply:nN {#2} \eb_save_file_name:nnn
+    \AddToHook{file/\@real@jobname.#3/before}[title/ifname/#3]
+      {\cs_gset_eq:NN \eb@title@ifname@resume \CTEXifname}
+    \AddToHook{file/\@real@jobname.#3/after}[title/ifname/#3]
+      {\cs_gset_eq:NN \CTEXifname \eb@title@ifname@resume}
   }
-\NewDocumentCommand{\RegisterCapIfname}{O{\jobname}m}
-  {\RegisterTitleIfname[#1]{#2}{\capifname}}
+\NewDocumentCommand{\RegisterCapIfname}{sO{\jobname}m}
+  {
+    \IfBooleanTF{#1}
+      {\RegisterTitleIfname*[#2]{#3}{\capifname}}
+      {\RegisterTitleIfname[#2]{#3}{\capifname}}
+  }
 \RegisterTitleIfname{toc}{\CTEXifname}
 \RegisterCapIfname{lot,lof,lol,loe}
 
@@ -3020,7 +3029,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/02/13}{2025o}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/02/14}{2025p}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
