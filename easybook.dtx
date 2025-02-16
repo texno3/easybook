@@ -1515,6 +1515,7 @@
 \cs_new:Npn \ebifbitoc { \ifbool{@bitoc} }
 \seq_new:N \l__eb_level_tmpa_seq
 \tl_new:N \l__eb_level_tmpa_tl
+\tl_gset:Nn \g__eb_bilist_permute_value_tl { new }
 \cs_generate_variant:Nn \regex_extract_all:nnN { no }
 \cs_generate_variant:Nn \keys_define:nn { nx }
 \cs_generate_variant:Nn \ctex_set:nn { ox }
@@ -1583,11 +1584,14 @@
       {
         \str_if_eq:nnTF {#1} { mix }
           {
-            \tl_gset:Nn \g__eb_bilist_permute_value_tl {#1}
-            \AddToHook{cmd/CTEX@addtocline/before}[bitoc]
-              {\addtocontents{toc}{\boolfalse{@bitoc}}}
-            \AddToHook{cmd/CTEX@addbitocline/before}[bitoc]
-              {\addtocontents{toc}{\booltrue{@bitoc}}}
+            \tl_if_eq:NnF \g__eb_bilist_permute_value_tl { mix }
+              {
+                \tl_gset:Nn \g__eb_bilist_permute_value_tl {#1}
+                \AddToHook{cmd/CTEX@addtocline/before}[bitoc]
+                  {\addtocontents{toc}{\boolfalse{@bitoc}}}
+                \AddToHook{cmd/CTEX@addbitocline/before}[bitoc]
+                  {\addtocontents{toc}{\booltrue{@bitoc}}}
+              }
           }
           {
             \tl_if_eq:NnT \g__eb_bilist_permute_value_tl { mix }
