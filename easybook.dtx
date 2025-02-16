@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/02/14}{2025p}
+\ProvidesExplClass{easybook}{2025/02/16}{2025q}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -308,7 +308,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/02/14}{2025p}
+\ProvidesExplPackage{easybase}{2025/02/16}{2025q}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -2338,8 +2338,8 @@
 \dim_new:N \hangwd
 \cs_set_protected:Npn \hangpara #1#2
   {
-    \dim_set:Nn \hangindent {#1}
-    \int_set:Nn \hangafter {#2}
+    \dim_gset:Nn \hangindent {#1}
+    \int_gset:Nn \hangafter {#2}
     \noindent\ignorespaces
   }
 \NewDocumentCommand{\hangfrom}{sO{\hangwd}mO{1}}
@@ -3042,7 +3042,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/02/14}{2025p}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/02/16}{2025q}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2

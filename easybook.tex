@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2025p,
-    date            = 2025/02/14,
+    version         = v2025q,
+    date            = 2025/02/16,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -1316,6 +1316,11 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \begin{ctexexam}
   \hangfrom[\hangwd + 1em]{悬挂标签\hspace{0.5em}}[1]
   \hangfrom*[3em]{}
+  \ctexset[section] % 与\ctexset{section/hang}等效
+    {
+      hang = false,
+      nameformat+ = \hangfrom[\hangwd + 0.5em]
+    }
   \end{ctexexam}
   \environment{hangparas}[\marg{缩进长度}\marg{缩进开始行数}]
   悬挂缩进环境 \env{hangparas} 有两个必选参数，使其中的段落均保持悬挂缩进。每个段落的缩进将以 \meta{缩进长度} 从 \meta{缩进开始行数} 开始。
