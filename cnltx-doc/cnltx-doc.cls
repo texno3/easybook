@@ -27,7 +27,7 @@
 % feel free to contact me.
 % --------------------------------------------------------------------------
 \RequirePackage{cnltx-base}
-\ProvidesClass{cnltx-doc}[\cnltx@@date\space \cnltx@@version\space
+\ProvidesClass{cnltx-doc}[2025/02/11\space \cnltx@@version\space
  \cnltx@@info]
 
 \cnltx@create@bundle@message*{doc}{Error}
@@ -153,7 +153,6 @@
   \chead{\rightmark}
   \KOMAoptions{automark}
   \pagestyle{scrheadings}
-  \setcapindent{1.5em}
   \setkomafont{caption}{\cnltx@caption@font}
   \setkomafont{captionlabel}{\cnltx@captionlabel@font}
 }{}
