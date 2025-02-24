@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/02/16}{2025q}
+\ProvidesExplClass{easybook}{2025/02/24}{2025s}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -297,6 +297,23 @@
         afterskip   = \parskip
       }
   }
+\bool_if:NF \l__eb_class_mode_book_bool
+  {
+    \ctex_set:nn { part }
+      {
+        format      = \color{ctex@frame}\sffamily\LARGE,
+        break       = \if@noskipsec\leavevmode\fi\par,
+        beforeskip  = 3ex,
+        afterskip   = 3ex
+      }
+    \def\@endpart
+      {
+        \CTEX@setheadingskip\CTEX@part@afterskip
+        \ifodd\CTEX@part@fixskip\CTEX@fixheadingskip\fi
+        \vskip\CTEX@headingskip
+        \@afterheading
+      }
+  }
 \bool_if:NF \l__eb_title_newline_bool
   {
     \ctex_set:n
@@ -308,7 +325,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/02/16}{2025q}
+\ProvidesExplPackage{easybase}{2025/02/24}{2025s}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -3046,7 +3063,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/02/16}{2025q}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/02/24}{2025s}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
