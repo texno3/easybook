@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/02/24}{2025s}
+\ProvidesExplClass{easybook}{2025/03/19}{2025t}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -301,7 +301,7 @@
   {
     \ctex_set:nn { part }
       {
-        format      = \color{ctex@frame}\sffamily\LARGE,
+        format      = \color{ctex@frame}\sffamily\Large,
         break       = \if@noskipsec\leavevmode\fi\par,
         beforeskip  = 3ex,
         afterskip   = 3ex
@@ -325,7 +325,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/02/24}{2025s}
+\ProvidesExplPackage{easybase}{2025/03/19}{2025t}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -2072,15 +2072,20 @@
 \msg_new:nnn { easybase } { undefined-toc-style }
   { The~contents~style~'#1'~of~'#2'~is~not~defined. }
 
+\cs_new:Npn \eb_toc_insert_vspace:
+  {
+    \tl_if_eq:NnTF \g__eb_bilist_permute_value_tl { mix }
+      { \ebifbitoc{}{\addvspace{1pc}} }
+      { \addvspace{1pc} }
+  }
 \ctex_set:n
   {
     part          =
       {
         tocformat =
           {
-            \tl_if_eq:NnTF \g__eb_bilist_permute_value_tl { mix }
-              { \ebifbitoc{}{\addvspace{1pc}} }
-              { \addvspace{1pc} }
+            \bool_if:NT \l__eb_class_mode_book_bool
+              { \eb_toc_insert_vspace: }
             \sffamily\large
           },
         tocindent = 0pt,
@@ -2089,13 +2094,7 @@
       },
     chapter       =
       {
-        tocformat =
-          {
-            \tl_if_eq:NnTF \g__eb_bilist_permute_value_tl { mix }
-              { \ebifbitoc{}{\addvspace{1pc}} }
-              { \addvspace{1pc} }
-            \sffamily
-          },
+        tocformat = \eb_toc_insert_vspace:\sffamily,
         tocindent = 0pt,
         tocrule   = \cdottocrule[\bfseries],
         tocline   = \CTEXnumberline{#1}#2
@@ -3014,7 +3013,7 @@
             \let\footnote\thanks
           }
           {}
-        \bgroup\LARGE\@title\par\egroup
+        \bgroup\sffamily\LARGE\@title\par\egroup
         \notbool{@titlepage}{\vskip 1.5em}{\vskip 3em}
         \bgroup\large
         \begin{tabular}[t]{c}
@@ -3063,7 +3062,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/02/24}{2025s}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/03/19}{2025t}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
