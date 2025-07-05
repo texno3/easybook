@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/03/20}{2025u}
+\ProvidesExplClass{easybook}{2025/07/05}{2025v}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -325,7 +325,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/03/20}{2025u}
+\ProvidesExplPackage{easybase}{2025/07/05}{2025v}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1650,7 +1650,13 @@
 \cs_new_protected:Npn \eb_toc_if_title_between_hook:nn #1#2
   {
     \IfBooleanF{#1}
-      {\tl_use:c { l__eb_toc_#2_between_hook_tl }}
+      {
+        \tl_if_exist:NT \eb@toc@title
+          {
+            \bool_if:NF \l__eb_toc_notitle_bool
+              { \tl_use:c { l__eb_toc_#2_between_hook_tl } }
+          }
+      }
   }
 \cs_new_protected:Npn \eb_toc_title_level_cmd:n #1
   {
@@ -1984,7 +1990,8 @@
       {
         \group_begin:
         \makeatletter
-        \InputIfFileExists{\jobname.#1}{}{}
+        \file_if_exist_input:nF { \jobname.#1 }
+          { \typeout{No~file~\jobname.#1.} }
         \UseHookWithArguments{eb/starttoc/end}{1}{#1}
         \boolfalse{@nobreak}
         \group_end:
@@ -3062,7 +3069,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/03/20}{2025u}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/07/05}{2025v}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
