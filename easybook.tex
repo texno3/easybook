@@ -23,8 +23,8 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2025x,
-    date            = 2025/07/14,
+    version         = v2025z,
+    date            = 2025/07/16,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
     email           = toquyi@163.com,
@@ -800,8 +800,16 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \ebhdrset{footnotetype = plain,footnotetype = bottom}
   \ebhdrset{footnotetype = {hang,bottom}}
   \end{ctexexam}
-  \command{PushFntBottom}\newtagv{2024cx}%
-  默认情况下当具有 \code{b} 参数的底部浮动体与脚注同时存在时，脚注将位于浮动体上部。此命令可使脚注始终位于页面底部，与 \keyis{footnotetype}{bottom} 作用相同，只能在导言区全局使用。
+  \command{PushFntBottom}\newtagv[Changed]{2025z}%
+  默认情况下当具有 \code{b} 参数的底部浮动体与脚注同时存在时，脚注将位于浮动体上部。此命令可使脚注始终位于页面底部，与 \keyis{footnotetype}{bottom} 作用相同。在 \textbf{2025/06/01} 之后的 \hologo{LaTeX} 版本中为脚注提供了插座（socket）机制，此命令为过时命令，相当于分配插头 \code{floats-space-footnotes}，且在早期版本中不再提供功能。浮动体与脚注相对位置的插座共有6种插头：
+  \begin{ctexexam}
+  \AssignSocketPlug{build/column/outputbox}{space-footnotes-floats}
+  \AssignSocketPlug{build/column/outputbox}{floats-space-footnotes}
+  \AssignSocketPlug{build/column/outputbox}{footnotes-space-floats}
+  \AssignSocketPlug{build/column/outputbox}{space-floats-footnotes}
+  \AssignSocketPlug{build/column/outputbox}{footnotes-floats}
+  \AssignSocketPlug{build/column/outputbox}{floats-footnotes}
+  \end{ctexexam}
   \keyval{fnfirstindent}{刚性长度}\Default{1em}
   每个脚注首段的首行缩进（悬挂缩进 \code{hang} 为整段缩进），等于长度 \cs{fnfirstindent} 的值。
   \keyval{fnafterindent}{刚性长度}\Default{2em}
@@ -1609,6 +1617,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \item \pkg*{caption} 宏包支持的图表等题注的目录选项支持 \cs{CTEXifname} 编号判断命令。
   \end{version}
   \shortversion{v = 2025n,date = 2025/02/12,changes = 优化 \module*{ref} 模块，修复选项 \keyis{linktype}{none} 失效的问题。}
+  \shortversion{v = 2025z,date = 2025/07/16,changes = 取消对浮动体和脚注相对位置的改动，使用 \hologo{LaTeX} 新增的插座机制。}
 \end{changelog}
 \nocite{*}
 % \AddToHook{cmd/printindex/before}{\clearpage}

@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/07/14}{2025x}
+\ProvidesExplClass{easybook}{2025/07/16}{2025z}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -325,7 +325,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/07/14}{2025x}
+\ProvidesExplPackage{easybase}{2025/07/16}{2025z}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -983,91 +983,15 @@
       }
       { \counterwithout*{footnote}{chapter} }
   }
-
-\def\@if@footnotes@TF #1#2 {\ifvoid\footins #2\else #1\fi}
-\def\@outputbox@removebskip
+\IfFormatAtLeastTF{2025/06/01}
   {
-    \ifx\@textbottom\relax\else
-      \@outputbox@append
-        {
-          \@tempskipa\lastskip
-          \ifnum\gluestretchorder\@tempskipa>\z@
-            \vskip -\@tempskipa
-            \xdef\@outputbox@reinsertbskip
-              {\noexpand\@outputbox@append{\vskip\the\@tempskipa}}
-          \else
-            \global\let\@outputbox@reinsertbskip\relax
-          \fi
-        }
-    \fi
-  }
-\let\@outputbox@reinsertbskip\relax
-\def\@outputbox@append #1
-  {
-    \setbox\@outputbox\vbox
+    \cs_new_protected:Npn \PushFntBottom
       {
-        \boxmaxdepth\@maxdepth
-        \dimen@\dp\@outputbox
-        \unvbox\@outputbox
-        #1
+        \AssignSocketPlug{build/column/outputbox}
+          {floats-space-footnotes}
       }
   }
-\def\@outputbox@attachfloats{\@combinefloats}
-\NewHook{eb/footins/before}
-\NewHook{eb/footins/begin}
-\def\@outputbox@appendfootnotes
-  {
-    \@if@footnotes@TF
-      {
-        \UseHook{eb/footins/before}
-        \@outputbox@append
-          {
-            \vskip\skip\footins
-            \UseHook{eb/footins/begin}
-            \color@begingroup
-            \normalcolor
-            \footnoterule
-            \@nameuse{pdfcolfoot@current}
-            \unvbox\footins
-            \color@endgroup
-          }
-      }{}
-  }
-\def\@makenormalcolbox
-  {
-    \setbox\@outputbox\vbox to\@colht
-      {
-        \@texttop
-        \dimen@\dp\@outputbox
-        \unvbox\@outputbox
-        \vskip -\dimen@
-        \@textbottom
-      }
-  }
-\cs_new_protected:Npn \PushFntBottom
-  {
-    \cs_set:Npn \@makecol
-      {
-        \setbox\@outputbox\box\@cclv
-        \@outputbox@removebskip
-        \let\@elt\relax
-        \xdef\@freelist{\@freelist\@midlist}
-        \global\let\@midlist\@empty
-        \@outputbox@attachfloats
-        \@if@footnotes@TF
-          {\@outputbox@append{\vfill}}
-          {\@outputbox@reinsertbskip}
-        \@outputbox@appendfootnotes
-        \ifvbox\@kludgeins
-          \@makespecialcolbox
-        \else
-          \@makenormalcolbox
-        \fi
-        \global\maxdepth\@maxdepth
-      }
-  }
-\@onlypreamble\PushFntBottom
-
+  {\cs_set_eq:NN \PushFntBottom \relax}
 \cs_new_protected:Npn \eb_footnote_direct_hang:
   {
     \hbox_set:Nn \l_tmpa_box
@@ -3069,7 +2993,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/07/14}{2025x}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/07/16}{2025z}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
