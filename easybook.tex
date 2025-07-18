@@ -23,7 +23,7 @@
     name            = easybook,
     color-scheme    = blue,
     title           = EASYBOOK使用手册,
-    version         = v2025aa,
+    version         = v2025ab,
     date            = 2025/07/18,
     authors         = 瞿毅,
     info            = 简便地排版中文学位论文或书籍,
@@ -801,7 +801,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \ebhdrset{footnotetype = {hang,bottom}}
   \end{ctexexam}
   \command{PushFntBottom}\newtagv[Changed]{2025z}%
-  默认情况下当具有 \code{b} 参数的底部浮动体与脚注同时存在时，脚注将位于浮动体上部。此命令可使脚注始终位于页面底部，与 \keyis{footnotetype}{bottom} 作用相同。\hologo{LaTeX} 在 \textbf{2025/06/01} 之后的版本中为脚注提供了套接字（socket）机制，此命令为过时命令，相当于分配插头 \code{floats-space-footnotes}，且在早期版本中不再提供功能。设置浮动体与脚注排列方式的插座共有6种插头：
+  默认情况下当具有 \code{b} 参数的底部浮动体与脚注同时存在时，脚注将位于浮动体上部。此命令可使脚注始终位于页面底部，与 \keyis{footnotetype}{bottom} 作用相同。\hologo{LaTeX} 在 \textbf{2025/06/01} 之后的版本中为脚注提供了套接字（socket）机制，此命令为过时命令，相当于分配插头 \code{floats-space-footnotes}，且在早期版本中不再提供功能。设置底部浮动体与脚注排列方式的插座共有6种插头：
   \begin{ctexexam}
   \AssignSocketPlug{build/column/outputbox}{space-footnotes-floats}
   \AssignSocketPlug{build/column/outputbox}{floats-space-footnotes}
@@ -1617,7 +1617,7 @@ $\blacktriangleright$需要注意正确\textbf{编译索引}要增加 \code{-she
   \item \pkg*{caption} 宏包支持的图表等题注的目录选项支持 \cs{CTEXifname} 编号判断命令。
   \end{version}
   \shortversion{v = 2025n,date = 2025/02/12,changes = 优化 \module*{ref} 模块，修复选项 \keyis{linktype}{none} 失效的问题。}
-  \shortversion{v = 2025z,date = 2025/07/16,changes = 取消对浮动体和脚注排列方式的改动，使用 \hologo{LaTeX} 新增的套接字机制。}
+  \shortversion{v = 2025z,date = 2025/07/16,changes = 取消对底部浮动体与脚注排列方式的改动，使用 \hologo{LaTeX} 新增的套接字机制。}
 \end{changelog}
 \nocite{*}
 % \AddToHook{cmd/printindex/before}{\clearpage}
