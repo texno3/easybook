@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/07/18}{2025ab}
+\ProvidesExplClass{easybook}{2025/07/20}{2025ac}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -325,7 +325,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/07/18}{2025ab}
+\ProvidesExplPackage{easybase}{2025/07/20}{2025ac}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -991,7 +991,15 @@
           {floats-space-footnotes}
       }
   }
-  {\cs_set_eq:NN \PushFntBottom \relax}
+  {
+    \cs_new_protected:Npn \PushFntBottom
+      { \msg_warning:nn { easybase } { fnt-bottom-old } }
+  }
+\msg_new:nnn { easybase } { fnt-bottom-old }
+  {
+    The~\string\PushFntBottom\ command~is~outdated. \\
+    Please~update~the~LaTeX2e~format~to~after~2025/06/01.
+  }
 \cs_new_protected:Npn \eb_footnote_direct_hang:
   {
     \hbox_set:Nn \l_tmpa_box
@@ -2993,7 +3001,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/07/18}{2025ab}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/07/20}{2025ac}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
