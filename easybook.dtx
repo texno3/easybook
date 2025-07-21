@@ -14,7 +14,7 @@
 % This work has the LPPL maintenance status `maintained'.
 %<class|package>\NeedsTeXFormat{LaTeX2e}[2021/11/15]
 %<*class>
-\ProvidesExplClass{easybook}{2025/07/20}{2025ac}
+\ProvidesExplClass{easybook}{2025/07/21}{2025ad}
   {Easily typesetting Chinese theses or books}
 
 \bool_new:N \l__eb_compile_draft_bool
@@ -325,7 +325,7 @@
 %</class>
 %<*package>
 \RequirePackage{etoolbox}
-\ProvidesExplPackage{easybase}{2025/07/20}{2025ac}
+\ProvidesExplPackage{easybase}{2025/07/21}{2025ad}
   {Easily typesetting Chinese theses or books}
 
 \cs_generate_variant:Nn \dim_set:Nn { NV }
@@ -1985,7 +1985,8 @@
       {\RegisterTitleIfname[#2]{#3}{\capifname}}
   }
 \RegisterTitleIfname{toc,tec}{\CTEXifname}
-\RegisterCapIfname{lot,lof,lol,loe}
+\RegisterCapIfname{lot,lof,lol}
+\RegisterTitleIfname{loe}{\thmtifname}
 
 \cs_new_protected:Npn \SetTocStyle #1#2#3
   {
@@ -3001,7 +3002,7 @@
   }
 %</package>
 %<*tcolorbox>
-\ProvidesExplFile{eb-tcolorbox.cfg}{2025/07/20}{2025ac}
+\ProvidesExplFile{eb-tcolorbox.cfg}{2025/07/21}{2025ad}
   {Customization of tcolorbox for easybook}
 
 \cs_set_protected:Npn \addtotcbstyle #1#2
